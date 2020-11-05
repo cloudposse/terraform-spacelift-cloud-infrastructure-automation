@@ -23,7 +23,7 @@ func TestExamplesComplete(t *testing.T) {
 		TerraformDir: "../../examples/complete",
 		Upgrade:      true,
 		// Variables to pass to our Terraform code using -var-file options
-		VarFiles: []string{"fixtures.us-east-2.tfvars"},
+		VarFiles: []string{"fixtures.tfvars"},
 		// We always include a random attribute so that parallel tests
 		// and AWS resources do not interfere with each other
 		Vars: map[string]interface{}{
@@ -46,7 +46,7 @@ func TestExamplesComplete(t *testing.T) {
 	// Ensure we get a random number appended
 	assert.Equal(t, exampleInput+" "+random, example)
 	// Ensure we get the attribute included in the ID
-	assert.Equal(t, "eg-ue2-test-example-"+randId, id)
+	assert.Equal(t, "eg-testing-example-"+randId, id)
 
 	// ************************************************************************
 	// This steps below are unusual, not generally part of the testing
