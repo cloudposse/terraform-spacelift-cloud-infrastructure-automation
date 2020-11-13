@@ -1,8 +1,5 @@
-namespace = "eg"
+config_file_path = "config"
 
-environment = "example1"
+branch = "master"
 
-stage = "testing"
-
-name = "example"
-
+repository = "spacelift-demo"

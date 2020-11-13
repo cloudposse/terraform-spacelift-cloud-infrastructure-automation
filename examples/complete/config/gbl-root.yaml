@@ -1,0 +1,12 @@
+projects:
+  globals:
+    stage: testing
+    environment: gbl
+
+  terraform:
+    example1:
+      workspace_enabled: true
+      custom_project_folder: example1-custom
+      autodeploy: false
+      vars:
+        my_input_var: "Hello world! This is example1!"
