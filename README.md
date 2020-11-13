@@ -175,7 +175,7 @@ Available targets:
 
 | Name | Description |
 |------|-------------|
-| stacks | n/a |
+| stacks | A list of generated stacks. |
 
 <!-- markdownlint-restore -->
 
@@ -188,7 +188,7 @@ For additional context, refer to some of these links.
 
 - [Terraform Version Pinning](https://www.terraform.io/docs/configuration/terraform.html#specifying-a-required-terraform-version) - The required_version setting can be used to constrain which versions of the Terraform CLI can be used with your configuration
 - [Spacelift](https://spacelift.io/) - The most flexible CI/CD for Terraform
-- [Spacelift Documentation](https://docs.spacelift.io/) - 
+- [Spacelift Documentation](https://docs.spacelift.io/) - Official documentation site for Spacelift
 
 
 ## Help

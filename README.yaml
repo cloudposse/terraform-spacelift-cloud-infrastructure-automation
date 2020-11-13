@@ -49,7 +49,7 @@ references:
     description: "The most flexible CI/CD for Terraform"
     url: "https://spacelift.io/"
   - name: "Spacelift Documentation"
-    description: ""
+    description: "Official documentation site for Spacelift"
     url: "https://docs.spacelift.io/"
 
 # Short description of this project

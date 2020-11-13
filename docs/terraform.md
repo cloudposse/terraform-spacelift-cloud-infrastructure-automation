@@ -26,6 +26,6 @@
 
 | Name | Description |
 |------|-------------|
-| stacks | n/a |
+| stacks | A list of generated stacks. |
 
 <!-- markdownlint-restore -->
