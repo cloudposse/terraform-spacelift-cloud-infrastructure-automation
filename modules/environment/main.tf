@@ -3,7 +3,7 @@ module "environment_context" {
 
   enabled = true
 
-  context_name          = "${var.config_name}-globals"
+  context_name          = var.config_name
   environment_variables = var.environment_values
 }
 
