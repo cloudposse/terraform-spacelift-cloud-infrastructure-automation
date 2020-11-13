@@ -168,6 +168,7 @@ Available targets:
 | branch | Specify which branch to use within your infrastructure repo | `string` | `"main"` | no |
 | config\_file\_path | Relative path to YAML config files | `string` | `null` | no |
 | config\_file\_pattern | File pattern used to locate configuration files | `string` | `"*.yaml"` | no |
+| manage\_state | Global flag to enable/disable manage\_state settings for all project stacks. | `bool` | `true` | no |
 | projects\_path | The relative pathname for where all projects reside | `string` | `"projects"` | no |
 | repository | The name of your infrastructure repo | `string` | n/a | yes |
 
