@@ -69,7 +69,7 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases).
 
 
-Here's how to invoke this module in your project
+Here's how to invoke this module in your project:
 
 ```hcl
 provider "spacelift" {}
