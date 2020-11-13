@@ -1,3 +1,4 @@
 output "context_id" {
-  value = var.enabled ? spacelift_context.default[0].id : null
+  description = "The context ID of the created stack."
+  value       = var.enabled ? spacelift_context.default[0].id : null
 }

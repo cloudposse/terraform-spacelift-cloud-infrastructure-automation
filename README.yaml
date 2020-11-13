@@ -35,25 +35,22 @@ badges:
     url: "https://ask.sweetops.com/"
 
 # List any related terraform modules that this module may be used with or that this module depends on.
-related:
-  - name: "terraform-null-label"
-    description: "Terraform module designed to generate consistent names and tags for resources. Use terraform-null-label to implement a strict naming convention."
-    url: "https://github.com/cloudposse/terraform-null-label"
+# related:
+#   - name:
+#     description:
+#     url:
 
 # List any resources helpful for someone to get started. For example, link to the hashicorp documentation or AWS documentation.
 references:
-  - name: "Terraform Standard Module Structure"
-    description: "HashiCorp's standard module structure is a file and directory layout we recommend for reusable modules distributed in separate repositories."
-    url: "https://www.terraform.io/docs/modules/index.html#standard-module-structure"
-  - name: "Terraform Module Requirements"
-    description: "HashiCorp's guidance on all the requirements for publishing a module. Meeting the requirements for publishing a module is extremely easy."
-    url: "https://www.terraform.io/docs/registry/modules/publish.html#requirements"
-  - name: "Terraform `random_integer` Resource"
-    description: "The resource random_integer generates random values from a given range, described by the min and max attributes of a given resource."
-    url: "https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/integer"
   - name: "Terraform Version Pinning"
     description: "The required_version setting can be used to constrain which versions of the Terraform CLI can be used with your configuration"
     url: "https://www.terraform.io/docs/configuration/terraform.html#specifying-a-required-terraform-version"
+  - name: "Spacelift"
+    description: "The most flexible CI/CD for Terraform"
+    url: "https://spacelift.io/"
+  - name: "Spacelift Documentation"
+    description: ""
+    url: "https://docs.spacelift.io/"
 
 # Short description of this project
 description: |-
@@ -65,13 +62,25 @@ description: |-
 #  This is an introduction.
 
 # How to use this module. Should be an easy example to copy and paste.
+
+### TODO - We need to add more info/examples here on how to setup the top-level project in Spacelift!
+#
+# - Add some prerequisite info & links about provisioning the Spacelift account
+# - Should we include the environment-level trigger policy in this module?
+# - What else?
+#
 usage: |-
-  Here's how to invoke this example module in your projects
+  Here's how to invoke this module in your project
 
   ```hcl
+  provider "spacelift" {}
+
   module "example" {
     source = "https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation.git?ref=master"
-    example = "Hello world!"
+
+    config_file_path = "config""
+    branch           = "main"
+    repository       = "my-infra-repo"
   }
   ```
 
@@ -79,6 +88,48 @@ usage: |-
 examples: |-
   Here is an example of using this module:
   - [`examples/complete`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/) - complete example of using this module
+
+  We use YAML for the configuration files in order to separate configuration settings from business logic. It's also a portable format that can be used across multiple tools. Our convention is to name files by `$env-$stage.yaml` (e.g. `ue2-testing.yaml`), so for example an `$env` could be `ue2` (for `us-east-2`) and the `$stage` might be `testing`. Workspace names are derived from the `$env-$stage-$project`, which looks like  `ue2-testing-eks`.
+
+  ```yaml
+  # Projects are all the top-level root modules
+  projects:
+    # Globals are exported as TF_VAR_... environment variables in every workspace
+    globals:
+      # Used to determine the name of the workspace (e.g. the 'testing' in 'ue2-testing')
+      stage: testing
+      # Used to determine the name of the workspace (e.g. the 'ue2' in 'ue2-testing')
+      environment: ue2
+    # The configuration file format is designed to be used across multiple tools.
+    # All terraform projects should be listed under this section.
+    terraform:
+      # List one or more Terraform projects here
+      first-project:
+        # Controls whether or not this workspace should be created
+        # NOTE: If set to 'false', you cannot reference this workspace via `triggers` in another workspace!
+        workspace_enabled: true
+        # Override the version of Terraform for this workspace (defaults to the latest in Spacelift)
+        terraform_version: 0.13.4
+        # Controls the `auto_apply` setting within this workspace
+        auto_apply: true
+        # Add extra 'Run Triggers' to this workspace, beyond the parent workspace, which is created by default
+        # These triggers mean this project workspace will be automatically planned if any of these workspaces are applied.
+        triggers:
+          - uw2-testing-example2
+          - gbl-root-example1
+        # Set the Terraform input variable values for this project. Complex types like maps and lists are supported.
+        vars:
+          my_input_var: "Hello world! This is a value that needs to be passed to my `first-project` Terraform project."
+      # Every project should be uniquely named and correspond to a folder in the `projects/` directory
+      second-project:
+        workspace_enabled: true
+        # Specify a custom project folder (defalts to the project name if not specified)
+        custom_project_folder: my-custom-project-folder
+        vars:
+          my_input_var: "Hello world! This is another example!"
+  ```
+
+  Additionally, you must have a `globals.yaml` present in the `config` folder, which contains environment variables that will be applied to all stacks.
 
 # How to get started quickly
 #quickstart: |-
@@ -93,3 +144,5 @@ include:
 contributors:
   - name: "Erik Osterman"
     github: "osterman"
+  - name: "Dan Meyers"
+    github: "danjbh"

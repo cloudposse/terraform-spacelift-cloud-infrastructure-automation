@@ -9,13 +9,6 @@ locals {
   projects = { for f in keys(local.config_files) : f => lookup(local.config_files[f], "projects", {}) if f != "globals" }
   // Result ex: { globals = { ... } }
   globals = { for f in keys(local.config_files) : f => local.config_files[f] if f == "globals" }
-
-  # project_stacks = merge([
-  #   for k, v in module.spacelift_environment : {
-  #     for env, config in v.projects :
-  #     "${k}-${env}" => config
-  #   }
-  # ]...)
 }
 
 module "global_context" {

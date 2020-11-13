@@ -69,12 +69,17 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases).
 
 
-Here's how to invoke this example module in your projects
+Here's how to invoke this module in your project
 
 ```hcl
+provider "spacelift" {}
+
 module "example" {
   source = "https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation.git?ref=master"
-  example = "Hello world!"
+
+  config_file_path = "config""
+  branch           = "main"
+  repository       = "my-infra-repo"
 }
 ```
 
@@ -85,6 +90,48 @@ module "example" {
 
 Here is an example of using this module:
 - [`examples/complete`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/) - complete example of using this module
+
+We use YAML for the configuration files in order to separate configuration settings from business logic. It's also a portable format that can be used across multiple tools. Our convention is to name files by `$env-$stage.yaml` (e.g. `ue2-testing.yaml`), so for example an `$env` could be `ue2` (for `us-east-2`) and the `$stage` might be `testing`. Workspace names are derived from the `$env-$stage-$project`, which looks like  `ue2-testing-eks`.
+
+```yaml
+# Projects are all the top-level root modules
+projects:
+  # Globals are exported as TF_VAR_... environment variables in every workspace
+  globals:
+    # Used to determine the name of the workspace (e.g. the 'testing' in 'ue2-testing')
+    stage: testing
+    # Used to determine the name of the workspace (e.g. the 'ue2' in 'ue2-testing')
+    environment: ue2
+  # The configuration file format is designed to be used across multiple tools.
+  # All terraform projects should be listed under this section.
+  terraform:
+    # List one or more Terraform projects here
+    first-project:
+      # Controls whether or not this workspace should be created
+      # NOTE: If set to 'false', you cannot reference this workspace via `triggers` in another workspace!
+      workspace_enabled: true
+      # Override the version of Terraform for this workspace (defaults to the latest in Spacelift)
+      terraform_version: 0.13.4
+      # Controls the `auto_apply` setting within this workspace
+      auto_apply: true
+      # Add extra 'Run Triggers' to this workspace, beyond the parent workspace, which is created by default
+      # These triggers mean this project workspace will be automatically planned if any of these workspaces are applied.
+      triggers:
+        - uw2-testing-example2
+        - gbl-root-example1
+      # Set the Terraform input variable values for this project. Complex types like maps and lists are supported.
+      vars:
+        my_input_var: "Hello world! This is a value that needs to be passed to my `first-project` Terraform project."
+    # Every project should be uniquely named and correspond to a folder in the `projects/` directory
+    second-project:
+      workspace_enabled: true
+      # Specify a custom project folder (defalts to the project name if not specified)
+      custom_project_folder: my-custom-project-folder
+      vars:
+        my_input_var: "Hello world! This is another example!"
+```
+
+Additionally, you must have a `globals.yaml` present in the `config` folder, which contains environment variables that will be applied to all stacks.
 
 
 
@@ -101,23 +148,49 @@ Available targets:
 ```
 <!-- markdownlint-restore -->
 <!-- markdownlint-disable -->
-Error: no lines in file
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | >= 0.13.0, < 0.14.0 |
+| spacelift | ~> 1.0.0 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| spacelift | ~> 1.0.0 |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| additional\_tag\_map | Additional tags for appending to tags\_as\_list\_of\_maps. Not added to `tags`. | `map(string)` | `{}` | no |
+| attributes | Additional attributes (e.g. `1`) | `list(string)` | `[]` | no |
+| branch | Specify which branch to use within your infrastructure repo | `string` | `"main"` | no |
+| config\_file\_path | Relative path to YAML config files | `string` | `null` | no |
+| config\_file\_pattern | File pattern used to locate configuration files | `string` | `"*.yaml"` | no |
+| context | Single object for setting entire context at once.<br>See description of individual variables for details.<br>Leave string and numeric variables as `null` to use default value.<br>Individual variable settings (non-null) override settings in context object,<br>except for attributes, tags, and additional\_tag\_map, which are merged. | <pre>object({<br>    enabled             = bool<br>    namespace           = string<br>    environment         = string<br>    stage               = string<br>    name                = string<br>    delimiter           = string<br>    attributes          = list(string)<br>    tags                = map(string)<br>    additional_tag_map  = map(string)<br>    regex_replace_chars = string<br>    label_order         = list(string)<br>    id_length_limit     = number<br>  })</pre> | <pre>{<br>  "additional_tag_map": {},<br>  "attributes": [],<br>  "delimiter": null,<br>  "enabled": true,<br>  "environment": null,<br>  "id_length_limit": null,<br>  "label_order": [],<br>  "name": null,<br>  "namespace": null,<br>  "regex_replace_chars": null,<br>  "stage": null,<br>  "tags": {}<br>}</pre> | no |
+| delimiter | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes`.<br>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
+| enabled | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
+| environment | Environment, e.g. 'uw2', 'us-west-2', OR 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
+| id\_length\_limit | Limit `id` to this many characters.<br>Set to `0` for unlimited length.<br>Set to `null` for default, which is `0`.<br>Does not affect `id_full`. | `number` | `null` | no |
+| label\_order | The naming order of the id output and Name tag.<br>Defaults to ["namespace", "environment", "stage", "name", "attributes"].<br>You can omit any of the 5 elements, but at least one must be present. | `list(string)` | `null` | no |
+| name | Solution name, e.g. 'app' or 'jenkins' | `string` | `null` | no |
+| namespace | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `null` | no |
+| projects\_path | The relative pathname for where all projects reside | `string` | `"projects"` | no |
+| regex\_replace\_chars | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
+| repository | The name of your infrastructure repo | `string` | n/a | yes |
+| stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
+| tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| stacks | n/a |
+
 <!-- markdownlint-restore -->
-
-
-
-## Share the Love
-
-Like this project? Please give it a ★ on [our GitHub](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation)! (it helps us **a lot**)
-
-Are you using this project or any of our other projects? Consider [leaving a testimonial][testimonial]. =)
-
-
-## Related Projects
-
-Check out these related projects.
-
-- [terraform-null-label](https://github.com/cloudposse/terraform-null-label) - Terraform module designed to generate consistent names and tags for resources. Use terraform-null-label to implement a strict naming convention.
 
 
 
@@ -126,10 +199,9 @@ Check out these related projects.
 
 For additional context, refer to some of these links.
 
-- [Terraform Standard Module Structure](https://www.terraform.io/docs/modules/index.html#standard-module-structure) - HashiCorp's standard module structure is a file and directory layout we recommend for reusable modules distributed in separate repositories.
-- [Terraform Module Requirements](https://www.terraform.io/docs/registry/modules/publish.html#requirements) - HashiCorp's guidance on all the requirements for publishing a module. Meeting the requirements for publishing a module is extremely easy.
-- [Terraform `random_integer` Resource](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/integer) - The resource random_integer generates random values from a given range, described by the min and max attributes of a given resource.
 - [Terraform Version Pinning](https://www.terraform.io/docs/configuration/terraform.html#specifying-a-required-terraform-version) - The required_version setting can be used to constrain which versions of the Terraform CLI can be used with your configuration
+- [Spacelift](https://spacelift.io/) - The most flexible CI/CD for Terraform
+- [Spacelift Documentation](https://docs.spacelift.io/) - 
 
 
 ## Help
@@ -263,11 +335,13 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 
 ### Contributors
 
-|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] |
-|---|
+|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] | [![Dan Meyers][danjbh_avatar]][danjbh_homepage]<br/>[Dan Meyers][danjbh_homepage] |
+|---|---|
 
   [osterman_homepage]: https://github.com/osterman
   [osterman_avatar]: https://img.cloudposse.com/150x150/https://github.com/osterman.png
+  [danjbh_homepage]: https://github.com/danjbh
+  [danjbh_avatar]: https://img.cloudposse.com/150x150/https://github.com/danjbh.png
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
