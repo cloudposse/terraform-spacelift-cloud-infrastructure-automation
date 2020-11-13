@@ -19,6 +19,7 @@ module "projects" {
   project_root          = format("%s/%s", var.projects_path, try(each.value.custom_project_folder, each.key))
   repository            = var.repository
   branch                = var.branch
+  manage_state          = var.manage_state
   environment_variables = each.value.vars
   terraform_version     = try(each.value.terraform_version, null)
   triggers              = try(each.value.triggers, [])

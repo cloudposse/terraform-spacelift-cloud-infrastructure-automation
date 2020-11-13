@@ -75,3 +75,9 @@ variable "autodeploy" {
   type        = bool
   description = "Controls the Spacelift 'autodeploy' option for a stack"
 }
+
+variable "manage_state" {
+  type        = bool
+  description = "Flag to enable/disable manage_state setting in stack"
+  default     = true
+}

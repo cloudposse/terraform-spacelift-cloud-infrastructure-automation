@@ -26,3 +26,9 @@ variable "projects_path" {
   description = "The relative pathname for where all projects reside"
   default     = "projects"
 }
+
+variable "manage_state" {
+  type        = bool
+  description = "Global flag to enable/disable manage_state settings for all project stacks."
+  default     = true
+}

@@ -7,7 +7,7 @@ resource "spacelift_stack" "default" {
   repository     = var.repository
   branch         = var.branch
   project_root   = var.project_root
-  manage_state   = true
+  manage_state   = var.manage_state
   labels = [
     for trigger in var.triggers : "depends-on:${trigger}|state:FINISHED"
   ]

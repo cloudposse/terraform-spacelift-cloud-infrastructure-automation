@@ -55,3 +55,9 @@ variable "branch" {
   description = "Specify which branch to use within your infrastructure repo"
   default     = "main"
 }
+
+variable "manage_state" {
+  type        = bool
+  description = "Global flag to enable/disable manage_state settings in all stacks."
+  default     = true
+}
