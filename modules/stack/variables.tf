@@ -72,6 +72,6 @@ variable "parent_context_id" {
 }
 
 variable "autodeploy" {
-  type = bool
+  type        = bool
   description = "Controls the Spacelift 'autodeploy' option for a stack"
 }
