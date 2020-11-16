@@ -26,28 +26,36 @@ module "spacelift_environment" {
   for_each = local.projects
 
   global_context_id  = module.global_context.context_id
-  trigger_policy_id  = spacelift_policy.trigger.id
+  trigger_policy_id  = spacelift_policy.trigger_global.id
   push_policy_id     = spacelift_policy.push.id
   config_name        = each.key
   environment_values = each.value.globals
   projects           = local.projects[each.key].terraform
-  projects_path      = var.projects_path
+  projects_path      = var.components_path
   repository         = var.repository
   branch             = var.branch
 }
 
-# Define our global trigger policy that allows us to define custom triggers
-resource "spacelift_policy" "trigger" {
+# Define the global trigger policy that allows us to define custom triggers
+resource "spacelift_policy" "trigger_global" {
   type = "TRIGGER"
 
   name = "Global Trigger Policy"
-  body = file("${path.module}/policies/trigger.rego")
+  body = file("${path.module}/policies/trigger-dependencies.rego")
 }
 
-# Define our global "git push" policy that causes executions on stacks when `<project_root>/*.tf` is modified
+# Define the environment trigger policy that causes stack executions when the parent environment config changes
+resource "spacelift_policy" "trigger_env" {
+  type = "TRIGGER"
+
+  name = "Environment Trigger Policy"
+  body = file("${path.module}/policies/trigger-environment.rego")
+}
+
+# Define the global "git push" policy that causes executions on stacks when `<project_root>/*.tf` is modified
 resource "spacelift_policy" "push" {
   type = "GIT_PUSH"
 
   name = "Project-level Push Policy"
-  body = file("${path.module}/policies/push-project.rego")
+  body = file("${path.module}/policies/push-stack.rego")
 }

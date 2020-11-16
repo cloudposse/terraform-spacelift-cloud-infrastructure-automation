@@ -21,10 +21,10 @@ variable "branch" {
   default     = "main"
 }
 
-variable "projects_path" {
+variable "components_path" {
   type        = string
-  description = "The relative pathname for where all projects reside"
-  default     = "projects"
+  description = "The relative pathname for where all components reside"
+  default     = "components"
 }
 
 variable "manage_state" {
