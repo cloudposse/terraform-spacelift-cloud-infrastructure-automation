@@ -22,7 +22,7 @@ module "projects" {
   manage_state          = var.manage_state
   environment_variables = each.value.vars
   terraform_version     = try(each.value.terraform_version, null)
-  triggers              = try(each.value.triggers, [])
+  triggers              = coalesce(try(each.value.triggers, null), [])
   trigger_policy_id     = var.trigger_policy_id
   push_policy_id        = var.push_policy_id
   global_context_id     = var.global_context_id
