@@ -32,3 +32,9 @@ variable "manage_state" {
   description = "Global flag to enable/disable manage_state settings for all project stacks."
   default     = true
 }
+
+variable "external_execution" {
+  type        = bool
+  description = "Set this to true if you're calling this module from outside of a Spacelift stack (e.g. the `complete` example)."
+  default     = false
+}
