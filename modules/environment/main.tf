@@ -10,13 +10,15 @@ module "environment_context" {
 module "components" {
   source = "../stack"
 
-  for_each = var.components
+  for_each = {
+    for k,v in var.components : "${var.stack_config_name}-${k}" => merge({"component":k},v) 
+  }
 
   enabled               = try(each.value.workspace_enabled, false)
-  stack_name            = "${var.stack_config_name}-${each.key}"
+  stack_name            = "${var.stack_config_name}-${each.value.component}"
   environment_name      = var.stack_config_name
   autodeploy            = try(each.value.autodeploy, true)
-  component_root        = format("%s/%s", var.components_path, try(each.value.custom_component_folder, each.key))
+  component_root        = format("%s/%s", var.components_path, try(each.value.custom_component_folder, each.value.component))
   repository            = var.repository
   branch                = var.branch
   manage_state          = var.manage_state
