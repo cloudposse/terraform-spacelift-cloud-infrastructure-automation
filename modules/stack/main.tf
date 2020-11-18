@@ -54,9 +54,9 @@ resource "spacelift_context_attachment" "component" {
 #   stack_id  = spacelift_stack.default[0].id
 # }
 
-# resource "spacelift_policy_attachment" "push" {
-#   count = var.enabled ? 1 : 0
+resource "spacelift_policy_attachment" "push" {
+  count = var.enabled ? 1 : 0
 
-#   policy_id = var.push_policy_id
-#   stack_id  = spacelift_stack.default[0].id
-# }
+  policy_id = var.push_policy_id
+  stack_id  = spacelift_stack.default[0].id
+}
