@@ -3,9 +3,9 @@ provider "spacelift" {}
 module "example" {
   source = "../.."
 
-  config_file_path = var.config_file_path
-  branch           = var.branch
-  repository       = var.repository
+  stack_config_path = var.stack_config_path
+  branch            = var.branch
+  repository        = var.repository
 
   external_execution = true
 }

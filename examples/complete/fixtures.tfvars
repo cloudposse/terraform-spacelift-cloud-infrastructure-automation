@@ -1,4 +1,4 @@
-config_file_path = "stacks"
+stack_config_path = "stacks"
 
 branch = "master"
 

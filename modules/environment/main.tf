@@ -3,20 +3,20 @@ module "environment_context" {
 
   enabled = true
 
-  context_name          = var.config_name
+  context_name          = var.stack_config_name
   environment_variables = var.environment_values
 }
 
-module "projects" {
+module "components" {
   source = "../stack"
 
-  for_each = var.projects
+  for_each = var.components
 
   enabled               = try(each.value.workspace_enabled, false)
-  stack_name            = "${var.config_name}-${each.key}"
-  environment_name      = var.config_name
+  stack_name            = "${var.stack_config_name}-${each.key}"
+  environment_name      = var.stack_config_name
   autodeploy            = try(each.value.autodeploy, true)
-  project_root          = format("%s/%s", var.projects_path, try(each.value.custom_project_folder, each.key))
+  component_root        = format("%s/%s", var.components_path, try(each.value.custom_component_folder, each.key))
   repository            = var.repository
   branch                = var.branch
   manage_state          = var.manage_state

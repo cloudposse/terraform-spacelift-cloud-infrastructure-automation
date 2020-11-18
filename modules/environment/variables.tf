@@ -1,11 +1,11 @@
-variable "config_name" {
+variable "stack_config_name" {
   type        = string
   description = "The name of the YAML configuration file used for this environment workspace (for the trigger prefix)."
 }
 
-variable "config_directory" {
+variable "stack_config_path" {
   type        = string
-  default     = "config"
+  default     = "stack"
   description = "The name of the configuration directory to use in the trigger prefix."
 }
 
@@ -24,7 +24,7 @@ variable "trigger_policy_id" {
 variable "push_policy_id" {
   type        = string
   default     = null
-  description = "ID for the project-level push policy."
+  description = "ID for the component-level push policy."
 }
 
 variable "environment_values" {
@@ -33,16 +33,16 @@ variable "environment_values" {
   description = "The global values applied to all workspaces within the environment."
 }
 
-variable "projects" {
+variable "components" {
   type        = any
   default     = {}
-  description = "A map of all projects and related configurations that exist within the environment."
+  description = "A map of all components and related configurations that exist within the environment."
 }
 
-variable "projects_path" {
-  default     = "projects"
+variable "components_path" {
+  default     = "components"
   type        = string
-  description = "The relative pathname where all projects reside (used for trigger prefixes)."
+  description = "The relative pathname where all components reside (used for trigger prefixes)."
 }
 
 variable "repository" {

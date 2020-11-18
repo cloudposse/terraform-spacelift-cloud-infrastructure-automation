@@ -21,9 +21,9 @@ variable "terraform_version" {
   default     = null
 }
 
-variable "project_root" {
+variable "component_root" {
   type        = string
-  description = "The path, relative to the root of the repository, where the stack project can be found"
+  description = "The path, relative to the root of the repository, where the component can be found"
 }
 
 variable "stack_name" {

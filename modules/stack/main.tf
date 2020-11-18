@@ -6,7 +6,7 @@ resource "spacelift_stack" "default" {
   autodeploy     = var.autodeploy
   repository     = var.repository
   branch         = var.branch
-  project_root   = var.project_root
+  project_root   = var.component_root
   manage_state   = var.manage_state
   labels = [
     for trigger in var.triggers : "depends-on:${trigger}|state:FINISHED"
@@ -15,7 +15,7 @@ resource "spacelift_stack" "default" {
   terraform_version = var.terraform_version
 }
 
-module "project_context" {
+module "component_context" {
   source = "../context"
 
   enabled               = var.enabled
@@ -39,10 +39,10 @@ resource "spacelift_context_attachment" "parent" {
   priority   = 10
 }
 
-resource "spacelift_context_attachment" "project" {
+resource "spacelift_context_attachment" "component" {
   count = var.enabled ? 1 : 0
 
-  context_id = module.project_context.context_id
+  context_id = module.component_context.context_id
   stack_id   = spacelift_stack.default[0].id
   priority   = 0
 }

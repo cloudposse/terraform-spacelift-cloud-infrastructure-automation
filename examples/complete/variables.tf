@@ -1,4 +1,4 @@
-variable "config_file_path" {
+variable "stack_config_path" {
   type        = string
   description = "Relative path to YAML config files"
   default     = null
