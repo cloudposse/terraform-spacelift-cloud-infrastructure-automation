@@ -57,7 +57,7 @@ resource "spacelift_policy" "trigger_stack_config" {
   type = "TRIGGER"
 
   name = "Component Config Trigger Policy"
-  body = file("${path.module}/policies/trigger-stack-config.rego")
+  body = file("${path.module}/policies/trigger-component-config.rego")
 }
 
 # Define the global "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
