@@ -36,11 +36,19 @@ module "spacelift_environment" {
   branch             = var.branch
 }
 
-# Define the global trigger policy that allows us to define custom triggers
+# Define the dependency trigger policy that allows us to define custom triggers
 resource "spacelift_policy" "trigger_global" {
   type = "TRIGGER"
 
   name = "Global Trigger Policy"
+  body = file("${path.module}/policies/trigger-global.rego")
+}
+
+# Define the dependency trigger policy that allows us to define custom triggers
+resource "spacelift_policy" "trigger_dependency" {
+  type = "TRIGGER"
+
+  name = "Stack Dependency Trigger Policy"
   body = file("${path.module}/policies/trigger-dependencies.rego")
 }
 
@@ -71,6 +79,14 @@ resource "spacelift_policy" "push" {
 
 data "spacelift_current_stack" "this" {
   count = var.external_execution ? 0 : 1
+}
+
+# Attach the Environment Trigger Policy to the current stack
+resource "spacelift_policy_attachment" "trigger_global" {
+  count = var.external_execution ? 0 : 1
+
+  policy_id = spacelift_policy.trigger_global.id
+  stack_id  = data.spacelift_current_stack.this[0].id
 }
 
 # Attach the Environment Trigger Policy to the current stack
