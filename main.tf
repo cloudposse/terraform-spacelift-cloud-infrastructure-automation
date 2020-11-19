@@ -52,22 +52,6 @@ resource "spacelift_policy" "trigger_dependency" {
   body = file("${path.module}/policies/trigger-dependencies.rego")
 }
 
-# Define the environment trigger policy that causes stack executions when the parent environment config changes
-resource "spacelift_policy" "trigger_env" {
-  type = "TRIGGER"
-
-  name = "Environment Trigger Policy"
-  body = file("${path.module}/policies/trigger-environment.rego")
-}
-
-# Define the component config update trigger policy that causes stack executions when the component config changes
-resource "spacelift_policy" "trigger_stack_config" {
-  type = "TRIGGER"
-
-  name = "Component Config Trigger Policy"
-  body = file("${path.module}/policies/trigger-component-config.rego")
-}
-
 # Define the global "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
 resource "spacelift_policy" "push" {
   type = "GIT_PUSH"
@@ -86,21 +70,5 @@ resource "spacelift_policy_attachment" "trigger_global" {
   count = var.external_execution ? 0 : 1
 
   policy_id = spacelift_policy.trigger_global.id
-  stack_id  = data.spacelift_current_stack.this[0].id
-}
-
-# Attach the Environment Trigger Policy to the current stack
-resource "spacelift_policy_attachment" "trigger_env" {
-  count = var.external_execution ? 0 : 1
-
-  policy_id = spacelift_policy.trigger_env.id
-  stack_id  = data.spacelift_current_stack.this[0].id
-}
-
-# Attach the Component Config Trigger Policy to the current stack
-resource "spacelift_policy_attachment" "trigger_stack_config" {
-  count = var.external_execution ? 0 : 1
-
-  policy_id = spacelift_policy.trigger_stack_config.id
   stack_id  = data.spacelift_current_stack.this[0].id
 }
