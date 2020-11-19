@@ -2,12 +2,12 @@ package spacelift
 
 trigger[stack.id] {
   stack := input.stacks[_]
-  input.run.type == "TRACKED"
-  input.run.changes[_].entity.type == "spacelift_environment_variable"
+  component := regex.find_n(`[a-zA-Z0-9]+\-[a-zA-Z0-9]+\-[a-zA-Z0-9]+`, input.run.changes[_].entity.address, -1)[_]
 
-  contains(input.run.changes[_].entity.address, "components")
-  contains(
-    regex.find_n(`[a-zA-Z0-9]+\-[a-zA-Z0-9]+\-[a-zA-Z0-9]+`, input.run.changes[_].entity.address, -1)[_],
-    stack.name
+  input.run.state == "FINISHED"
+  regex.match(
+    `module\.spacelift\.module\.spacelift_environment\[\"[a-zA-Z0-9\-]+\"\]\.module\.components`,
+    input.run.changes[_].entity.address
   )
+  component == stack.name
 }
