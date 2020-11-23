@@ -11,7 +11,7 @@ module "components" {
   source = "../stack"
 
   for_each = {
-    for k,v in var.components : "${var.stack_config_name}-${k}" => merge({"component":k},v) 
+    for k, v in var.components : "${var.stack_config_name}-${k}" => merge({ "component" : k }, v)
   }
 
   enabled               = try(each.value.workspace_enabled, false)

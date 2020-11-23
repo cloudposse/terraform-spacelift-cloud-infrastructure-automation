@@ -36,7 +36,7 @@ module "spacelift_environment" {
   branch             = var.branch
 }
 
-# Define the dependency trigger policy that allows us to define custom triggers
+# Define the global trigger policy that allows us to trigger on various context-level updates
 resource "spacelift_policy" "trigger_global" {
   type = "TRIGGER"
 

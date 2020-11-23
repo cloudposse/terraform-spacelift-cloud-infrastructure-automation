@@ -69,6 +69,17 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases).
 
 
+
+The first step is to create a new infrastructure repository in Github and link it in Spacelift. You will want the `Project root` 
+of the infrastructure repository to point to the `top-level` project that contains the reference to this module. Beyond that,
+you will also want to enable the `Administrative` and `Autodeploy` options in the configuration.
+
+The `Administrative` option allows the top-level project and this module to create all other required configurations, such as stacks,
+policies, and contexts.
+
+Once you have the top-level project configured and ready, simply trigger it manually, or by pushing an update to the infrastructure
+to Git.
+
 Here's how to invoke this module in your project:
 
 ```hcl

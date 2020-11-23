@@ -63,13 +63,18 @@ description: |-
 
 # How to use this module. Should be an easy example to copy and paste.
 
-### TODO - We need to add more info/examples here on how to setup the top-level project in Spacelift!
-#
-# - Add some prerequisite info & links about provisioning the Spacelift account
-# - Should we include the environment-level trigger policy in this module?
-# - What else?
-#
 usage: |-
+
+  The first step is to create a new infrastructure repository in Github and link it in Spacelift. You will want the `Project root` 
+  of the infrastructure repository to point to the `top-level` project that contains the reference to this module. Beyond that,
+  you will also want to enable the `Administrative` and `Autodeploy` options in the configuration.
+
+  The `Administrative` option allows the top-level project and this module to create all other required configurations, such as stacks,
+  policies, and contexts.
+
+  Once you have the top-level project configured and ready, simply trigger it manually, or by pushing an update to the infrastructure
+  to Git.
+
   Here's how to invoke this module in your project:
 
   ```hcl
