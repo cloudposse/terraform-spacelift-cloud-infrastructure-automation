@@ -47,13 +47,6 @@ resource "spacelift_context_attachment" "component" {
   priority   = 0
 }
 
-# resource "spacelift_policy_attachment" "trigger" {
-#   count = var.enabled ? 1 : 0
-
-#   policy_id = var.trigger_policy_id
-#   stack_id  = spacelift_stack.default[0].id
-# }
-
 resource "spacelift_policy_attachment" "push" {
   count = var.enabled ? 1 : 0
 
