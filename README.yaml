@@ -86,8 +86,12 @@ usage: |-
     config_file_path = "config""
     branch           = "main"
     repository       = "my-infra-repo"
+
+    manage_state = false
   }
   ```
+
+  **NOTE:** Be sure to set the `manage_state` value from the start, otherwise changing this value after deploying a stack may cause resources to be orphaned!
 
 # Example usage
 examples: |-

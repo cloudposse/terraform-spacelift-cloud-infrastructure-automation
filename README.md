@@ -1,6 +1,8 @@
+<!-- markdownlint-disable -->
 # terraform-spacelift-cloud-infrastructure-automation
 
  [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-spacelift-cloud-infrastructure-automation.svg)](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com) [![Discourse Forum](https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg)](https://ask.sweetops.com/)
+<!-- markdownlint-restore -->
 
 [![README Header][readme_header_img]][readme_header_link]
 
@@ -91,8 +93,12 @@ module "example" {
   config_file_path = "config""
   branch           = "main"
   repository       = "my-infra-repo"
+
+  manage_state = false
 }
 ```
+
+**NOTE:** Be sure to set the `manage_state` value from the start, otherwise changing this value after deploying a stack may cause resources to be orphaned!
 
 
 
@@ -335,8 +341,10 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 
 ### Contributors
 
+<!-- markdownlint-disable -->
 |  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] | [![Dan Meyers][danjbh_avatar]][danjbh_homepage]<br/>[Dan Meyers][danjbh_homepage] |
 |---|---|
+<!-- markdownlint-restore -->
 
   [osterman_homepage]: https://github.com/osterman
   [osterman_avatar]: https://img.cloudposse.com/150x150/https://github.com/osterman.png
