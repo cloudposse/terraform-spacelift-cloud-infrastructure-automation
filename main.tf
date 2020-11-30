@@ -4,20 +4,20 @@ locals {
   // Result ex: [gbl-audit.yaml, gbl-auto.yaml, gbl-dev.yaml, ...]
   config_filenames = fileset(local.stack_config_path, var.stack_config_pattern)
   // Result ex: [gbl-audit, gbl-auto, gbl-dev, ...]
-  config_files = { for f in local.config_filenames : trimsuffix(basename(f), ".yaml") => yamldecode(file("${local.stack_config_path}/${f}")) }
+  config_files = { for f in local.config_filenames : trimsuffix(basename(f), ".yaml") => try(yamldecode(file("${local.stack_config_path}/${f}")), {}) }
   // Result ex: { gbl-audit = { globals = { ... }, terraform = { component1 = { vars = ... }, component2 = { vars = ... } } } }
   components = { for f in keys(local.config_files) : f => lookup(local.config_files[f], "components", {}) if f != "globals" }
-  // Result ex: { globals = { ... } }
-  globals = { for f in keys(local.config_files) : f => local.config_files[f] if f == "globals" }
+
+  globals = try(local.config_files["globals"], {})
 }
 
 module "global_context" {
   source = "./modules/context"
 
-  enabled = true
+  enabled = length(local.globals) > 0 ? true : false
 
   context_name          = "global"
-  environment_variables = local.globals.globals
+  environment_variables = local.globals
 }
 
 module "spacelift_environment" {
