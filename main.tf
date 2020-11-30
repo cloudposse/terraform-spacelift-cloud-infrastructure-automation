@@ -34,6 +34,7 @@ module "spacelift_environment" {
   components_path    = var.components_path
   repository         = var.repository
   branch             = var.branch
+  manage_state       = var.manage_state
 }
 
 # Define the global trigger policy that allows us to trigger on various context-level updates
