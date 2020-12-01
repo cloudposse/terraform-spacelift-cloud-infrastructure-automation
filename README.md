@@ -98,7 +98,7 @@ module "example" {
 }
 ```
 
-**NOTE:** Be sure to set the `manage_state` value from the start, otherwise changing this value after deploying a stack may cause resources to be orphaned!
+**IMPORTANT:** Be sure to set the `manage_state` value from the start, otherwise changing this value after deploying a stack may cause resources to be orphaned!
 
 
 
@@ -169,7 +169,7 @@ Available targets:
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.13.0, < 0.14.0 |
+| terraform | >= 0.13.0 |
 | spacelift | ~> 1.0.0 |
 
 ## Providers
