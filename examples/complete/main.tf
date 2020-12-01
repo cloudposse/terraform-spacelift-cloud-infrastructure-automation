@@ -1,7 +1,11 @@
+provider "spacelift" {}
+
 module "example" {
   source = "../.."
 
-  example = var.example
+  stack_config_path = var.stack_config_path
+  branch            = var.branch
+  repository        = var.repository
 
-  context = module.this.context
+  external_execution = true
 }
