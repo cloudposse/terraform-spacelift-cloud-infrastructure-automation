@@ -24,7 +24,7 @@ module "component_context" {
 }
 
 resource "spacelift_context_attachment" "global" {
-  count = var.enabled && (var.global_context_id != null) ? 1 : 0
+  count = var.enabled ? 1 : 0
 
   context_id = var.global_context_id
   stack_id   = spacelift_stack.default[0].id

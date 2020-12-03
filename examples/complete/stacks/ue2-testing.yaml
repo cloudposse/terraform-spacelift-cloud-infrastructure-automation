@@ -1,7 +1,6 @@
 components:
   globals:
     stage: testing
-    environment: ue2
 
   terraform:
     example2:
