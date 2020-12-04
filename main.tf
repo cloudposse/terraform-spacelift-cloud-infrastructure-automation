@@ -6,8 +6,12 @@ locals {
   // Result ex: [gbl-audit, gbl-auto, gbl-dev, ...]
   config_files = { for f in local.config_filenames : trimsuffix(basename(f), ".yaml") => try(yamldecode(file("${local.stack_config_path}/${f}")), {}) }
   // Result ex: { gbl-audit = { globals = { ... }, terraform = { component1 = { vars = ... }, component2 = { vars = ... } } } }
-  components = { for f in keys(local.config_files) : f => lookup(local.config_files[f], "components", {}) if f != "globals" }
+  components = { for f in keys(local.config_files) : f => lookup(local.config_files[f], "components", {}) if(replace(f, "globals", "") == f) }
 
+  // Parse our environment global variables
+  environment_globals = { for k, v in local.config_files : trimsuffix(k, "-globals") => v if(replace(k, "-globals", "") != k) }
+
+  // Pull our universal globals that will be attached to ALL stacks
   globals = try(local.config_files["globals"], {})
 }
 
@@ -29,7 +33,7 @@ module "spacelift_environment" {
   trigger_policy_id  = spacelift_policy.trigger_global.id
   push_policy_id     = spacelift_policy.push.id
   stack_config_name  = each.key
-  environment_values = each.value.globals
+  environment_values = merge(each.value.globals, lookup(local.environment_globals, split("-", each.key)[0], {}))
   components         = local.components[each.key].terraform
   components_path    = var.components_path
   repository         = var.repository
