@@ -10,7 +10,7 @@ locals {
 
   // Parse our environment global variables
   environment_globals = { for k,v in local.config_files : trimsuffix(k, "-globals") => v if (replace(k, "-globals", "") != k) }
-  
+
   // Pull our universal globals that will be attached to ALL stacks
   globals = try(local.config_files["globals"], {})
 }
