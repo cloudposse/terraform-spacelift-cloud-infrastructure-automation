@@ -12,6 +12,7 @@ resource "spacelift_stack" "default" {
     for trigger in var.triggers : "depends-on:${trigger}|state:FINISHED"
   ]
 
+  worker_pool_id    = var.worker_pool_id
   terraform_version = var.terraform_version
 }
 

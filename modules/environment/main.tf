@@ -24,6 +24,7 @@ module "components" {
   manage_state          = var.manage_state
   environment_variables = each.value.vars
   terraform_version     = try(each.value.terraform_version, null)
+  worker_pool_id        = try(each.value.worker_pool_id, null)
   triggers              = coalesce(try(each.value.triggers, null), [])
   trigger_policy_id     = var.trigger_policy_id
   push_policy_id        = var.push_policy_id

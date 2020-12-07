@@ -21,6 +21,12 @@ variable "terraform_version" {
   default     = null
 }
 
+variable "worker_pool_id" {
+  type        = string
+  description = "The immutable ID (slug) of the worker pool"
+  default     = null
+}
+
 variable "component_root" {
   type        = string
   description = "The path, relative to the root of the repository, where the component can be found"
