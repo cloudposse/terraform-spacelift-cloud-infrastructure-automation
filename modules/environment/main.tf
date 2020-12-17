@@ -25,6 +25,7 @@ module "components" {
   environment_variables = { for k,v in each.value.vars : k => jsonencode(v) }
   terraform_version     = try(each.value.terraform_version, null)
   worker_pool_id        = try(each.value.worker_pool_id, null)
+  runner_image          = try(each.value.runner_image, null)
   triggers              = coalesce(try(each.value.triggers, null), [])
   trigger_policy_id     = var.trigger_policy_id
   push_policy_id        = var.push_policy_id

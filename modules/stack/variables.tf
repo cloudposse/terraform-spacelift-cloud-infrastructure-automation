@@ -27,6 +27,12 @@ variable "worker_pool_id" {
   default     = null
 }
 
+variable "runner_image" {
+  type        = string
+  description = "The full image name and tag of the Docker image to use in Spacelift"
+  default     = null
+}
+
 variable "component_root" {
   type        = string
   description = "The path, relative to the root of the repository, where the component can be found"
