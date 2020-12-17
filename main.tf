@@ -42,6 +42,7 @@ module "spacelift_environment" {
   worker_pool_id     = var.worker_pool_id
   runner_image       = var.runner_image
   before_init        = var.before_init
+  terraform_version  = var.terraform_version
 }
 
 # Define the global trigger policy that allows us to trigger on various context-level updates

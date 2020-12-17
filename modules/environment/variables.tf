@@ -62,6 +62,12 @@ variable "manage_state" {
   default     = true
 }
 
+variable "terraform_version" {
+  type        = string
+  description = "Specify the version of Terraform to use for the stack"
+  default     = null
+}
+
 variable "worker_pool_id" {
   type        = string
   description = "The immutable ID (slug) of the worker pool"
