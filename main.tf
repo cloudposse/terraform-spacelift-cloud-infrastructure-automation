@@ -6,7 +6,7 @@ locals {
   // Result ex: [gbl-audit, gbl-auto, gbl-dev, ...]
   config_files = { for f in local.config_filenames : trimsuffix(basename(f), ".yaml") => try(yamldecode(file("${local.stack_config_path}/${f}")), {}) }
   // Result ex: { gbl-audit = { globals = { ... }, terraform = { component1 = { vars = ... }, component2 = { vars = ... } } } }
-  components = { for f in keys(local.config_files) : f => lookup(local.config_files[f], "projects", {}) if(replace(f, "globals", "") == f) }
+  components = { for f in keys(local.config_files) : f => lookup(local.config_files[f], "components", {}) if(replace(f, "globals", "") == f) }
 
   // Parse our environment global variables
   environment_globals = { for k, v in local.config_files : trimsuffix(k, "-globals") => v if(replace(k, "-globals", "") != k) }
