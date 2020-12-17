@@ -27,9 +27,21 @@ variable "worker_pool_id" {
   default     = null
 }
 
+variable "role_arn" {
+  type        = string
+  description = "The role_arn to use for Spacelift executions"
+  default     = null
+}
+
 variable "runner_image" {
   type        = string
   description = "The full image name and tag of the Docker image to use in Spacelift"
+  default     = null
+}
+
+variable "before_init" {
+  type        = list
+  description = "A list of commands to execute in Spacelift before initializing Terraform"
   default     = null
 }
 

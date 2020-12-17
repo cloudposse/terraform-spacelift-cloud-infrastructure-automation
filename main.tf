@@ -39,6 +39,10 @@ module "spacelift_environment" {
   repository         = var.repository
   branch             = var.branch
   manage_state       = var.manage_state
+  worker_pool_id     = var.worker_pool_id
+  runner_image       = var.runner_image
+  role_arn           = var.role_arn
+  before_init        = var.before_init
 }
 
 # Define the global trigger policy that allows us to trigger on various context-level updates
