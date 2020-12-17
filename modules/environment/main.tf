@@ -14,7 +14,7 @@ module "components" {
     for k, v in var.components : "${var.stack_config_name}-${k}" => merge({ "component" : k }, v)
   }
 
-  enabled               = try(each.value.workspace_enabled, false)
+  enabled               = try(each.value.workspace_enabled, true)
   stack_name            = "${var.stack_config_name}-${each.value.component}"
   environment_name      = var.stack_config_name
   autodeploy            = try(each.value.autodeploy, true)

@@ -98,6 +98,7 @@ variable "parent_context_id" {
 variable "autodeploy" {
   type        = bool
   description = "Controls the Spacelift 'autodeploy' option for a stack"
+  default     = false
 }
 
 variable "manage_state" {
