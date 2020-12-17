@@ -22,7 +22,7 @@ module "components" {
   repository            = var.repository
   branch                = var.branch
   manage_state          = var.manage_state
-  environment_variables = each.value.vars
+  environment_variables = { for k,v in each.value.vars : k => jsonencode(v) }
   terraform_version     = try(each.value.terraform_version, null)
   worker_pool_id        = try(each.value.worker_pool_id, null)
   triggers              = coalesce(try(each.value.triggers, null), [])
