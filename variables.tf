@@ -33,6 +33,12 @@ variable "manage_state" {
   default     = true
 }
 
+variable "terraform_version" {
+  type        = string
+  description = "Specify the version of Terraform to use for the stack"
+  default     = null
+}
+
 variable "external_execution" {
   type        = bool
   description = "Set this to true if you're calling this module from outside of a Spacelift stack (e.g. the `complete` example)."
