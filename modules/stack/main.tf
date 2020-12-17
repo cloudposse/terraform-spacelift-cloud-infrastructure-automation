@@ -14,7 +14,7 @@ resource "spacelift_stack" "default" {
 
   worker_pool_id    = var.worker_pool_id
   runner_image      = var.runner_image
-  #before_init       = [ for command in var.before_init : try(format(command, var.environment_name), command) ]
+  before_init       = [ for command in var.before_init : try(format(command, var.environment_name), command) ]
   terraform_version = var.terraform_version
 }
 
