@@ -33,8 +33,7 @@ module "spacelift_environment" {
   trigger_policy_id  = spacelift_policy.trigger_global.id
   push_policy_id     = spacelift_policy.push.id
   stack_config_name  = each.key
-  environment_values = { for k,v in merge(each.value.globals, lookup(local.environment_globals, split("-", each.key)[0], {})) : k => jsonencode(v) }
-  #environment_values = merge(each.value.globals, lookup(local.environment_globals, split("-", each.key)[0], {}))
+  environment_values = { for k, v in merge(each.value.globals, lookup(local.environment_globals, split("-", each.key)[0], {})) : k => jsonencode(v) }
   components         = local.components[each.key].terraform
   components_path    = var.components_path
   repository         = var.repository
@@ -42,7 +41,6 @@ module "spacelift_environment" {
   manage_state       = var.manage_state
   worker_pool_id     = var.worker_pool_id
   runner_image       = var.runner_image
-  before_init        = var.before_init
   terraform_version  = var.terraform_version
 }
 

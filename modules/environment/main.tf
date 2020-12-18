@@ -22,11 +22,10 @@ module "components" {
   repository            = var.repository
   branch                = var.branch
   manage_state          = var.manage_state
-  environment_variables = { for k,v in each.value.vars : k => jsonencode(v) }
+  environment_variables = { for k, v in each.value.vars : k => jsonencode(v) }
   terraform_version     = coalesce(try(each.value.terraform_version, null), var.terraform_version)
   worker_pool_id        = var.worker_pool_id
   runner_image          = try(var.runner_image, null)
-  before_init           = try(var.before_init, null)
   triggers              = coalesce(try(each.value.triggers, null), [])
   trigger_policy_id     = var.trigger_policy_id
   push_policy_id        = var.push_policy_id

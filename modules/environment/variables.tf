@@ -79,9 +79,3 @@ variable "runner_image" {
   description = "The full image name and tag of the Docker image to use in Spacelift"
   default     = null
 }
-
-variable "before_init" {
-  type        = list
-  description = "A list of commands to execute in Spacelift before initializing Terraform"
-  default     = null
-}

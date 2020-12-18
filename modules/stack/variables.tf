@@ -39,12 +39,6 @@ variable "runner_image" {
   default     = null
 }
 
-variable "before_init" {
-  type        = list
-  description = "A list of commands to execute in Spacelift before initializing Terraform"
-  default     = null
-}
-
 variable "component_root" {
   type        = string
   description = "The path, relative to the root of the repository, where the component can be found"
