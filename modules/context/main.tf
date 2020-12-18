@@ -9,6 +9,6 @@ resource "spacelift_environment_variable" "default" {
 
   context_id = spacelift_context.default[0].id
   name       = "TF_VAR_${each.key}"
-  value      = each.value
+  value      = trim(each.value, "\"")
   write_only = false
 }
