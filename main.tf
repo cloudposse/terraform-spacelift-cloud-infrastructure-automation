@@ -33,8 +33,8 @@ module "spacelift_environment" {
   trigger_policy_id  = spacelift_policy.trigger_global.id
   push_policy_id     = spacelift_policy.push.id
   stack_config_name  = each.key
-  #environment_values = { for k,v in merge(each.value.globals, lookup(local.environment_globals, split("-", each.key)[0], {})) : k => jsonencode(v) }
-  environment_values = merge(each.value.globals, lookup(local.environment_globals, split("-", each.key)[0], {}))
+  environment_values = { for k,v in merge(each.value.globals, lookup(local.environment_globals, split("-", each.key)[0], {})) : k => jsonencode(v) }
+  #environment_values = merge(each.value.globals, lookup(local.environment_globals, split("-", each.key)[0], {}))
   components         = local.components[each.key].terraform
   components_path    = var.components_path
   repository         = var.repository
@@ -71,14 +71,14 @@ resource "spacelift_policy" "push" {
 }
 
 
-data "spacelift_current_stack" "this" {
-  count = var.external_execution ? 0 : 1
-}
+# data "spacelift_current_stack" "this" {
+#   count = var.external_execution ? 0 : 1
+# }
 
-# Attach the Environment Trigger Policy to the current stack
-resource "spacelift_policy_attachment" "trigger_global" {
-  count = var.external_execution ? 0 : 1
+# # Attach the Environment Trigger Policy to the current stack
+# resource "spacelift_policy_attachment" "trigger_global" {
+#   count = var.external_execution ? 0 : 1
 
-  policy_id = spacelift_policy.trigger_global.id
-  stack_id  = data.spacelift_current_stack.this[0].id
-}
+#   policy_id = spacelift_policy.trigger_global.id
+#   stack_id  = data.spacelift_current_stack.this[0].id
+# }
