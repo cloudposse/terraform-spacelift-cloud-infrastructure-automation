@@ -55,7 +55,7 @@ variable "environment_name" {
 }
 
 variable "environment_variables" {
-  type        = map
+  type        = map(any)
   default     = {}
   description = "The global values applied to all workspaces within the environment."
 }

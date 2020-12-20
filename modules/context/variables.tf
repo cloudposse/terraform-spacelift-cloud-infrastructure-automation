@@ -10,6 +10,6 @@ variable "context_name" {
 }
 
 variable "environment_variables" {
-  type        = map
+  type        = map(any)
   description = "A map of environment variables to add to the context"
 }

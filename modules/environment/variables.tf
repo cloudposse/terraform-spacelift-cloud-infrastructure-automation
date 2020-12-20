@@ -28,7 +28,7 @@ variable "push_policy_id" {
 }
 
 variable "environment_values" {
-  type        = map
+  type        = map(any)
   default     = {}
   description = "The global values applied to all workspaces within the environment."
 }
