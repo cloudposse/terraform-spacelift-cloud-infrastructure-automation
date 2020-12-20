@@ -18,7 +18,7 @@ locals {
 module "global_context" {
   source = "./modules/context"
 
-  enabled = length(local.globals) > 0 ? true : false
+  enabled = true
 
   context_name          = "global"
   environment_variables = local.globals
@@ -42,6 +42,7 @@ module "spacelift_environment" {
   worker_pool_id     = var.worker_pool_id
   runner_image       = var.runner_image
   terraform_version  = var.terraform_version
+  autodeploy         = var.autodeploy
 }
 
 # Define the global trigger policy that allows us to trigger on various context-level updates
@@ -67,7 +68,6 @@ resource "spacelift_policy" "push" {
   name = "Component Push Policy"
   body = file("${path.module}/policies/push-stack.rego")
 }
-
 
 data "spacelift_current_stack" "this" {
   count = var.external_execution ? 0 : 1

@@ -79,3 +79,9 @@ variable "runner_image" {
   description = "The full image name and tag of the Docker image to use in Spacelift"
   default     = null
 }
+
+variable "autodeploy" {
+  type        = string
+  description = "Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration)"
+  default     = null
+}
