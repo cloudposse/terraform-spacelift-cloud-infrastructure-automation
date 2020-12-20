@@ -61,7 +61,7 @@ variable "environment_variables" {
 }
 
 variable "triggers" {
-  type        = list
+  type        = list(any)
   default     = []
   description = "A list of other stacks that will trigger an execution."
 }
