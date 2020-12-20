@@ -182,6 +182,7 @@ Available targets:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| autodeploy | Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration) | `bool` | `false` | no |
 | branch | Specify which branch to use within your infrastructure repo | `string` | `"main"` | no |
 | components\_path | The relative pathname for where all components reside | `string` | `"components"` | no |
 | external\_execution | Set this to true if you're calling this module from outside of a Spacelift stack (e.g. the `complete` example). | `bool` | `false` | no |
