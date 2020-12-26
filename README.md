@@ -67,8 +67,15 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 ## Usage
 
 
-**IMPORTANT:** The `master` branch is used in `source` just as an example. In your code, do not pin to `master` because there may be breaking changes between releases.
-Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases).
+**IMPORTANT:** We do not pin modules to versions in our examples because of the
+difficulty of keeping the versions in the documentation in sync with the latest released versions.
+We highly recommend that in your code you pin the version to the exact version you are
+using so that your infrastructure remains stable, and update versions in a
+systematic way so that they do not catch you by surprise.
+
+Also, because of a bug in the Terraform registry ([hashicorp/terraform#21417](https://github.com/hashicorp/terraform/issues/21417)),
+the registry shows many of our inputs as required when in fact they are optional.
+The table below correctly indicates which inputs are required.
 
 
 
@@ -182,13 +189,17 @@ Available targets:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| autodeploy | Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration) | `bool` | `false` | no |
 | branch | Specify which branch to use within your infrastructure repo | `string` | `"main"` | no |
 | components\_path | The relative pathname for where all components reside | `string` | `"components"` | no |
 | external\_execution | Set this to true if you're calling this module from outside of a Spacelift stack (e.g. the `complete` example). | `bool` | `false` | no |
 | manage\_state | Global flag to enable/disable manage\_state settings for all project stacks. | `bool` | `true` | no |
 | repository | The name of your infrastructure repo | `string` | n/a | yes |
+| runner\_image | The full image name and tag of the Docker image to use in Spacelift | `string` | `null` | no |
 | stack\_config\_path | Relative path to YAML config files | `string` | `null` | no |
 | stack\_config\_pattern | File pattern used to locate configuration files | `string` | `"*.yaml"` | no |
+| terraform\_version | Specify the version of Terraform to use for the stack | `string` | `null` | no |
+| worker\_pool\_id | The immutable ID (slug) of the worker pool | `string` | `null` | no |
 
 ## Outputs
 

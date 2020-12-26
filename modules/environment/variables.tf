@@ -28,7 +28,7 @@ variable "push_policy_id" {
 }
 
 variable "environment_values" {
-  type        = map
+  type        = map(any)
   default     = {}
   description = "The global values applied to all workspaces within the environment."
 }
@@ -60,4 +60,28 @@ variable "manage_state" {
   type        = bool
   description = "Global flag to enable/disable manage_state settings in all stacks."
   default     = true
+}
+
+variable "terraform_version" {
+  type        = string
+  description = "Specify the version of Terraform to use for the stack"
+  default     = null
+}
+
+variable "worker_pool_id" {
+  type        = string
+  description = "The immutable ID (slug) of the worker pool"
+  default     = null
+}
+
+variable "runner_image" {
+  type        = string
+  description = "The full image name and tag of the Docker image to use in Spacelift"
+  default     = null
+}
+
+variable "autodeploy" {
+  type        = string
+  description = "Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration)"
+  default     = null
 }

@@ -21,6 +21,24 @@ variable "terraform_version" {
   default     = null
 }
 
+variable "worker_pool_id" {
+  type        = string
+  description = "The immutable ID (slug) of the worker pool"
+  default     = null
+}
+
+variable "role_arn" {
+  type        = string
+  description = "The role_arn to use for Spacelift executions"
+  default     = null
+}
+
+variable "runner_image" {
+  type        = string
+  description = "The full image name and tag of the Docker image to use in Spacelift"
+  default     = null
+}
+
 variable "component_root" {
   type        = string
   description = "The path, relative to the root of the repository, where the component can be found"
@@ -37,13 +55,13 @@ variable "environment_name" {
 }
 
 variable "environment_variables" {
-  type        = map
+  type        = map(any)
   default     = {}
   description = "The global values applied to all workspaces within the environment."
 }
 
 variable "triggers" {
-  type        = list
+  type        = list(any)
   default     = []
   description = "A list of other stacks that will trigger an execution."
 }
@@ -74,6 +92,7 @@ variable "parent_context_id" {
 variable "autodeploy" {
   type        = bool
   description = "Controls the Spacelift 'autodeploy' option for a stack"
+  default     = false
 }
 
 variable "manage_state" {

@@ -33,8 +33,32 @@ variable "manage_state" {
   default     = true
 }
 
+variable "terraform_version" {
+  type        = string
+  description = "Specify the version of Terraform to use for the stack"
+  default     = null
+}
+
 variable "external_execution" {
   type        = bool
   description = "Set this to true if you're calling this module from outside of a Spacelift stack (e.g. the `complete` example)."
+  default     = false
+}
+
+variable "worker_pool_id" {
+  type        = string
+  description = "The immutable ID (slug) of the worker pool"
+  default     = null
+}
+
+variable "runner_image" {
+  type        = string
+  description = "The full image name and tag of the Docker image to use in Spacelift"
+  default     = null
+}
+
+variable "autodeploy" {
+  type        = bool
+  description = "Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration)"
   default     = false
 }
