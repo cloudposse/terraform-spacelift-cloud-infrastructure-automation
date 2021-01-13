@@ -20,7 +20,7 @@ module "components" {
   autodeploy            = coalesce(try(each.value.autodeploy, null), var.autodeploy)
   component_root        = format("%s/%s", var.components_path, try(each.value.custom_component_folder, each.value.component))
   repository            = var.repository
-  branch                = var.branch
+  branch                = coalesce(try(each.value.branch, null), var.branch)
   manage_state          = var.manage_state
   environment_variables = { for k, v in each.value.vars : k => jsonencode(v) }
   terraform_version     = coalesce(try(each.value.terraform_version, null), var.terraform_version)
