@@ -6,7 +6,6 @@ projects:
   terraform:
     example2:
       workspace_enabled: true
-      branch: add-branch-override
       vars:
         my_input_var: "Hello world! This is example1. It's disabled!"
     example3:
