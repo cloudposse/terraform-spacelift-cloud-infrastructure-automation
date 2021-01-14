@@ -7,11 +7,6 @@ vars:
 terraform:
   vars:
 
-helmfile:
-  vars:
-    account_number: "somerandomnumber"
-    ssm_region: "us-west-2"
-
 components:
   terraform:
 

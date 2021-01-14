@@ -2,10 +2,10 @@ vars:
   namespace: example
 
 terraform:
-  vars:
+  vars: {}
 
 helmfile:
-  vars:
+  vars: {}
 
 components:
   terraform:
