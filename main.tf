@@ -1,45 +1,43 @@
 locals {
   // Use the provided config file path or default to the current dir
   stack_config_path = coalesce(var.stack_config_path, path.cwd)
-
-  components  = module.yaml_config.map_configs.components.terraform
-  config_vars = module.yaml_config.map_configs.vars
 }
 
 module "yaml_config" {
-  source = "cloudposse/config/yaml"
-  version     = "0.4.0"
+  for_each = toset(var.stack_config_files)
+
+  source = "git@github.com:cloudposse/terraform-yaml-config.git?ref=additional-layers"
+  #source = "cloudposse/config/yaml"
+  #version     = "0.4.0"
 
   map_config_local_base_path = local.stack_config_path
 
   map_config_paths = [
-    var.stack_config_pattern
+    each.key
   ]
 
   context = module.this.context
 }
 
-module "stacks" {
-  source = "./modules/stack"
+# module "spacelift_environment" {
+#   source = "./modules/environment"
 
-  for_each = local.components
+#   for_each = toset(var.stack_config_files)
 
-  enabled               = try(each.value.workspace_enabled, true)
-  stack_name            = "${local.config_vars.environment}-foo-${each.key}"
-  autodeploy            = coalesce(try(each.value.autodeploy, null), var.autodeploy)
-  component_root        = format("%s/%s", var.components_path, try(each.value.custom_component_folder, each.key))
-  repository            = var.repository
-  branch                = coalesce(try(each.value.branch, null), var.branch)
-  manage_state          = var.manage_state
-  environment_variables = { for k, v in merge(local.config_vars, try(each.value.vars, {})) : k => jsonencode(v) }
-  terraform_version     = coalesce(try(each.value.terraform_version, null), var.terraform_version)
-  worker_pool_id        = var.worker_pool_id
-  runner_image          = try(var.runner_image, null)
-  triggers              = coalesce(try(each.value.triggers, null), [])
-  trigger_policy_id     = spacelift_policy.trigger_dependency.id
-  push_policy_id        = spacelift_policy.push.id
-}
-
+#   trigger_policy_id  = spacelift_policy.trigger_global.id
+#   push_policy_id     = spacelift_policy.push.id
+#   stack_config_name  = each.key
+#   environment_values = try(module.yaml_config[each.value].map_configs.vars, {})
+#   components         = try(module.yaml_config[each.value].map_configs.components.terraform, {})
+#   components_path    = var.components_path
+#   repository         = var.repository
+#   branch             = var.branch
+#   manage_state       = var.manage_state
+#   worker_pool_id     = var.worker_pool_id
+#   runner_image       = var.runner_image
+#   terraform_version  = var.terraform_version
+#   autodeploy         = var.autodeploy
+# }
 
 # # Define the global trigger policy that allows us to trigger on various context-level updates
 resource "spacelift_policy" "trigger_global" {

@@ -4,10 +4,10 @@ variable "stack_config_path" {
   default     = null
 }
 
-variable "stack_config_pattern" {
-  type        = string
-  description = "File pattern used to locate configuration files"
-  default     = "*.yaml"
+variable "stack_config_files" {
+  type        = list
+  description = "A list of stack config files"
+  default     = []
 }
 
 variable "repository" {
