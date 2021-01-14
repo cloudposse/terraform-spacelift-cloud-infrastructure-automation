@@ -1,51 +1,47 @@
 locals {
   // Use the provided config file path or default to the current dir
   stack_config_path = coalesce(var.stack_config_path, path.cwd)
-  // Result ex: [gbl-audit.yaml, gbl-auto.yaml, gbl-dev.yaml, ...]
-  config_filenames = fileset(local.stack_config_path, var.stack_config_pattern)
-  // Result ex: [gbl-audit, gbl-auto, gbl-dev, ...]
-  config_files = { for f in local.config_filenames : trimsuffix(basename(f), ".yaml") => try(yamldecode(file("${local.stack_config_path}/${f}")), {}) }
-  // Result ex: { gbl-audit = { globals = { ... }, terraform = { component1 = { vars = ... }, component2 = { vars = ... } } } }
-  components = { for f in keys(local.config_files) : f => lookup(local.config_files[f], "projects", {}) if(replace(f, "globals", "") == f) }
 
-  // Parse our environment global variables
-  environment_globals = { for k, v in local.config_files : trimsuffix(k, "-globals") => v if(replace(k, "-globals", "") != k) }
-
-  // Pull our universal globals that will be attached to ALL stacks
-  globals = try(local.config_files["globals"], {})
+  components  = module.yaml_config.map_configs.components.terraform
+  config_vars = module.yaml_config.map_configs.vars
 }
 
-module "global_context" {
-  source = "./modules/context"
+module "yaml_config" {
+  source = "cloudposse/config/yaml"
+  version     = "0.4.0"
 
-  enabled = true
+  map_config_local_base_path = local.stack_config_path
 
-  context_name          = "global"
-  environment_variables = local.globals
+  map_config_paths = [
+    var.stack_config_pattern
+  ]
+
+  context = module.this.context
 }
 
-module "spacelift_environment" {
-  source = "./modules/environment"
+module "stacks" {
+  source = "./modules/stack"
 
   for_each = local.components
 
-  global_context_id  = module.global_context.context_id
-  trigger_policy_id  = spacelift_policy.trigger_global.id
-  push_policy_id     = spacelift_policy.push.id
-  stack_config_name  = each.key
-  environment_values = { for k, v in merge(each.value.globals, lookup(local.environment_globals, split("-", each.key)[0], {})) : k => jsonencode(v) }
-  components         = local.components[each.key].terraform
-  components_path    = var.components_path
-  repository         = var.repository
-  branch             = var.branch
-  manage_state       = var.manage_state
-  worker_pool_id     = var.worker_pool_id
-  runner_image       = var.runner_image
-  terraform_version  = var.terraform_version
-  autodeploy         = var.autodeploy
+  enabled               = try(each.value.workspace_enabled, true)
+  stack_name            = "${local.config_vars.environment}-foo-${each.key}"
+  autodeploy            = coalesce(try(each.value.autodeploy, null), var.autodeploy)
+  component_root        = format("%s/%s", var.components_path, try(each.value.custom_component_folder, each.key))
+  repository            = var.repository
+  branch                = coalesce(try(each.value.branch, null), var.branch)
+  manage_state          = var.manage_state
+  environment_variables = { for k, v in merge(local.config_vars, try(each.value.vars, {})) : k => jsonencode(v) }
+  terraform_version     = coalesce(try(each.value.terraform_version, null), var.terraform_version)
+  worker_pool_id        = var.worker_pool_id
+  runner_image          = try(var.runner_image, null)
+  triggers              = coalesce(try(each.value.triggers, null), [])
+  trigger_policy_id     = spacelift_policy.trigger_dependency.id
+  push_policy_id        = spacelift_policy.push.id
 }
 
-# Define the global trigger policy that allows us to trigger on various context-level updates
+
+# # Define the global trigger policy that allows us to trigger on various context-level updates
 resource "spacelift_policy" "trigger_global" {
   type = "TRIGGER"
 
@@ -61,7 +57,7 @@ resource "spacelift_policy" "trigger_dependency" {
   body = file("${path.module}/policies/trigger-dependencies.rego")
 }
 
-# Define the global "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
+# # Define the global "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
 resource "spacelift_policy" "push" {
   type = "GIT_PUSH"
 
@@ -69,14 +65,15 @@ resource "spacelift_policy" "push" {
   body = file("${path.module}/policies/push-stack.rego")
 }
 
-data "spacelift_current_stack" "this" {
-  count = var.external_execution ? 0 : 1
-}
+# Disabled for local testing
+# data "spacelift_current_stack" "this" {
+#   count = var.external_execution ? 0 : 1
+# }
 
-# Attach the Environment Trigger Policy to the current stack
-resource "spacelift_policy_attachment" "trigger_global" {
-  count = var.external_execution ? 0 : 1
+# # Attach the Environment Trigger Policy to the current stack
+# resource "spacelift_policy_attachment" "trigger_global" {
+#   count = var.external_execution ? 0 : 1
 
-  policy_id = spacelift_policy.trigger_global.id
-  stack_id  = data.spacelift_current_stack.this[0].id
-}
+#   policy_id = spacelift_policy.trigger_global.id
+#   stack_id  = data.spacelift_current_stack.this[0].id
+# }

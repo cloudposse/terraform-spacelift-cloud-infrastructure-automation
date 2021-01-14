@@ -25,22 +25,6 @@ module "component_context" {
   environment_variables = var.environment_variables
 }
 
-resource "spacelift_context_attachment" "global" {
-  count = var.enabled ? 1 : 0
-
-  context_id = var.global_context_id
-  stack_id   = spacelift_stack.default[0].id
-  priority   = 20
-}
-
-resource "spacelift_context_attachment" "parent" {
-  count = var.enabled ? 1 : 0
-
-  context_id = var.parent_context_id
-  stack_id   = spacelift_stack.default[0].id
-  priority   = 10
-}
-
 resource "spacelift_context_attachment" "component" {
   count = var.enabled ? 1 : 0
 

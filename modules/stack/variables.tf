@@ -49,11 +49,6 @@ variable "stack_name" {
   description = "The name of the stack"
 }
 
-variable "environment_name" {
-  type        = string
-  description = "The name of the parent environment (e.g. 'gbl-root', 'ue2-example', etc.)"
-}
-
 variable "environment_variables" {
   type        = map(any)
   default     = {}
@@ -82,11 +77,6 @@ variable "global_context_id" {
   type        = string
   default     = null
   description = "Context ID for the 'global' context that contains globally defined environment variables"
-}
-
-variable "parent_context_id" {
-  type        = string
-  description = "Spacelift context ID to attach to this stack"
 }
 
 variable "autodeploy" {

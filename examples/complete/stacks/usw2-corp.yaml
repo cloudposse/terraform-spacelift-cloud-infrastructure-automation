@@ -1,0 +1,20 @@
+import:
+  - usw2-globals
+
+vars:
+  stage: corp
+
+terraform:
+  vars:
+
+helmfile:
+  vars:
+    account_number: "somerandomnumber"
+    ssm_region: "us-west-2"
+
+components:
+  terraform:
+
+    vpc:
+      vars:
+        cidr_block: "10.0.0.0/18"

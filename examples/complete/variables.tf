@@ -14,3 +14,9 @@ variable "branch" {
   description = "Specify which branch to use within your infrastructure repo"
   default     = "main"
 }
+
+variable "terraform_version" {
+  type        = string
+  description = "Specify the version of Terraform to use for the stack"
+  default     = null
+}
