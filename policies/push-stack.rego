@@ -13,13 +13,30 @@ propose { affected }
 ignore  { not affected }
 ignore  { input.push.tag != "" }
 
-# Here's a definition of an affected file - its path must both:
-#
-# a) start with the Stack's project root, and;
-# b) end with ".tf", indicating that it's a Terraform source file;
 affected {
     filepath := input.push.affected_files[_]
 
     startswith(filepath, input.stack.project_root)
     endswith(filepath, ".tf")
+}
+
+affected {
+    filepath := input.push.affected_files[_]
+    stack_name := split(input.stack.name, "-")
+    
+    contains(filepath, "/globals.yaml")
+}
+
+affected {
+    filepath := input.push.affected_files[_]
+    stack_name := split(input.stack.name, "-")
+    
+    contains(filepath, concat("-", [stack_name[0], "globals"]))
+}
+
+affected {
+    filepath := input.push.affected_files[_]
+    stack_name := split(input.stack.name, "-")
+    
+    contains(filepath, concat("-", [stack_name[0], stack_name[1]]))
 }
