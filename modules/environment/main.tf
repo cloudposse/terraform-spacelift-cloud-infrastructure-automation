@@ -1,12 +1,12 @@
 module "stacks" {
   source = "../stack"
 
-  for_each = { for k,v in var.components : "${var.environment_values.environment}-${var.environment_values.stage}-${k}" => v }
+  for_each = { for k,v in var.components : "${var.environment_values.environment}-${var.environment_values.stage}-${k}" => merge({ "component" : k }, v) }
 
   enabled               = try(each.value.workspace_enabled, false)
-  stack_name            = "${var.environment_values.environment}-${var.environment_values.stage}-${each.key}"
+  stack_name            = each.key
   autodeploy            = coalesce(try(each.value.autodeploy, null), var.autodeploy)
-  component_root        = format("%s/%s", var.components_path, try(each.value.custom_component_folder, each.key))
+  component_root        = format("%s/%s", var.components_path, try(each.value.custom_component_folder, each.value.component))
   repository            = var.repository
   branch                = coalesce(try(each.value.branch, null), var.branch)
   manage_state          = var.manage_state
