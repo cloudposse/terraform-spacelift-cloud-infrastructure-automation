@@ -3,7 +3,7 @@ module "stacks" {
 
   for_each = var.components
 
-  enabled               = try(each.value.workspace_enabled, true)
+  enabled               = try(each.value.workspace_enabled, false)
   stack_name            = "${var.environment_values.environment}-${var.environment_values.stage}-${each.key}"
   autodeploy            = coalesce(try(each.value.autodeploy, null), var.autodeploy)
   component_root        = format("%s/%s", var.components_path, try(each.value.custom_component_folder, each.key))
