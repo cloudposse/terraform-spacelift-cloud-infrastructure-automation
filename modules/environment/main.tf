@@ -1,7 +1,7 @@
 module "stacks" {
   source = "../stack"
 
-  for_each = var.components
+  for_each = { for k,v in var.components : "${var.environment_values.environment}-${var.environment_values.stage}-${k}" => v }
 
   enabled               = try(each.value.workspace_enabled, false)
   stack_name            = "${var.environment_values.environment}-${var.environment_values.stage}-${each.key}"
