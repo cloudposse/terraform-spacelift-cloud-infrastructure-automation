@@ -6,9 +6,8 @@ locals {
 module "yaml_config" {
   for_each = toset(var.stack_config_files)
 
-  source = "git@github.com:cloudposse/terraform-yaml-config.git?ref=additional-layers"
-  #source = "cloudposse/config/yaml"
-  #version     = "0.4.0"
+  source = "cloudposse/config/yaml"
+  version     = "0.4.0"
 
   map_config_local_base_path = local.stack_config_path
 
@@ -19,25 +18,25 @@ module "yaml_config" {
   context = module.this.context
 }
 
-# module "spacelift_environment" {
-#   source = "./modules/environment"
+module "spacelift_environment" {
+  source = "./modules/environment"
 
-#   for_each = toset(var.stack_config_files)
+  for_each = toset(var.stack_config_files)
 
-#   trigger_policy_id  = spacelift_policy.trigger_global.id
-#   push_policy_id     = spacelift_policy.push.id
-#   stack_config_name  = each.key
-#   environment_values = try(module.yaml_config[each.value].map_configs.vars, {})
-#   components         = try(module.yaml_config[each.value].map_configs.components.terraform, {})
-#   components_path    = var.components_path
-#   repository         = var.repository
-#   branch             = var.branch
-#   manage_state       = var.manage_state
-#   worker_pool_id     = var.worker_pool_id
-#   runner_image       = var.runner_image
-#   terraform_version  = var.terraform_version
-#   autodeploy         = var.autodeploy
-# }
+  trigger_policy_id  = spacelift_policy.trigger_global.id
+  push_policy_id     = spacelift_policy.push.id
+  stack_config_name  = each.key
+  environment_values = try(module.yaml_config[each.value].map_configs.vars, {})
+  components         = try(module.yaml_config[each.value].map_configs.components.terraform, {})
+  components_path    = var.components_path
+  repository         = var.repository
+  branch             = var.branch
+  manage_state       = var.manage_state
+  worker_pool_id     = var.worker_pool_id
+  runner_image       = var.runner_image
+  terraform_version  = var.terraform_version
+  autodeploy         = var.autodeploy
+}
 
 # # Define the global trigger policy that allows us to trigger on various context-level updates
 resource "spacelift_policy" "trigger_global" {
