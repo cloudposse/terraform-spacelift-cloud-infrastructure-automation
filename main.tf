@@ -65,8 +65,8 @@ resource "spacelift_policy" "trigger_dependency" {
 resource "spacelift_policy" "push" {
   type = "GIT_PUSH"
 
-  name = "Component Push Policy"
-  body = file("${path.module}/policies/push-stack.rego")
+  name = "Global Push Policy"
+  body = file("${path.module}/policies/push-global.rego")
 }
 
 data "spacelift_current_stack" "this" {
