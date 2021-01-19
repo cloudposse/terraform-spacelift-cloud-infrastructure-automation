@@ -3,17 +3,14 @@ locals {
   stack_config_path = coalesce(var.stack_config_path, path.cwd)
 }
 
-module "yaml_config" {
+module "yaml_stack_config" {
   for_each = toset(var.stack_config_files)
 
-  source  = "cloudposse/config/yaml"
-  version = "0.4.0"
+  source = "cloudposse/stack-config/yaml"
+  version     = "0.2.0"
 
-  map_config_local_base_path = local.stack_config_path
-
-  map_config_paths = [
-    each.key
-  ]
+  stack_config_local_path = local.stack_config_path
+  stack = trim(each.key, ".yaml")
 
   context = module.this.context
 }
@@ -26,8 +23,8 @@ module "spacelift_environment" {
   trigger_policy_id  = spacelift_policy.trigger_global.id
   push_policy_id     = spacelift_policy.push.id
   stack_config_name  = each.key
-  environment_values = try(module.yaml_config[each.value].map_configs.vars, {})
-  components         = try(module.yaml_config[each.value].map_configs.components.terraform, {})
+  environment_values = try(module.yaml_stack_config[each.value].config.vars, {})
+  components         = try(module.yaml_stack_config[each.value].config.components.terraform, {})
   components_path    = var.components_path
   repository         = var.repository
   branch             = var.branch
