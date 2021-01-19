@@ -2,7 +2,7 @@ provider "spacelift" {}
 
 locals {
   config_filenames   = fileset(var.stack_config_path, "*.yaml")
-  stack_config_files = [ for f in local.config_filenames : f if (replace(f, "globals", "") == f) ]
+  stack_config_files = [for f in local.config_filenames : f if(replace(f, "globals", "") == f)]
 }
 
 module "example" {

@@ -6,8 +6,8 @@ locals {
 module "yaml_config" {
   for_each = toset(var.stack_config_files)
 
-  source = "cloudposse/config/yaml"
-  version     = "0.4.0"
+  source  = "cloudposse/config/yaml"
+  version = "0.4.0"
 
   map_config_local_base_path = local.stack_config_path
 
