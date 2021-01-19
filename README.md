@@ -207,7 +207,7 @@ Available targets:
 | regex\_replace\_chars | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
 | repository | The name of your infrastructure repo | `string` | n/a | yes |
 | runner\_image | The full image name and tag of the Docker image to use in Spacelift | `string` | `null` | no |
-| stack\_config\_files | A list of stack config files | `list` | `[]` | no |
+| stack\_config\_files | A list of stack config files | `list(any)` | `[]` | no |
 | stack\_config\_path | Relative path to YAML config files | `string` | `null` | no |
 | stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
 | tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
