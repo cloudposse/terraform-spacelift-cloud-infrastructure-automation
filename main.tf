@@ -6,11 +6,11 @@ locals {
 module "yaml_stack_config" {
   for_each = toset(var.stack_config_files)
 
-  source = "cloudposse/stack-config/yaml"
-  version     = "0.2.0"
+  source  = "cloudposse/stack-config/yaml"
+  version = "0.2.0"
 
   stack_config_local_path = local.stack_config_path
-  stack = trim(each.key, ".yaml")
+  stack                   = trim(each.key, ".yaml")
 
   context = module.this.context
 }
