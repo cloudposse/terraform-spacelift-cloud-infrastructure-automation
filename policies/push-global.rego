@@ -26,12 +26,12 @@ ignore  {
 ignore  { input.push.tag != "" }
 
 # Fetch all of our affected files
-filepath := input.push.affected_files[_]
+filepath := input.push.affected_files
 
 # Check if any Terraform files were modified in a project
 tf_affected {
-    startswith(filepath, input.stack.project_root)
-    endswith(filepath, ".tf")
+    startswith(filepath[_], input.stack.project_root)
+    endswith(filepath[_], ".tf")
 }
 
 # Split our stack name into a list for matching below
@@ -39,15 +39,15 @@ stack_name := split(input.stack.name, "-")
 
 # Check if our global settings have been modified
 config_affected {
-    contains(filepath, "/globals.yaml")
+    contains(filepath[_], "/globals.yaml")
 }
 
 # Check if our environment globals have been modified
 config_affected {
-    contains(filepath, concat("-", [stack_name[0], "globals"]))
+    contains(filepath[_], concat("-", [stack_name[0], "globals"]))
 }
 
 # Check if our environment has been modified
 config_affected {
-    contains(filepath, concat("-", [stack_name[0], stack_name[1]]))
+    contains(filepath[_], concat("-", [stack_name[0], stack_name[1]]))
 }
