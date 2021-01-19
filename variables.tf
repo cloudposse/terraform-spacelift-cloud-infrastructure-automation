@@ -5,7 +5,7 @@ variable "stack_config_path" {
 }
 
 variable "stack_config_files" {
-  type        = list
+  type        = list(any)
   description = "A list of stack config files"
   default     = []
 }
