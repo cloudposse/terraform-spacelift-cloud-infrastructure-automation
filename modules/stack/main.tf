@@ -21,12 +21,12 @@ resource "spacelift_mounted_file" "stack_config" {
   count = var.enabled ? 1 : 0
 
   stack_id      = spacelift_stack.default[0].id
-  relative_path = "spacelift.auto.tfvars.json"
+  relative_path = format("source/%s/spacelift.auto.tfvars.json", var.component_root)
   content       = base64encode(jsonencode({
                     for k, v in var.component_vars : k => jsondecode(v)
                   }))
   
-  write_only = false
+  write_only = true
 }
 
 resource "spacelift_policy_attachment" "push" {
