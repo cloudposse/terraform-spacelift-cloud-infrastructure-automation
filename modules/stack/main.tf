@@ -25,6 +25,8 @@ resource "spacelift_mounted_file" "stack_config" {
   content       = base64encode(jsonencode({
                     for k, v in var.component_vars : k => jsondecode(v)
                   }))
+  
+  write_only = false
 }
 
 resource "spacelift_policy_attachment" "push" {
