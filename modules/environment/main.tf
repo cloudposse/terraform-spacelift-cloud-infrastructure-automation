@@ -3,7 +3,7 @@ module "stacks" {
 
   for_each = { 
     for k, v in var.components : 
-      "${var.stack_vars.environment}-${var.stack_vars.stage}-${k}" => merge({ "component" : k }, v)
+      format("%s-%s-%s", var.stack_vars.environment, var.stack_vars.stage, k) => merge({ "component" : k }, v)
   }
 
   enabled               = try(each.value.workspace_enabled, false)

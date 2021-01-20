@@ -22,7 +22,9 @@ resource "spacelift_mounted_file" "stack_config" {
 
   stack_id      = spacelift_stack.default[0].id
   relative_path = "spacelift.auto.tfvars.json"
-  content       = base64encode(jsonencode(var.component_vars))
+  content       = base64encode(jsonencode({
+                    for k, v in var.component_vars : k => jsondecode(v)
+                  }))
 }
 
 resource "spacelift_policy_attachment" "push" {
