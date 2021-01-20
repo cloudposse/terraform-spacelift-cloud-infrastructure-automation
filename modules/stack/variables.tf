@@ -49,10 +49,10 @@ variable "stack_name" {
   description = "The name of the stack"
 }
 
-variable "environment_variables" {
+variable "component_vars" {
   type        = map(any)
   default     = {}
-  description = "The global values applied to all workspaces within the environment."
+  description = "All Terraform values to be applied to the stack via a mounted file."
 }
 
 variable "triggers" {
@@ -71,12 +71,6 @@ variable "push_policy_id" {
   type        = string
   default     = null
   description = "ID for the project-level push policy."
-}
-
-variable "global_context_id" {
-  type        = string
-  default     = null
-  description = "Context ID for the 'global' context that contains globally defined environment variables"
 }
 
 variable "autodeploy" {

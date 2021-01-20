@@ -2,26 +2,13 @@ package spacelift
 
 # Update tracking for affected Terraform files
 track {
-    tf_affected
+    affected
     input.push.branch == input.stack.branch
 }
 
-# Update tracking for affected stack config files
-track {
-    config_affected
-    input.push.branch == input.stack.branch
-}
-
-# Only trigger a stack run if the Terraform files were modified
-notrigger {
-  config_affected
-  not tf_affected
-}
-
-propose { tf_affected }
+propose { affected }
 ignore  { 
-    not tf_affected 
-    not config_affected
+    not affected 
 }
 ignore  { input.push.tag != "" }
 
@@ -29,25 +16,7 @@ ignore  { input.push.tag != "" }
 filepath := input.push.affected_files
 
 # Check if any Terraform files were modified in a project
-tf_affected {
+affected {
     startswith(filepath[_], input.stack.project_root)
     endswith(filepath[_], ".tf")
-}
-
-# Split our stack name into a list for matching below
-stack_name := split(input.stack.name, "-")
-
-# Check if our global settings have been modified
-config_affected {
-    contains(filepath[_], "/globals.yaml")
-}
-
-# Check if our environment globals have been modified
-config_affected {
-    contains(filepath[_], concat("-", [stack_name[0], "globals"]))
-}
-
-# Check if our environment has been modified
-config_affected {
-    contains(filepath[_], concat("-", [stack_name[0], stack_name[1]]))
 }

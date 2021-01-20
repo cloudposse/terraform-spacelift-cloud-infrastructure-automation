@@ -15,8 +15,6 @@ terraform:
       bucket: "example-bucket"
       key: "terraform.tfstate"
       region: "us-west-2"
-    remote:
-    vault:
 
 components:
   terraform:
