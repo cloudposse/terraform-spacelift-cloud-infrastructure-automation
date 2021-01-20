@@ -22,7 +22,7 @@ module "spacelift_environment" {
 
   trigger_policy_id  = spacelift_policy.trigger_global.id
   push_policy_id     = spacelift_policy.push.id
-  stack_config_name  = each.key
+  stack_config_name  = trimsuffix(each.key, ".yaml")
   stack_vars         = try(module.yaml_stack_config[each.value].config.vars, {})
   components         = try(module.yaml_stack_config[each.value].config.components.terraform, {})
   components_path    = var.components_path
