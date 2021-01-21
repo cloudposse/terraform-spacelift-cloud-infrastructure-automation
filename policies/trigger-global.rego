@@ -5,5 +5,5 @@ trigger[stack.id] {
   entity := input.run.changes[_].entity
   
   input.run.state == "FINISHED"
-  contains(entity.address, concat("", ["stacks[\"", stack.contexts[_], "\"]"]))
+  contains(entity.address, concat("", ["stacks[\"", stack.name, "\"].spacelift_mounted_file."]))
 }
