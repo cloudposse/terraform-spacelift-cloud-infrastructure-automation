@@ -7,8 +7,8 @@ track {
 }
 
 propose { affected }
-ignore  { 
-    not affected 
+ignore  {
+    not affected
 }
 ignore  { input.push.tag != "" }
 
