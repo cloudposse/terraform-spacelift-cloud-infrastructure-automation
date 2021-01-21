@@ -3,13 +3,13 @@ module "stacks" {
 
   for_each = {
     for k, v in var.components :
-    format("%s-%s", var.stack_config_name, k) => merge({ "component" : k }, v)
+    format("%s-%s", var.stack_config_name, k) => merge({ "component_name" : k }, v)
   }
 
   enabled           = try(each.value.workspace_enabled, false)
   stack_name        = each.key
   autodeploy        = coalesce(try(each.value.autodeploy, null), var.autodeploy)
-  component_root    = format("%s/%s", var.components_path, try(each.value.custom_component_folder, each.value.component))
+  component_root    = format("%s/%s", var.components_path, try(each.value.component, each.value.component_name))
   repository        = var.repository
   branch            = coalesce(try(each.value.branch, null), var.branch)
   manage_state      = var.manage_state
