@@ -49,15 +49,10 @@ variable "stack_name" {
   description = "The name of the stack"
 }
 
-variable "environment_name" {
-  type        = string
-  description = "The name of the parent environment (e.g. 'gbl-root', 'ue2-example', etc.)"
-}
-
-variable "environment_variables" {
+variable "component_vars" {
   type        = map(any)
   default     = {}
-  description = "The global values applied to all workspaces within the environment."
+  description = "All Terraform values to be applied to the stack via a mounted file."
 }
 
 variable "triggers" {
@@ -76,17 +71,6 @@ variable "push_policy_id" {
   type        = string
   default     = null
   description = "ID for the project-level push policy."
-}
-
-variable "global_context_id" {
-  type        = string
-  default     = null
-  description = "Context ID for the 'global' context that contains globally defined environment variables"
-}
-
-variable "parent_context_id" {
-  type        = string
-  description = "Spacelift context ID to attach to this stack"
 }
 
 variable "autodeploy" {

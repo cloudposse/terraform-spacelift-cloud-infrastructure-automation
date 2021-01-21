@@ -9,12 +9,6 @@ variable "stack_config_path" {
   description = "The name of the configuration directory to use in the trigger prefix."
 }
 
-variable "global_context_id" {
-  type        = string
-  default     = null
-  description = "Context ID for the 'global' context that contains globally defined environment variables"
-}
-
 variable "trigger_policy_id" {
   type        = string
   default     = null
@@ -27,10 +21,10 @@ variable "push_policy_id" {
   description = "ID for the component-level push policy."
 }
 
-variable "environment_values" {
+variable "stack_vars" {
   type        = map(any)
   default     = {}
-  description = "The global values applied to all workspaces within the environment."
+  description = "The component-level settings to be included with each stack's configuration."
 }
 
 variable "components" {

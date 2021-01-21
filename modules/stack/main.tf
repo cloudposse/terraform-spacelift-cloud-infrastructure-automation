@@ -17,36 +17,16 @@ resource "spacelift_stack" "default" {
   terraform_version = var.terraform_version
 }
 
-module "component_context" {
-  source = "../context"
-
-  enabled               = var.enabled
-  context_name          = var.stack_name
-  environment_variables = var.environment_variables
-}
-
-resource "spacelift_context_attachment" "global" {
+resource "spacelift_mounted_file" "stack_config" {
   count = var.enabled ? 1 : 0
 
-  context_id = var.global_context_id
-  stack_id   = spacelift_stack.default[0].id
-  priority   = 20
-}
+  stack_id      = spacelift_stack.default[0].id
+  relative_path = format("source/%s/spacelift.auto.tfvars.json", var.component_root)
+  content = base64encode(jsonencode({
+    for k, v in var.component_vars : k => jsondecode(v)
+  }))
 
-resource "spacelift_context_attachment" "parent" {
-  count = var.enabled ? 1 : 0
-
-  context_id = var.parent_context_id
-  stack_id   = spacelift_stack.default[0].id
-  priority   = 10
-}
-
-resource "spacelift_context_attachment" "component" {
-  count = var.enabled ? 1 : 0
-
-  context_id = module.component_context.context_id
-  stack_id   = spacelift_stack.default[0].id
-  priority   = 0
+  write_only = true
 }
 
 resource "spacelift_policy_attachment" "push" {

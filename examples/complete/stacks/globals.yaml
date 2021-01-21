@@ -1,1 +1,23 @@
-global_example_var: "Hello world! This is a global variable!"
+vars:
+  namespace: example
+
+terraform:
+  vars: {}
+
+helmfile:
+  vars: {}
+
+components:
+  terraform:
+    tfstate-backend:
+      backend:
+        s3:
+          workspace_key_prefix: "tfstate-backend"
+          role_arn: null
+
+    vpc:
+      vars:
+        subnet_type_tag_key: "example/subnet/type"
+      backend:
+        s3:
+          workspace_key_prefix: "vpc"
