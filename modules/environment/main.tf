@@ -1,3 +1,11 @@
+module "vars" {
+  source = "cloudposse/stack-config/yaml//modules/vars"
+  version     = "0.6.0"
+
+  config         = module.stack_config.config
+  component      = "my-vpc"
+}
+
 module "stacks" {
   source = "../stack"
 
@@ -21,11 +29,7 @@ module "stacks" {
   push_policy_id    = var.push_policy_id
 
   component_vars = {
-    for k, v in
-    merge(
-      var.stack_vars,
-      try(each.value.vars, {}),
-      try(var.components[each.value["component_name"]]["vars"], {})
-    ) : k => jsonencode(v)
+    for k, v in merge(var.stack_vars, try(each.value.vars, {}), try(var.components[each.value["component"]]["vars"], {})) : 
+    k => jsonencode(v)
   }
 }
