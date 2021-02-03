@@ -1,11 +1,3 @@
-module "vars" {
-  source = "cloudposse/stack-config/yaml//modules/vars"
-  version     = "0.6.0"
-
-  config         = module.stack_config.config
-  component      = "my-vpc"
-}
-
 module "stacks" {
   source = "../stack"
 
