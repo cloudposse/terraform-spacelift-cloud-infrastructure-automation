@@ -20,12 +20,12 @@ module "stacks" {
   trigger_policy_id = var.trigger_policy_id
   push_policy_id    = var.push_policy_id
 
-  component_vars    = { 
-    for k, v in 
-      merge(
-          var.stack_vars,
-          try(each.value.vars, {}),
-          try(var.components[each.value["component_name"]]["vars"], {})
-      ) : k => jsonencode(v) 
+  component_vars = {
+    for k, v in
+    merge(
+      var.stack_vars,
+      try(each.value.vars, {}),
+      try(var.components[each.value["component_name"]]["vars"], {})
+    ) : k => jsonencode(v)
   }
 }
