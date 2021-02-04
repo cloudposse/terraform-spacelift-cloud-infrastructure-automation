@@ -9,7 +9,7 @@ module "vars" {
 
   for_each = local.components
 
-  config    = var.stack_config.config
+  config    = local.stack_config
   component = each.value
 }
 
