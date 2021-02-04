@@ -34,7 +34,7 @@ module "spacelift_environment" {
   autodeploy        = var.autodeploy
 }
 
-# # Define the global trigger policy that allows us to trigger on various context-level updates
+# Define the global trigger policy that allows us to trigger on various context-level updates
 resource "spacelift_policy" "trigger_global" {
   type = "TRIGGER"
 
