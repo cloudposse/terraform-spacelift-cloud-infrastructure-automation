@@ -1,3 +1,13 @@
+module "vars" {
+  source  = "cloudposse/stack-config/yaml//module/vars"
+  version = "0.6.0"
+
+  for_each = var.stack_config.components.terraform
+
+  config    = var.stack_config.config
+  component = each.value
+}
+
 module "stacks" {
   source = "../stack"
 
@@ -10,6 +20,7 @@ module "stacks" {
   stack_name        = each.key
   autodeploy        = coalesce(try(each.value.autodeploy, null), var.autodeploy)
   component_root    = format("%s/%s", var.components_path, try(each.value.component, each.value.component_name))
+  component_vars    = module.vars[each.value.component_name].vars
   repository        = var.repository
   branch            = coalesce(try(each.value.branch, null), var.branch)
   manage_state      = var.manage_state
@@ -19,9 +30,4 @@ module "stacks" {
   triggers          = coalesce(try(each.value.triggers, null), [])
   trigger_policy_id = var.trigger_policy_id
   push_policy_id    = var.push_policy_id
-
-  component_vars = {
-    for k, v in merge(var.stack_vars, try(each.value.vars, {}), try(var.components[each.value["component"]]["vars"], {})) :
-    k => jsonencode(v)
-  }
 }

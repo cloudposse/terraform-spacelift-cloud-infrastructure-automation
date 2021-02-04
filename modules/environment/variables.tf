@@ -21,10 +21,10 @@ variable "push_policy_id" {
   description = "ID for the component-level push policy."
 }
 
-variable "stack_vars" {
+variable "stack_config" {
   type        = map(any)
   default     = {}
-  description = "The component-level settings to be included with each stack's configuration."
+  description = "The merged config values to be included with each stack's configuration."
 }
 
 variable "components" {
