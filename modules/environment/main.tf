@@ -1,5 +1,5 @@
 module "vars" {
-  source  = "cloudposse/stack-config/yaml//module/vars"
+  source  = "cloudposse/stack-config/yaml//modules/vars"
   version = "0.6.0"
 
   for_each = var.stack_config.components.terraform
