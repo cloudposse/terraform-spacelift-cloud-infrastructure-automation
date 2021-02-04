@@ -50,9 +50,9 @@ variable "stack_name" {
 }
 
 variable "component_vars" {
-  type        = map(any)
+  type        = string
   default     = {}
-  description = "All Terraform values to be applied to the stack via a mounted file."
+  description = "All Terraform values to be applied to the stack via a mounted file, formatted in JSON."
 }
 
 variable "triggers" {

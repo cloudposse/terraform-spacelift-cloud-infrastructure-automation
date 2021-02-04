@@ -25,7 +25,7 @@ module "stacks" {
   stack_name        = each.key
   autodeploy        = coalesce(try(each.value.autodeploy, null), var.autodeploy)
   component_root    = format("%s/%s", var.components_path, try(each.value.component, each.value.component_name))
-  component_vars    = module.vars[each.value.component_name].vars
+  component_vars    = jsonencode(module.vars[each.value.component_name].vars)
   repository        = var.repository
   branch            = coalesce(try(each.value.branch, null), var.branch)
   manage_state      = var.manage_state
