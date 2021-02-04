@@ -27,12 +27,6 @@ variable "stack_config" {
   description = "The merged config values to be included with each stack's configuration."
 }
 
-variable "components" {
-  type        = any
-  default     = {}
-  description = "A map of all components and related configurations that exist within the environment."
-}
-
 variable "components_path" {
   default     = "components"
   type        = string

@@ -1,8 +1,12 @@
+locals {
+  components = var.stack_config.components.terraform
+}
+
 module "vars" {
   source  = "cloudposse/stack-config/yaml//modules/vars"
   version = "0.6.0"
 
-  for_each = var.stack_config.components.terraform
+  for_each = local.components
 
   config    = var.stack_config.config
   component = each.value
@@ -12,7 +16,7 @@ module "stacks" {
   source = "../stack"
 
   for_each = {
-    for k, v in var.components :
+    for k, v in local.components :
     format("%s-%s", var.stack_config_name, k) => merge({ "component_name" : k }, v)
   }
 
