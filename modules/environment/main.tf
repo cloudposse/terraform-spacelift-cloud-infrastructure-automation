@@ -21,7 +21,7 @@ module "stacks" {
   push_policy_id    = var.push_policy_id
 
   component_vars = {
-    for k, v in merge(var.stack_vars, try(each.value.vars, {}), try(var.components[each.value["component"]]["vars"], {})) : 
+    for k, v in merge(var.stack_vars, try(each.value.vars, {}), try(var.components[each.value["component"]]["vars"], {})) :
     k => jsonencode(v)
   }
 }
