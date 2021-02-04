@@ -10,7 +10,7 @@ module "vars" {
   for_each = local.components
 
   config    = local.stack_config
-  component = each.value
+  component = each.key
 }
 
 module "stacks" {
