@@ -22,8 +22,7 @@ variable "push_policy_id" {
 }
 
 variable "stack_config" {
-  type        = map(any)
-  default     = {}
+  type        = string
   description = "The merged config values to be included with each stack's configuration."
 }
 
