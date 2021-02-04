@@ -1,5 +1,6 @@
 locals {
-  components = lookup(jsondecode(var.stack_config), components.terraform)
+  stack_config = jsondecode(var.stack_config)
+  components = local.stack_config.components.terraform
 }
 
 module "vars" {
