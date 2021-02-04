@@ -51,7 +51,7 @@ variable "stack_name" {
 
 variable "component_vars" {
   type        = string
-  default     = {}
+  default     = "{}"
   description = "All Terraform values to be applied to the stack via a mounted file, formatted in JSON."
 }
 
