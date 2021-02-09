@@ -10,7 +10,7 @@ module "yaml_stack_config" {
   version = "0.7.0"
 
   stack_config_local_path  = local.stack_config_path
-  stacks                   = trimsuffix(each.key, ".yaml")
+  stacks                   = [ trimsuffix(each.key, ".yaml") ]
 
   context = module.this.context
 }
