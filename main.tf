@@ -23,8 +23,7 @@ module "spacelift_environment" {
   trigger_policy_id = spacelift_policy.trigger_global.id
   push_policy_id    = spacelift_policy.push.id
   stack_config_name = trimsuffix(each.key, ".yaml")
-  stack_vars        = try(module.yaml_stack_config[each.value].config.vars, {})
-  components        = try(module.yaml_stack_config[each.value].config.components.terraform, {})
+  components        = try(module.yaml_stack_config[each.key].config.0.components.terraform, {})
   components_path   = var.components_path
   repository        = var.repository
   branch            = var.branch
@@ -35,7 +34,7 @@ module "spacelift_environment" {
   autodeploy        = var.autodeploy
 }
 
-# # Define the global trigger policy that allows us to trigger on various context-level updates
+# Define the global trigger policy that allows us to trigger on various context-level updates
 resource "spacelift_policy" "trigger_global" {
   type = "TRIGGER"
 

@@ -13,7 +13,7 @@ module "stacks" {
   repository        = var.repository
   branch            = coalesce(try(each.value.branch, null), var.branch)
   manage_state      = var.manage_state
-  component_vars    = { for k, v in merge(var.stack_vars, try(each.value.vars, {})) : k => jsonencode(v) }
+  component_vars    = { for k, v in try(each.value.vars, {}) : k => jsonencode(v) }
   terraform_version = coalesce(try(each.value.terraform_version, null), var.terraform_version)
   worker_pool_id    = var.worker_pool_id
   runner_image      = try(var.runner_image, null)
