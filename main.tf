@@ -9,8 +9,8 @@ module "yaml_stack_config" {
   source  = "cloudposse/stack-config/yaml"
   version = "0.10.0"
 
-  stack_config_local_path  = local.stack_config_path
-  stacks                   = [ trimsuffix(each.key, ".yaml") ]
+  stack_config_local_path = local.stack_config_path
+  stacks                  = [trimsuffix(each.key, ".yaml")]
 
   context = module.this.context
 }
