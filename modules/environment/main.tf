@@ -9,7 +9,7 @@ module "stacks" {
   enabled             = try(each.value.settings.spacelift.workspace_enabled, false)
   stack_name          = each.key
   autodeploy          = coalesce(try(each.value.settings.spacelift.autodeploy, null), var.autodeploy)
-  component_root      = format("%s/%s", var.components_path, try(each.value.component, each.value.component_name))
+  component_root      = format("%s/%s", var.components_path, coalesce(each.value.component, each.value.component_name))
   repository          = var.repository
   branch              = coalesce(try(each.value.settings.spacelift.branch, null), var.branch)
   manage_state        = var.manage_state
