@@ -15,7 +15,7 @@ resource "spacelift_stack" "default" {
   worker_pool_id      = var.worker_pool_id
   runner_image        = var.runner_image
   terraform_version   = var.terraform_version
-  terraform_workspace = var.stack_name
+  terraform_workspace = var.terraform_workspace
 }
 
 resource "spacelift_mounted_file" "stack_config" {
