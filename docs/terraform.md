@@ -12,6 +12,25 @@
 |------|---------|
 | spacelift | ~> 1.0.0 |
 
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| spacelift_environment | ./modules/environment |  |
+| this | cloudposse/label/null | 0.22.1 |
+| yaml_stack_config | cloudposse/stack-config/yaml | 0.10.0 |
+
+## Resources
+
+| Name |
+|------|
+
+| spacelift_current_stack
+
+| spacelift_policy
+
+| spacelift_policy_attachment
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -46,5 +65,4 @@
 | Name | Description |
 |------|-------------|
 | environments | A list of generated stacks. |
-
 <!-- markdownlint-restore -->
