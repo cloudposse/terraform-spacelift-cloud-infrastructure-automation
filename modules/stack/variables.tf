@@ -21,6 +21,12 @@ variable "terraform_version" {
   default     = null
 }
 
+variable "terraform_workspace" {
+  type        = string
+  description = "Specify the Terraform workspace to use for the stack"
+  default     = null
+}
+
 variable "worker_pool_id" {
   type        = string
   description = "The immutable ID (slug) of the worker pool"

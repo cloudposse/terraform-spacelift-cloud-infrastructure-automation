@@ -12,9 +12,10 @@ resource "spacelift_stack" "default" {
     for trigger in var.triggers : "depends-on:${trigger}|state:FINISHED"
   ]
 
-  worker_pool_id    = var.worker_pool_id
-  runner_image      = var.runner_image
-  terraform_version = var.terraform_version
+  worker_pool_id      = var.worker_pool_id
+  runner_image        = var.runner_image
+  terraform_version   = var.terraform_version
+  terraform_workspace = var.terraform_workspace
 }
 
 resource "spacelift_mounted_file" "stack_config" {
@@ -26,7 +27,7 @@ resource "spacelift_mounted_file" "stack_config" {
     for k, v in var.component_vars : k => jsondecode(v)
   }))
 
-  write_only = true
+  write_only = false
 }
 
 resource "spacelift_policy_attachment" "push" {
