@@ -4,13 +4,13 @@
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13.0 |
-| spacelift | ~> 1.0.0 |
+| spacelift | >= 1.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| spacelift | ~> 1.0.0 |
+| spacelift | >= 1.0.0 |
 
 ## Modules
 
