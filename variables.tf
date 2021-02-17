@@ -39,7 +39,7 @@ variable "terraform_version" {
   default     = null
 }
 
-variable terraform_version_map {
+variable "terraform_version_map" {
   type        = map(any)
   description = "A map to determine which Terraform patch version to use for each minor version"
   default     = {}
