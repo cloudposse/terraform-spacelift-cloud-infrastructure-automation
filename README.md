@@ -252,7 +252,7 @@ Available targets:
 | stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
 | tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
 | terraform\_version | Specify the version of Terraform to use for the stack | `string` | `null` | no |
-| terraform\_version\_map | A map to determine which Terraform patch version to use for each minor version | `map(any)` | `{}` | no |
+| terraform\_version\_map | A map to determine which Terraform patch version to use for each minor version | `map(string)` | `{}` | no |
 | worker\_pool\_id | The immutable ID (slug) of the worker pool | `string` | `null` | no |
 
 ## Outputs
