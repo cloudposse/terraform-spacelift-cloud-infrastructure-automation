@@ -14,7 +14,7 @@ module "stacks" {
   branch              = coalesce(try(each.value.settings.spacelift.branch, null), var.branch)
   manage_state        = var.manage_state
   component_vars      = { for k, v in try(each.value.vars, {}) : k => jsonencode(v) }
-  terraform_version   = coalesce(try(each.value.settings.spacelift.terraform_version, null), var.terraform_version)
+  terraform_version   = coalesce(lookup(var.terraform_version_map, each.value.settings.spacelift.terraform_version, null), var.terraform_version)
   terraform_workspace = each.value.workspace
   worker_pool_id      = var.worker_pool_id
   runner_image        = try(var.runner_image, null)

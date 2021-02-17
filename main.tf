@@ -32,6 +32,8 @@ module "spacelift_environment" {
   runner_image      = var.runner_image
   terraform_version = var.terraform_version
   autodeploy        = var.autodeploy
+
+  terraform_version_map = var.terraform_version_map
 }
 
 # Define the global trigger policy that allows us to trigger on various context-level updates
@@ -58,14 +60,14 @@ resource "spacelift_policy" "push" {
   body = file("${path.module}/policies/push-global.rego")
 }
 
-data "spacelift_current_stack" "this" {
-  count = var.external_execution ? 0 : 1
-}
+# data "spacelift_current_stack" "this" {
+#   count = var.external_execution ? 0 : 1
+# }
 
-# Attach the Environment Trigger Policy to the current stack
-resource "spacelift_policy_attachment" "trigger_global" {
-  count = var.external_execution ? 0 : 1
+# # Attach the Environment Trigger Policy to the current stack
+# resource "spacelift_policy_attachment" "trigger_global" {
+#   count = var.external_execution ? 0 : 1
 
-  policy_id = spacelift_policy.trigger_global.id
-  stack_id  = data.spacelift_current_stack.this[0].id
-}
+#   policy_id = spacelift_policy.trigger_global.id
+#   stack_id  = data.spacelift_current_stack.this[0].id
+# }

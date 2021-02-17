@@ -56,6 +56,12 @@ variable "terraform_version" {
   default     = null
 }
 
+variable terraform_version_map {
+  type        = map
+  description = "A map to determine which Terraform patch version to use for each minor version"
+  default     = {}
+}
+
 variable "worker_pool_id" {
   type        = string
   description = "The immutable ID (slug) of the worker pool"
