@@ -217,7 +217,11 @@ Available targets:
 | Name |
 |------|
 
+| spacelift_current_stack
+
 | spacelift_policy
+
+| spacelift_policy_attachment
 
 ## Inputs
 
