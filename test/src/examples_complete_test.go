@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/stretchr/testify/assert"
+	// "github.com/stretchr/testify/assert"
 )
 
 // Test the Terraform module in examples/complete using Terratest.
@@ -16,7 +16,8 @@ func TestExamplesComplete(t *testing.T) {
 	randId := strconv.Itoa(rand.Intn(100000))
 	attributes := []string{randId}
 
-	exampleInput := "Hello, world!"
+	// name is here more as an example rather than as a useful test input
+	name := "spacelift"
 
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
@@ -28,7 +29,7 @@ func TestExamplesComplete(t *testing.T) {
 		// and AWS resources do not interfere with each other
 		Vars: map[string]interface{}{
 			"attributes": attributes,
-			"example":    exampleInput,
+			"name":    name,
 		},
 	}
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created

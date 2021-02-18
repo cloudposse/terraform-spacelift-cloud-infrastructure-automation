@@ -20,3 +20,16 @@ variable "terraform_version" {
   description = "Specify the version of Terraform to use for the stack"
   default     = null
 }
+
+variable "autodeploy" {
+  type        = bool
+  description = "Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration)"
+  default     = false
+}
+
+variable "external_execution" {
+  type        = bool
+  description = "Set this to true if you're calling this module from outside of a Spacelift stack (e.g. the `complete` example)."
+  default     = false
+}
+

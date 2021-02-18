@@ -39,6 +39,12 @@ variable "terraform_version" {
   default     = null
 }
 
+variable "terraform_version_map" {
+  type        = map(string)
+  description = "A map to determine which Terraform patch version to use for each minor version"
+  default     = {}
+}
+
 variable "external_execution" {
   type        = bool
   description = "Set this to true if you're calling this module from outside of a Spacelift stack (e.g. the `complete` example)."
