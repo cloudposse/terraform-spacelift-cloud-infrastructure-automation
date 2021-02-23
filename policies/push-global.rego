@@ -34,6 +34,12 @@ tf_affected {
     endswith(filepath[_], ".tf")
 }
 
+# Check if any Terraform json files were modified in a project
+tf_affected {
+    startswith(filepath[_], input.stack.project_root)
+    endswith(filepath[_], ".tf.json")
+}
+
 # Split our stack name into a list for matching below
 stack_name := split(input.stack.name, "-")
 
