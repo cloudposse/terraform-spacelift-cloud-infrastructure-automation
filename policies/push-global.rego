@@ -19,8 +19,8 @@ notrigger {
 }
 
 propose { tf_affected }
-ignore  { 
-    not tf_affected 
+ignore  {
+    not tf_affected
     not config_affected
 }
 ignore  { input.push.tag != "" }
@@ -38,6 +38,18 @@ tf_affected {
 tf_affected {
     startswith(filepath[_], input.stack.project_root)
     endswith(filepath[_], ".tf.json")
+}
+
+# Check if any .tfvars files were modified in a project
+tf_affected {
+    startswith(filepath[_], input.stack.project_root)
+    endswith(filepath[_], ".tfvars")
+}
+
+# Check if any .yaml files were modified in a project
+tf_affected {
+    startswith(filepath[_], input.stack.project_root)
+    endswith(filepath[_], ".yaml")
 }
 
 # Split our stack name into a list for matching below
