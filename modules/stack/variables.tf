@@ -55,6 +55,11 @@ variable "stack_name" {
   description = "The name of the stack"
 }
 
+variable "component_name" {
+  type        = string
+  description = "The name of the component"
+}
+
 variable "component_vars" {
   type        = map(any)
   default     = {}

@@ -18,15 +18,21 @@ resource "spacelift_stack" "default" {
   terraform_workspace = var.terraform_workspace
 }
 
-resource "spacelift_mounted_file" "stack_config" {
+resource "spacelift_environment_variable" "stack_name" {
   count = var.enabled ? 1 : 0
 
-  stack_id      = spacelift_stack.default[0].id
-  relative_path = format("source/%s/spacelift.auto.tfvars.json", var.component_root)
-  content = base64encode(jsonencode({
-    for k, v in var.component_vars : k => jsondecode(v)
-  }))
+  stack_id   = spacelift_stack.default[0].id
+  name       = "ATMOS_STACK"
+  value      = var.stack_name
+  write_only = false
+}
 
+resource "spacelift_environment_variable" "component_name" {
+  count = var.enabled ? 1 : 0
+
+  stack_id   = spacelift_stack.default[0].id
+  name       = "ATMOS_COMPONENT"
+  value      = var.component_name
   write_only = false
 }
 

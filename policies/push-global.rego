@@ -25,6 +25,10 @@ ignore  {
 }
 ignore  { input.push.tag != "" }
 
+# If pre-commit hooks make changes, they are not semantic changes
+# and can and should be ignored.
+ignore  { input.push.message == "pre-commit fixes" }
+
 # Fetch all of our affected files
 filepath := input.push.affected_files
 
