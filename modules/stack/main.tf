@@ -30,6 +30,24 @@ resource "spacelift_mounted_file" "stack_config" {
   write_only = false
 }
 
+resource "spacelift_environment_variable" "stack_name" {
+  count = var.enabled ? 1 : 0
+
+  stack_id   = spacelift_stack.default[0].id
+  name       = "ATMOS_STACK"
+  value      = var.stack_config_name
+  write_only = false
+}
+
+resource "spacelift_environment_variable" "component_name" {
+  count = var.enabled ? 1 : 0
+
+  stack_id   = spacelift_stack.default[0].id
+  name       = "ATMOS_COMPONENT"
+  value      = var.component_name
+  write_only = false
+}
+
 resource "spacelift_policy_attachment" "push" {
   count = var.enabled ? 1 : 0
 
