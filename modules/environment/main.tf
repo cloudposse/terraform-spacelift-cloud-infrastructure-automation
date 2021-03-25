@@ -8,6 +8,7 @@ module "stacks" {
 
   enabled             = try(each.value.settings.spacelift.workspace_enabled, false)
   stack_name          = each.key
+  stack_config_name   = var.stack_config_name
   component_name      = coalesce(each.value.component, each.value.component_name)
   autodeploy          = coalesce(try(each.value.settings.spacelift.autodeploy, null), var.autodeploy)
   component_root      = format("%s/%s", var.components_path, coalesce(each.value.component, each.value.component_name))

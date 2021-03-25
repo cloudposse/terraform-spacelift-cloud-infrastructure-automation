@@ -55,6 +55,11 @@ variable "stack_name" {
   description = "The name of the stack"
 }
 
+variable "stack_config_name" {
+  type        = string
+  description = "The name of the stack configuration (Atmos stack name)"
+}
+
 variable "component_name" {
   type        = string
   description = "The name of the component"
