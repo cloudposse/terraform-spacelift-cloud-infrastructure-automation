@@ -18,6 +18,18 @@ resource "spacelift_stack" "default" {
   terraform_workspace = var.terraform_workspace
 }
 
+resource "spacelift_mounted_file" "stack_config" {
+  count = var.enabled ? 1 : 0
+
+  stack_id      = spacelift_stack.default[0].id
+  relative_path = format("source/%s/spacelift.auto.tfvars.json", var.component_root)
+  content = base64encode(jsonencode({
+  for k, v in var.component_vars : k => jsondecode(v)
+  }))
+
+  write_only = false
+}
+
 resource "spacelift_environment_variable" "stack_name" {
   count = var.enabled ? 1 : 0
 
