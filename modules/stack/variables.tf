@@ -62,8 +62,14 @@ variable "stack_config_name" {
 
 variable "component_name" {
   type        = string
-  description = "The name of the component"
+  description = "The name of the concrete component (typically a directory name)"
 }
+
+variable "logical_component" {
+  type        = string
+  description = "The name of the component (may be an alternate instance of a concrete component)"
+}
+
 
 variable "component_vars" {
   type        = map(any)
