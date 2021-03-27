@@ -44,7 +44,7 @@ resource "spacelift_environment_variable" "component_name" {
 
   stack_id   = spacelift_stack.default[0].id
   name       = "ATMOS_COMPONENT"
-  value      = var.component_name
+  value      = var.logical_component
   write_only = false
 }
 
