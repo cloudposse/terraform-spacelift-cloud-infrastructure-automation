@@ -22,6 +22,7 @@ module "spacelift_environment" {
 
   trigger_policy_id = spacelift_policy.trigger_global.id
   push_policy_id    = spacelift_policy.push.id
+  plan_policy_id    = spacelift_policy.plan.id
   stack_config_name = trimsuffix(each.key, ".yaml")
   components        = try(module.yaml_stack_config[each.key].config.0.components.terraform, {})
   components_path   = var.components_path
@@ -58,6 +59,14 @@ resource "spacelift_policy" "push" {
 
   name = "Global Push Policy"
   body = file("${path.module}/policies/push-global.rego")
+}
+
+# Define a global "plan" policy that stops and waits for confirmation after a plan fails
+resource "spacelift_policy" "plan" {
+  type = "PLAN"
+
+  name = "Global Plan Policy"
+  body = file("${path.module}/policies/plan-global.rego")
 }
 
 data "spacelift_current_stack" "this" {

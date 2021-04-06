@@ -95,6 +95,12 @@ variable "push_policy_id" {
   description = "ID for the project-level push policy."
 }
 
+variable "plan_policy_id" {
+  type        = string
+  default     = null
+  description = "ID for the project-level plan policy."
+}
+
 variable "autodeploy" {
   type        = bool
   description = "Controls the Spacelift 'autodeploy' option for a stack"

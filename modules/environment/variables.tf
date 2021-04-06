@@ -21,6 +21,12 @@ variable "push_policy_id" {
   description = "ID for the component-level push policy."
 }
 
+variable "plan_policy_id" {
+  type        = string
+  default     = null
+  description = "ID for the project-level plan policy."
+}
+
 variable "components" {
   type        = any
   default     = {}
