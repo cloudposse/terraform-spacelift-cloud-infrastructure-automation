@@ -217,6 +217,8 @@ Available targets:
 | Name | Type |
 |------|------|
 
+| spacelift_policy.plan | resource |
+
 | spacelift_policy.push | resource |
 
 | spacelift_policy.trigger_dependency | resource |

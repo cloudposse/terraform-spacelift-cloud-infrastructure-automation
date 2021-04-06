@@ -24,4 +24,5 @@ module "stacks" {
   triggers            = coalesce(try(each.value.settings.spacelift.triggers, null), [])
   trigger_policy_id   = var.trigger_policy_id
   push_policy_id      = var.push_policy_id
+  plan_policy_id      = var.plan_policy_id
 }
