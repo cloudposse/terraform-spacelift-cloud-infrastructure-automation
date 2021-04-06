@@ -66,7 +66,7 @@ resource "spacelift_policy" "plan" {
   type = "PLAN"
 
   name = "Global Plan Policy"
-  body = file("${path.module}/policies/plan.rego")
+  body = file("${path.module}/policies/plan-global.rego")
 }
 
 data "spacelift_current_stack" "this" {
