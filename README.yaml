@@ -98,47 +98,66 @@ examples: |-
   Here is an example of using this module:
   - [`examples/complete`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/) - complete example of using this module
 
-  We use YAML for the configuration files in order to separate configuration settings from business logic. It's also a portable format that can be used across multiple tools. Our convention is to name files by `$env-$stage.yaml` (e.g. `ue2-testing.yaml`), so for example an `$env` could be `ue2` (for `us-east-2`) and the `$stage` might be `testing`. Workspace names are derived from the `$env-$stage-$component`, which looks like  `ue2-testing-eks`.
+  We use YAML for the configuration files in order to separate configuration settings from business logic. We call these YAML files stacks and they're a portable format that can be used across multiple tools. [You can read more about stacks here](https://docs.cloudposse.com/fundamentals/concepts/#stacks).
+  
+  Our convention is to name files by `$env-$stage.yaml` (e.g. `ue2-testing.yaml`), so for example an `$env` could be `ue2` (for `us-east-2`) and the `$stage` might be `testing`. Workspace names are derived from the `$env-$stage-$component`, which looks like  `ue2-testing-first-component`.
+  
+  Here is an example stack which would be located at `stacks/ue2-testing.yaml`: 
 
   ```yaml
+  # Imports enables deep merging shared configuration / settings across different stacks
+  imports:
+    # Merge the `stacks/globals.yaml` file into this stack to provide any shared `vars` or component configuration 
+    - globals
+
+  # `vars` are exported as TF_VAR_... environment variables for all component workspaces
+  vars:
+    # Used to determine the name of the workspace (e.g. the 'testing' in 'ue2-testing')
+    stage: testing
+    # Used to determine the name of the workspace (e.g. the 'ue2' in 'ue2-testing')
+    environment: ue2
+
   # Components are all the top-level root modules
   components:
-    # Globals are exported as TF_VAR_... environment variables in every workspace
-    globals:
-      # Used to determine the name of the workspace (e.g. the 'testing' in 'ue2-testing')
-      stage: testing
-      # Used to determine the name of the workspace (e.g. the 'ue2' in 'ue2-testing')
-      environment: ue2
     # The configuration file format is designed to be used across multiple tools.
     # All terraform components should be listed under this section.
     terraform:
+    
       # List one or more Terraform components here
       first-component:
-        # Controls whether or not this workspace should be created
-        # NOTE: If set to 'false', you cannot reference this workspace via `triggers` in another workspace!
-        workspace_enabled: true
-        # Override the version of Terraform for this workspace (defaults to the latest in Spacelift)
-        terraform_version: 0.13.4
-        # Controls the `auto_apply` setting within this workspace
-        auto_apply: true
-        # Add extra 'Run Triggers' to this workspace, beyond the parent workspace, which is created by default
-        # These triggers mean this component workspace will be automatically planned if any of these workspaces are applied.
-        triggers:
-          - uw2-testing-example2
-          - gbl-root-example1
+        # Provide automation settings for this component
+        settings:
+          # Provide spacelift specific automation settings for this component
+          spacelift:
+          
+            # Controls whether or not this workspace should be created
+            # NOTE: If set to 'false', you cannot reference this workspace via `triggers` in another workspace!
+            workspace_enabled: true
+            
+            # Override the version of Terraform for this workspace (defaults to the latest in Spacelift)
+            terraform_version: 0.13.4
+            
+            # Which git branch trigger's this workspace
+            branch: develop
+            
+            # Controls the `autodeploy` setting within this workspace (defaults to `false`)
+            auto_apply: true
+            
+            # Add extra 'Run Triggers' to this workspace, beyond the parent workspace, which is created by default
+            # These triggers mean this component workspace will be automatically planned if any of these workspaces are applied.
+            triggers:
+              - uw2-testing-second-component
+              - gbl-root-example1
+
         # Set the Terraform input variable values for this component. Complex types like maps and lists are supported.
         vars:
           my_input_var: "Hello world! This is a value that needs to be passed to my `first-component` Terraform component."
-      # Every component should be uniquely named and correspond to a folder in the `components/` directory
+
+      # Every terraform component should be uniquely named and correspond to a folder in the `components/terraform/` directory
       second-component:
-        workspace_enabled: true
-        # Specify a custom component folder (defalts to the component name if not specified)
-        custom_component_folder: my-custom-component-folder
         vars:
           my_input_var: "Hello world! This is another example!"
   ```
-
-  Additionally, you must have a `globals.yaml` present in the `config` folder, which contains environment variables that will be applied to all stacks.
 
 # How to get started quickly
 #quickstart: |-
