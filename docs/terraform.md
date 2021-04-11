@@ -18,7 +18,7 @@
 |------|--------|---------|
 | <a name="module_spacelift_environment"></a> [spacelift\_environment](#module\_spacelift\_environment) | ./modules/environment |  |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.24.1 |
-| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | cloudposse/stack-config/yaml | 0.13.0 |
+| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | cloudposse/stack-config/yaml | 0.14.0 |
 
 ## Resources
 
