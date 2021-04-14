@@ -65,7 +65,7 @@ description: |-
 
 usage: |-
 
-  The first step is to create a new infrastructure repository in Github and link it in Spacelift. You will want the `Project root` 
+  The first step is to create a new infrastructure repository in GitHub and link it in Spacelift. You will want the `Project root`
   of the infrastructure repository to point to the `top-level` project that contains the reference to this module. Beyond that,
   you will also want to enable the `Administrative` and `Autodeploy` options in the configuration.
 
@@ -155,3 +155,5 @@ contributors:
     github: "osterman"
   - name: "Dan Meyers"
     github: "danjbh"
+  - name: "Andriy Knysh"
+    github: "aknysh"

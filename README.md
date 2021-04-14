@@ -98,7 +98,7 @@ The table below correctly indicates which inputs are required.
 
 
 
-The first step is to create a new infrastructure repository in Github and link it in Spacelift. You will want the `Project root` 
+The first step is to create a new infrastructure repository in GitHub and link it in Spacelift. You will want the `Project root`
 of the infrastructure repository to point to the `top-level` project that contains the reference to this module. Beyond that,
 you will also want to enable the `Administrative` and `Autodeploy` options in the configuration.
 
@@ -412,14 +412,16 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 ### Contributors
 
 <!-- markdownlint-disable -->
-|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] | [![Dan Meyers][danjbh_avatar]][danjbh_homepage]<br/>[Dan Meyers][danjbh_homepage] |
-|---|---|
+|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] | [![Dan Meyers][danjbh_avatar]][danjbh_homepage]<br/>[Dan Meyers][danjbh_homepage] | [![Andriy Knysh][aknysh_avatar]][aknysh_homepage]<br/>[Andriy Knysh][aknysh_homepage] |
+|---|---|---|
 <!-- markdownlint-restore -->
 
   [osterman_homepage]: https://github.com/osterman
   [osterman_avatar]: https://img.cloudposse.com/150x150/https://github.com/osterman.png
   [danjbh_homepage]: https://github.com/danjbh
   [danjbh_avatar]: https://img.cloudposse.com/150x150/https://github.com/danjbh.png
+  [aknysh_homepage]: https://github.com/aknysh
+  [aknysh_avatar]: https://img.cloudposse.com/150x150/https://github.com/aknysh.png
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
