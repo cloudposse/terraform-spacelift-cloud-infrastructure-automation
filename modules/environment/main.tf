@@ -25,4 +25,7 @@ module "stacks" {
   trigger_policy_id   = var.trigger_policy_id
   push_policy_id      = var.push_policy_id
   plan_policy_id      = var.plan_policy_id
+
+  destroy_on_delete_enabled = var.destroy_on_delete_enabled
+
 }

@@ -61,3 +61,16 @@ resource "spacelift_policy_attachment" "plan" {
   policy_id = var.plan_policy_id
   stack_id  = spacelift_stack.default[0].id
 }
+
+resource "spacelift_stack_destructor" "default" {
+  count = var.enabled && var.destroy_on_delete_enabled ? 1 : 0
+
+  depends_on = [
+    spacelift_mounted_file.stack_config,
+    spacelift_environment_variable.stack_name,
+    spacelift_environment_variable.component_name,
+    spacelift_policy_attachment.push,
+    spacelift_policy_attachment.plan,
+  ]
+  stack_id = spacelift_stack.default.id
+}

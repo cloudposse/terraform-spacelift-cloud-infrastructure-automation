@@ -7,7 +7,7 @@ module "yaml_stack_config" {
   for_each = toset(var.stack_config_files)
 
   source  = "cloudposse/stack-config/yaml"
-  version = "0.14.0"
+  version = "0.15.1"
 
   stack_config_local_path = local.stack_config_path
   stacks                  = [trimsuffix(each.key, ".yaml")]
@@ -33,6 +33,9 @@ module "spacelift_environment" {
   runner_image      = var.runner_image
   terraform_version = var.terraform_version
   autodeploy        = var.autodeploy
+
+  destroy_on_delete_enabled = var.destroy_on_delete_enabled
+
 
   terraform_version_map = var.terraform_version_map
 }

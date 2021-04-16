@@ -85,3 +85,9 @@ variable "autodeploy" {
   description = "Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration)"
   default     = null
 }
+
+variable "destroy_on_delete_enabled" {
+  type        = bool
+  description = "If `true`, Spacelift will destroy all the resources in the stack before destroying the stack itself."
+  default     = false
+}
