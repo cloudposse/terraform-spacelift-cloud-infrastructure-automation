@@ -40,6 +40,17 @@ badges:
 #     description:
 #     url:
 
+related:
+  - name: "terraform-provider-utils"
+    description: "The Cloud Posse Terraform Provider for various utilities."
+    url: "https://github.com/cloudposse/terraform-provider-utils"
+  - name: "terraform-yaml-stack-config"
+    description: "Terraform module that loads an opinionated stack configuration from local or remote YAML sources. It supports deep-merged variables, settings, ENV variables, backend config, and remote state outputs for Terraform and helmfile components."
+    url: "https://github.com/cloudposse/terraform-yaml-stack-config"
+  - name: "terraform-yaml-config"
+    description: "Terraform module to convert local and remote YAML configuration templates into Terraform lists and maps."
+    url: "https://github.com/cloudposse/terraform-yaml-config"
+
 # List any resources helpful for someone to get started. For example, link to the hashicorp documentation or AWS documentation.
 references:
   - name: "Terraform Version Pinning"
@@ -51,11 +62,22 @@ references:
   - name: "Spacelift Documentation"
     description: "Official documentation site for Spacelift"
     url: "https://docs.spacelift.io/"
+  - name: "Open Policy Agent"
+    description: "Policy-based control for cloud native environments"
+    url: "https://www.openpolicyagent.org/"
+  - name: "OPA Documentation"
+    description: "Open Policy Agent Documentation"
+    url: "https://www.openpolicyagent.org/docs/latest/"
+  - name: "Rego - OPA’s query and policy language"
+    description: "Rego focuses on providing powerful support for referencing nested documents and ensuring that queries are correct and unambiguous"
+    url: "https://www.openpolicyagent.org/docs/latest/policy-language/"
+  - name: "Example of using Rego policy language"
+    description: "Mutating Admissions Controllers with Open Policy Agent and Rego"
+    url: "https://blog.gripdev.xyz/2020/01/13/mutating-admissions-controllers-with-open-policy-agent-and-rego/"
 
 # Short description of this project
 description: |-
-  This project provides all the scaffolding for a typical well-built Cloud Posse module. It's a template repository you can
-  use when creating new repositories.
+  Terraform module to provision [Spacelift](https://spacelift.io/) resources for cloud infrastructure automation.
 
 # Introduction to the project
 #introduction: |-
