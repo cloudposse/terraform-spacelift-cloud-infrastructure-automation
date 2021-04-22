@@ -77,6 +77,12 @@ variable "component_vars" {
   description = "All Terraform values to be applied to the stack via a mounted file."
 }
 
+variable "component_stack_deps" {
+  type        = list(string)
+  default     = []
+  description = "A list of component stack dependencies."
+}
+
 variable "triggers" {
   type        = list(any)
   default     = []

@@ -1,3 +1,12 @@
+locals {
+  triggers = [for trigger in var.triggers : "depends-on:${trigger}|state:FINISHED"]
+
+  labels = {
+    triggers = local.triggers
+    stacks   = var.component_stack_deps
+  }
+}
+
 resource "spacelift_stack" "default" {
   count = var.enabled ? 1 : 0
 
@@ -8,9 +17,7 @@ resource "spacelift_stack" "default" {
   branch         = var.branch
   project_root   = var.component_root
   manage_state   = var.manage_state
-  labels = [
-    for trigger in var.triggers : "depends-on:${trigger}|state:FINISHED"
-  ]
+  labels         = [jsonencode(local.labels)]
 
   worker_pool_id      = var.worker_pool_id
   runner_image        = var.runner_image
