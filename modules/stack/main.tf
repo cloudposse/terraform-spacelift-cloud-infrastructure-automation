@@ -2,8 +2,8 @@ locals {
   triggers = [for trigger in var.triggers : "depends-on:${trigger}|state:FINISHED"]
 
   labels = {
-    triggers = local.triggers
-    stacks   = var.component_stack_deps
+    triggers   = local.triggers
+    stack_deps = var.component_stack_deps
   }
 }
 
