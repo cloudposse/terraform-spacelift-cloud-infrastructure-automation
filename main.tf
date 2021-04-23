@@ -17,10 +17,6 @@ module "yaml_stack_config" {
   context = module.this.context
 }
 
-locals {
-  terraform_components = try(module.yaml_stack_config[each.key].config.0.components.terraform, {})
-}
-
 module "spacelift_environment" {
   source = "./modules/environment"
 
@@ -30,7 +26,8 @@ module "spacelift_environment" {
   push_policy_id    = spacelift_policy.push.id
   plan_policy_id    = spacelift_policy.plan.id
   stack_config_name = trimsuffix(each.key, ".yaml")
-  components        = local.terraform_components
+  components        = try(module.yaml_stack_config[each.key].config.0.components.terraform, {})
+  imports           = try(module.yaml_stack_config[each.key].config.0.components.imports, [])
   components_path   = var.components_path
   repository        = var.repository
   branch            = var.branch

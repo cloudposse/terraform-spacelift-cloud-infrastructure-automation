@@ -70,7 +70,6 @@ variable "logical_component" {
   description = "The name of the component (may be an alternate instance of a concrete component)"
 }
 
-
 variable "component_vars" {
   type        = map(any)
   default     = {}
@@ -81,6 +80,12 @@ variable "component_stack_deps" {
   type        = list(string)
   default     = []
   description = "A list of component stack dependencies."
+}
+
+variable "imports" {
+  type        = list(string)
+  default     = []
+  description = "A list of stack imports."
 }
 
 variable "triggers" {

@@ -61,10 +61,12 @@ tf_affected {
     endswith(affected_files[_], ".yaml")
 }
 
-# Get stack-related config from `labels`
+# Get stack-related configs from `labels`
 label := input.stack.labels[0]
 config := json.unmarshal(label)
 stack_deps := config.stack_deps
+imports := config.imports
+
 
 # Split our stack name into a list for matching below
 stack_name := split(input.stack.name, "-")

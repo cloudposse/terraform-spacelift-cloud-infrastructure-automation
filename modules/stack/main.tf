@@ -3,6 +3,7 @@ locals {
 
   labels = {
     triggers   = local.triggers
+    imports    = var.imports
     stack_deps = var.component_stack_deps
   }
 }

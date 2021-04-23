@@ -33,6 +33,12 @@ variable "components" {
   description = "A map of all components and related configurations that exist within the environment."
 }
 
+variable "imports" {
+  type        = list(string)
+  default     = []
+  description = "A list of stack imports."
+}
+
 variable "components_path" {
   default     = "components"
   type        = string
