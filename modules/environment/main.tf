@@ -19,6 +19,7 @@ module "stacks" {
   component_vars       = { for k, v in try(each.value.vars, {}) : k => jsonencode(v) }
   component_stack_deps = try(each.value.stacks, [])
   imports              = var.imports
+  stack_config_path    = var.stack_config_path
   terraform_version    = lookup(var.terraform_version_map, try(each.value.settings.spacelift.terraform_version, ""), try(each.value.settings.spacelift.terraform_version, var.terraform_version))
   terraform_workspace  = each.value.workspace
   worker_pool_id       = var.worker_pool_id

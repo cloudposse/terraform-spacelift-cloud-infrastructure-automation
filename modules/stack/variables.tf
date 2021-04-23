@@ -60,6 +60,12 @@ variable "stack_config_name" {
   description = "The name of the stack configuration (Atmos stack name)"
 }
 
+variable "stack_config_path" {
+  type        = string
+  default     = "stacks"
+  description = "Relative path to YAML config files"
+}
+
 variable "component_name" {
   type        = string
   description = "The name of the concrete component (typically a directory name)"

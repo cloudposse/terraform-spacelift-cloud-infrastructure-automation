@@ -1,7 +1,7 @@
 variable "stack_config_path" {
   type        = string
   description = "Relative path to YAML config files"
-  default     = null
+  default     = "stacks"
 }
 
 variable "stack_config_files" {

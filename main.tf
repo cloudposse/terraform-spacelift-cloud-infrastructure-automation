@@ -7,7 +7,7 @@ module "yaml_stack_config" {
   for_each = toset(var.stack_config_files)
 
   source  = "cloudposse/stack-config/yaml"
-  version = "0.15.2"
+  version = "0.15.3"
 
   stack_config_local_path = local.stack_config_path
   stacks                  = [trimsuffix(each.key, ".yaml")]
@@ -27,8 +27,9 @@ module "spacelift_environment" {
   plan_policy_id    = spacelift_policy.plan.id
   stack_config_name = trimsuffix(each.key, ".yaml")
   components        = try(module.yaml_stack_config[each.key].config.0.components.terraform, {})
-  imports           = try(module.yaml_stack_config[each.key].config.0.components.imports, [])
+  imports           = [for import in try(module.yaml_stack_config[each.key].config.0.imports, []) : format("%s/%s.yaml", local.stack_config_path, import)]
   components_path   = var.components_path
+  stack_config_path = local.stack_config_path
   repository        = var.repository
   branch            = var.branch
   manage_state      = var.manage_state

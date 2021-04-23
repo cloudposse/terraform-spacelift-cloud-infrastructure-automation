@@ -5,8 +5,8 @@ variable "stack_config_name" {
 
 variable "stack_config_path" {
   type        = string
-  default     = "stack"
-  description = "The name of the configuration directory to use in the trigger prefix."
+  default     = "stacks"
+  description = "Relative path to YAML config files"
 }
 
 variable "trigger_policy_id" {
