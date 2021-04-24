@@ -1,11 +1,24 @@
 locals {
   triggers = [for trigger in var.triggers : "depends-on:${trigger}|state:FINISHED"]
 
-  labels = {
-    triggers   = local.triggers
-    imports    = var.imports
-    stack_deps = var.component_stack_deps
-  }
+  component_stack_deps = [for component_stack_dep in var.component_stack_deps : "stack-deps:${component_stack_dep}"]
+
+  imports = [for import in var.imports : "import:${import}"]
+
+  stack_config_name_parts = split("-", var.stack_config_name)
+
+  folders = concat(
+    format("folder:%s", try(local.stack_config_name_parts[0], "")),
+    format("folder:%s/%s", try(local.stack_config_name_parts[0], ""), try(local.stack_config_name_parts[1], "")),
+    format("folder:component/%s", var.logical_component)
+  )
+
+  labels = concat(
+    local.triggers,
+    local.folders,
+    local.imports,
+    local.component_stack_deps
+  )
 }
 
 resource "spacelift_stack" "default" {
@@ -18,7 +31,7 @@ resource "spacelift_stack" "default" {
   branch         = var.branch
   project_root   = var.component_root
   manage_state   = var.manage_state
-  labels         = [jsonencode(local.labels)]
+  labels         = local.labels
 
   worker_pool_id      = var.worker_pool_id
   runner_image        = var.runner_image
