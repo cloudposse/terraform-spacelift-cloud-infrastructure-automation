@@ -57,6 +57,14 @@ resource "spacelift_policy" "trigger_dependency" {
   body = file("${path.module}/policies/trigger-dependencies.rego")
 }
 
+# Define the automatic retries trigger policy that allows automatically restarting the failed run
+resource "spacelift_policy" "trigger_retries" {
+  type = "TRIGGER"
+
+  name = "Failed Run Automatic Retries Trigger Policy"
+  body = file("${path.module}/policies/trigger-retries.rego")
+}
+
 # Define the global "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
 resource "spacelift_policy" "push" {
   type = "GIT_PUSH"

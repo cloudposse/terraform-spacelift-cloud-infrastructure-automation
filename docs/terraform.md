@@ -33,6 +33,8 @@
 
 | spacelift_policy.trigger_global | resource |
 
+| spacelift_policy.trigger_retries | resource |
+
 | spacelift_policy_attachment.trigger_global | resource |
 
 | spacelift_current_stack.this | data source |
