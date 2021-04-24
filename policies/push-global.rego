@@ -57,13 +57,6 @@ project_affected {
     endswith(affected_files[i], tracked_extensions[j])
 }
 
-# Get labels
-labels := input.stack.labels
-
-# Get imports from the provided `labels`
-# https://www.openpolicyagent.org/docs/latest/policy-language/#comprehensions
-imports := [imp | startswith(labels[i], "import:"); imp := split(labels[i], ":")[1]]
-
 # Split the stack name into a list
 stack_name_parts := split(input.stack.name, "-")
 
@@ -72,7 +65,22 @@ stack_config_affected {
     contains(affected_files[_], concat("-", [stack_name_parts[0], stack_name_parts[1]]))
 }
 
+# Get labels
+labels := input.stack.labels
+
+# Get imports from the provided `labels`
+# https://www.openpolicyagent.org/docs/latest/policy-language/#comprehensions
+imports := [imp | startswith(labels[i], "import:"); imp := split(labels[i], ":")[1]]
+
 # Check if any of the imports have been modified
 stack_config_affected {
     endswith(affected_files[_], imports[_])
+}
+
+# Get component stack dependencies from the provided `labels`
+stack_deps := [dep | startswith(labels[i], "stack-deps:"); dep := split(labels[i], ":")[1]]
+
+# Check if any of the stack dependencies have been modified
+stack_config_affected {
+    endswith(affected_files[_], stack_deps[_])
 }
