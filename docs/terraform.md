@@ -33,6 +33,8 @@
 
 | spacelift_policy.trigger_global | resource |
 
+| spacelift_policy.trigger_retries | resource |
+
 | spacelift_policy_attachment.trigger_global | resource |
 
 | spacelift_current_stack.this | data source |
@@ -67,6 +69,8 @@
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
 | <a name="input_terraform_version"></a> [terraform\_version](#input\_terraform\_version) | Specify the version of Terraform to use for the stack | `string` | `null` | no |
 | <a name="input_terraform_version_map"></a> [terraform\_version\_map](#input\_terraform\_version\_map) | A map to determine which Terraform patch version to use for each minor version | `map(string)` | `{}` | no |
+| <a name="input_trigger_global_enabled"></a> [trigger\_global\_enabled](#input\_trigger\_global\_enabled) | Flag to enable/disable the global trigger | `bool` | `false` | no |
+| <a name="input_trigger_retries_enabled"></a> [trigger\_retries\_enabled](#input\_trigger\_retries\_enabled) | Flag to enable/disable the automatic retries trigger | `bool` | `false` | no |
 | <a name="input_worker_pool_id"></a> [worker\_pool\_id](#input\_worker\_pool\_id) | The immutable ID (slug) of the worker pool | `string` | `null` | no |
 
 ## Outputs
