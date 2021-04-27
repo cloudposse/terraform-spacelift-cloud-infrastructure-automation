@@ -17,12 +17,6 @@ ignore  {
     input.push.message == "pre-commit fixes"
 }
 
-# Only trigger a stack run if the project files were modified
-# notrigger {
-#    stack_config_affected
-#   not project_affected
-#}
-
 propose {
     project_affected
 }

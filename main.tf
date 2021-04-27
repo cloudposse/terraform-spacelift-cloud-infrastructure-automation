@@ -43,8 +43,9 @@ module "spacelift_environment" {
 
 # Define the global trigger policy that allows us to trigger on various context-level updates
 resource "spacelift_policy" "trigger_global" {
-  type = "TRIGGER"
+  count = var.trigger_global_enabled ? 1 : 0
 
+  type = "TRIGGER"
   name = "Global Trigger Policy"
   body = file("${path.module}/policies/trigger-global.rego")
 }
@@ -52,23 +53,22 @@ resource "spacelift_policy" "trigger_global" {
 # Define the dependency trigger policy that allows us to define custom triggers
 resource "spacelift_policy" "trigger_dependency" {
   type = "TRIGGER"
-
   name = "Stack Dependency Trigger Policy"
   body = file("${path.module}/policies/trigger-dependencies.rego")
 }
 
 # Define the automatic retries trigger policy that allows automatically restarting the failed run
-# resource "spacelift_policy" "trigger_retries" {
-#   type = "TRIGGER"
-#
-#  name = "Failed Run Automatic Retries Trigger Policy"
-#  body = file("${path.module}/policies/trigger-retries.rego")
-#}
+resource "spacelift_policy" "trigger_retries" {
+  count = var.trigger_retries_enabled ? 1 : 0
+
+  type = "TRIGGER"
+  name = "Failed Run Automatic Retries Trigger Policy"
+  body = file("${path.module}/policies/trigger-retries.rego")
+}
 
 # Define the global "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
 resource "spacelift_policy" "push" {
   type = "GIT_PUSH"
-
   name = "Global Push Policy"
   body = file("${path.module}/policies/push-global.rego")
 }
@@ -76,7 +76,6 @@ resource "spacelift_policy" "push" {
 # Define a global "plan" policy that stops and waits for confirmation after a plan fails
 resource "spacelift_policy" "plan" {
   type = "PLAN"
-
   name = "Global Plan Policy"
   body = file("${path.module}/policies/plan-global.rego")
 }

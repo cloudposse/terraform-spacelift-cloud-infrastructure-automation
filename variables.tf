@@ -68,3 +68,15 @@ variable "autodeploy" {
   description = "Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration)"
   default     = false
 }
+
+variable "trigger_retries_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the automatic retries trigger"
+  default     = false
+}
+
+variable "trigger_global_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the global trigger"
+  default     = false
+}
