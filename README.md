@@ -227,6 +227,8 @@ Available targets:
 
 | spacelift_policy_attachment.trigger_global | resource |
 
+| spacelift_policy_attachment.trigger_retries | resource |
+
 | spacelift_current_stack.this | data source |
 
 ## Inputs
