@@ -94,7 +94,7 @@ resource "spacelift_policy_attachment" "trigger_global" {
 }
 
 # Attach the Retries Trigger Policy to the current stack
-resource "spacelift_policy_attachment" "trigger_global" {
+resource "spacelift_policy_attachment" "trigger_retries" {
   count = var.external_execution == false && var.trigger_retries_enabled ? 1 : 0
 
   policy_id = join("", spacelift_policy.trigger_retries.*.id)
