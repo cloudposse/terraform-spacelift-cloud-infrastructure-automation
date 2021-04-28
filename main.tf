@@ -22,7 +22,7 @@ module "spacelift_environment" {
 
   for_each = toset(var.stack_config_files)
 
-  trigger_policy_id = spacelift_policy.trigger_global.id
+  trigger_policy_id = join("", spacelift_policy.trigger_global.*.id)
   push_policy_id    = spacelift_policy.push.id
   plan_policy_id    = spacelift_policy.plan.id
   stack_config_name = trimsuffix(each.key, ".yaml")
@@ -87,8 +87,16 @@ data "spacelift_current_stack" "this" {
 
 # Attach the Environment Trigger Policy to the current stack
 resource "spacelift_policy_attachment" "trigger_global" {
-  count = var.external_execution ? 0 : 1
+  count = !var.external_execution && var.trigger_global_enabled ? 1 : 0
 
-  policy_id = spacelift_policy.trigger_global.id
+  policy_id = join("", spacelift_policy.trigger_global.*.id)
+  stack_id  = data.spacelift_current_stack.this[0].id
+}
+
+# Attach the Retries Trigger Policy to the current stack
+resource "spacelift_policy_attachment" "trigger_global" {
+  count = !var.external_execution && var.trigger_retries_enabled ? 1 : 0
+
+  policy_id = join("", spacelift_policy.trigger_retries.*.id)
   stack_id  = data.spacelift_current_stack.this[0].id
 }
