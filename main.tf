@@ -87,7 +87,7 @@ data "spacelift_current_stack" "this" {
 
 # Attach the Environment Trigger Policy to the current stack
 resource "spacelift_policy_attachment" "trigger_global" {
-  count = !var.external_execution && var.trigger_global_enabled ? 1 : 0
+  count = ! var.external_execution && var.trigger_global_enabled ? 1 : 0
 
   policy_id = join("", spacelift_policy.trigger_global.*.id)
   stack_id  = data.spacelift_current_stack.this[0].id
@@ -95,7 +95,7 @@ resource "spacelift_policy_attachment" "trigger_global" {
 
 # Attach the Retries Trigger Policy to the current stack
 resource "spacelift_policy_attachment" "trigger_global" {
-  count = !var.external_execution && var.trigger_retries_enabled ? 1 : 0
+  count = ! var.external_execution && var.trigger_retries_enabled ? 1 : 0
 
   policy_id = join("", spacelift_policy.trigger_retries.*.id)
   stack_id  = data.spacelift_current_stack.this[0].id
