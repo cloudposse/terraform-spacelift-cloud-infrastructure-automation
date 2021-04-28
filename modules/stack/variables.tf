@@ -129,3 +129,9 @@ variable "manage_state" {
   description = "Flag to enable/disable manage_state setting in stack"
   default     = true
 }
+
+variable "process_component_stack_deps" {
+  type        = bool
+  description = "Enable/disable processing stack dependencies for components"
+  default     = false
+}

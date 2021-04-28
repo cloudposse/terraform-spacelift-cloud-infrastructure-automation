@@ -80,3 +80,9 @@ variable "trigger_global_enabled" {
   description = "Flag to enable/disable the global trigger"
   default     = false
 }
+
+variable "process_component_stack_deps" {
+  type        = bool
+  description = "Enable/disable processing stack dependencies for components"
+  default     = false
+}

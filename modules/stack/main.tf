@@ -1,24 +1,24 @@
 locals {
   triggers = [for trigger in var.triggers : "depends-on:${trigger}|state:FINISHED"]
 
-  component_stack_deps = [for component_stack_dep in var.component_stack_deps : "stack-deps:${component_stack_dep}"]
-
   imports = [for import in var.imports : "import:${import}"]
+
+  component_stack_deps = [for dep in var.component_stack_deps : "stack-deps:${dep}" if var.process_component_stack_deps == true]
 
   stack_config_name_parts = split("-", var.stack_config_name)
 
-  folders = concat(
-    format("folder:%s", try(local.stack_config_name_parts[0], "")),
-    format("folder:%s/%s", try(local.stack_config_name_parts[0], ""), try(local.stack_config_name_parts[1], "")),
-    format("folder:component/%s", var.logical_component)
-  )
+  folders = [
+    try(format("folder:%s", local.stack_config_name_parts[0]), ""),
+    try(format("folder:%s/%s", local.stack_config_name_parts[0], local.stack_config_name_parts[1]), ""),
+    try(format("folder:component/%s", var.logical_component), "")
+  ]
 
-  labels = concat(
+  labels = compact(concat(
     local.triggers,
-    local.folders,
     local.imports,
-    local.component_stack_deps
-  )
+    local.component_stack_deps,
+    local.folders
+  ))
 }
 
 resource "spacelift_stack" "default" {

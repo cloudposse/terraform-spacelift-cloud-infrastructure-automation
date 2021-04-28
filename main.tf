@@ -38,7 +38,8 @@ module "spacelift_environment" {
   terraform_version = var.terraform_version
   autodeploy        = var.autodeploy
 
-  terraform_version_map = var.terraform_version_map
+  terraform_version_map        = var.terraform_version_map
+  process_component_stack_deps = var.process_component_stack_deps
 }
 
 # Define the global trigger policy that allows us to trigger on various context-level updates

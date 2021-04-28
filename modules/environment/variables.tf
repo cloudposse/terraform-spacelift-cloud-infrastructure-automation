@@ -91,3 +91,9 @@ variable "autodeploy" {
   description = "Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration)"
   default     = null
 }
+
+variable "process_component_stack_deps" {
+  type        = bool
+  description = "Enable/disable processing stack dependencies for components"
+  default     = false
+}
