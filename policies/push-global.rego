@@ -72,6 +72,8 @@ stack_config_affected {
 }
 
 # Get component stack dependencies from the provided `labels`
+# NOTE: component stack dependencies are disabled in the module (var.process_component_stack_deps == false),
+# and the below rules will not be evaluated by default
 stack_deps := [dep | startswith(labels[i], "stack-deps:"); dep := split(labels[i], ":")[1]]
 
 # Check if any of the stack dependencies have been modified
