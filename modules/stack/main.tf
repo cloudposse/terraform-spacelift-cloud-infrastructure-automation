@@ -13,12 +13,12 @@ locals {
     try(format("folder:component/%s", var.logical_component), "")
   ]
 
-  labels = compact(concat(
+  labels = distinct(compact(concat(
     local.triggers,
     local.imports,
     local.component_stack_deps,
     local.folders
-  ))
+  )))
 }
 
 resource "spacelift_stack" "default" {
