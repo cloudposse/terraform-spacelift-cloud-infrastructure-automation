@@ -1,75 +1,82 @@
+# https://docs.spacelift.io/concepts/policy/git-push-policy
+
 package spacelift
 
-# Update tracking for affected Terraform files
-track {
-    tf_affected
-    input.push.branch == input.stack.branch
-}
-
-# Update tracking for affected stack config files
-track {
-    config_affected
-    input.push.branch == input.stack.branch
-}
-
-# Only trigger a stack run if the Terraform files were modified
-notrigger {
-  config_affected
-  not tf_affected
-}
-
-propose { tf_affected }
+# Ignore if any of the `ignore` rules evaluates to `true`
 ignore  {
-    not tf_affected
-    not config_affected
-}
-ignore  { input.push.tag != "" }
-
-# If pre-commit hooks make changes, they are not semantic changes
-# and can and should be ignored.
-ignore  { input.push.message == "pre-commit fixes" }
-
-# Fetch all of our affected files
-filepath := input.push.affected_files
-
-# Check if any Terraform files were modified in a project
-tf_affected {
-    startswith(filepath[_], input.stack.project_root)
-    endswith(filepath[_], ".tf")
+    not project_affected
+    not stack_config_affected
 }
 
-# Check if any Terraform json files were modified in a project
-tf_affected {
-    startswith(filepath[_], input.stack.project_root)
-    endswith(filepath[_], ".tf.json")
+ignore {
+    input.push.tag != ""
 }
 
-# Check if any .tfvars files were modified in a project
-tf_affected {
-    startswith(filepath[_], input.stack.project_root)
-    endswith(filepath[_], ".tfvars")
+# If pre-commit hooks make changes, they are not semantic changes and can and should be ignored
+ignore  {
+    input.push.message == "pre-commit fixes"
 }
 
-# Check if any .yaml files were modified in a project
-tf_affected {
-    startswith(filepath[_], input.stack.project_root)
-    endswith(filepath[_], ".yaml")
+propose {
+    project_affected
 }
 
-# Split our stack name into a list for matching below
-stack_name := split(input.stack.name, "-")
-
-# Check if our global settings have been modified
-config_affected {
-    contains(filepath[_], "/globals.yaml")
+# Track if project files are affected
+track {
+    project_affected
+    input.push.branch == input.stack.branch
 }
 
-# Check if our environment globals have been modified
-config_affected {
-    contains(filepath[_], concat("-", [stack_name[0], "globals"]))
+# Track if stack config files are affected
+track {
+    stack_config_affected
+    input.push.branch == input.stack.branch
 }
 
-# Check if our environment has been modified
-config_affected {
-    contains(filepath[_], concat("-", [stack_name[0], stack_name[1]]))
+# Get all of the affected files
+affected_files := input.push.affected_files
+
+# Track these extensions in the project folder
+tracked_extensions := {".tf", ".tf.json", ".tfvars", ".yaml"}
+
+project_root := input.stack.project_root
+
+# Check if any of the tracked extensions were modified in the project folder
+# https://www.openpolicyagent.org/docs/latest/policy-language/#some-keyword
+# https://www.openpolicyagent.org/docs/latest/policy-language/#variable-keys
+# https://www.openpolicyagent.org/docs/latest/policy-reference/#iteration
+project_affected {
+    some i, j
+    startswith(affected_files[i], project_root)
+    endswith(affected_files[i], tracked_extensions[j])
+}
+
+# Split the stack name into a list
+stack_name_parts := split(input.stack.name, "-")
+
+# Check if the environment has been modified
+stack_config_affected {
+    contains(affected_files[_], concat("-", [stack_name_parts[0], stack_name_parts[1]]))
+}
+
+# Get labels
+labels := input.stack.labels
+
+# Get imports from the provided `labels`
+# https://www.openpolicyagent.org/docs/latest/policy-language/#comprehensions
+imports := [imp | startswith(labels[i], "import:"); imp := split(labels[i], ":")[1]]
+
+# Check if any of the imports have been modified
+stack_config_affected {
+    endswith(affected_files[_], imports[_])
+}
+
+# Get component stack dependencies from the provided `labels`
+# NOTE: component stack dependencies are disabled in the module (var.process_component_stack_deps == false),
+# and the below rules will not be evaluated by default
+stack_deps := [dep | startswith(labels[i], "stack-deps:"); dep := split(labels[i], ":")[1]]
+
+# Check if any of the stack dependencies have been modified
+stack_config_affected {
+    endswith(affected_files[_], stack_deps[_])
 }

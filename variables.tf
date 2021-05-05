@@ -1,7 +1,7 @@
 variable "stack_config_path" {
   type        = string
   description = "Relative path to YAML config files"
-  default     = null
+  default     = "stacks"
 }
 
 variable "stack_config_files" {
@@ -66,5 +66,23 @@ variable "runner_image" {
 variable "autodeploy" {
   type        = bool
   description = "Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration)"
+  default     = false
+}
+
+variable "trigger_retries_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the automatic retries trigger"
+  default     = false
+}
+
+variable "trigger_global_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the global trigger"
+  default     = false
+}
+
+variable "process_component_stack_deps" {
+  type        = bool
+  description = "Enable/disable processing stack dependencies for components"
   default     = false
 }

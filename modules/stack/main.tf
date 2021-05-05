@@ -1,3 +1,26 @@
+locals {
+  triggers = [for trigger in var.triggers : "depends-on:${trigger}|state:FINISHED"]
+
+  imports = [for import in var.imports : "import:${import}"]
+
+  component_stack_deps = [for dep in var.component_stack_deps : format("stack-deps:%s/%s.yaml", var.stack_config_path, dep) if var.process_component_stack_deps == true]
+
+  stack_config_name_parts = split("-", var.stack_config_name)
+
+  folders = [
+    try(format("folder:%s", local.stack_config_name_parts[0]), ""),
+    try(format("folder:%s/%s", local.stack_config_name_parts[0], local.stack_config_name_parts[1]), ""),
+    try(format("folder:component/%s", var.logical_component), "")
+  ]
+
+  labels = distinct(compact(concat(
+    local.triggers,
+    local.imports,
+    local.component_stack_deps,
+    local.folders
+  )))
+}
+
 resource "spacelift_stack" "default" {
   count = var.enabled ? 1 : 0
 
@@ -8,9 +31,7 @@ resource "spacelift_stack" "default" {
   branch         = var.branch
   project_root   = var.component_root
   manage_state   = var.manage_state
-  labels = [
-    for trigger in var.triggers : "depends-on:${trigger}|state:FINISHED"
-  ]
+  labels         = local.labels
 
   worker_pool_id      = var.worker_pool_id
   runner_image        = var.runner_image

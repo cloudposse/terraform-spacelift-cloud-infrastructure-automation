@@ -18,7 +18,7 @@
 |------|--------|---------|
 | <a name="module_spacelift_environment"></a> [spacelift\_environment](#module\_spacelift\_environment) | ./modules/environment |  |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.24.1 |
-| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | cloudposse/stack-config/yaml | 0.14.0 |
+| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | cloudposse/stack-config/yaml | 0.15.3 |
 
 ## Resources
 
@@ -33,7 +33,11 @@
 
 | spacelift_policy.trigger_global | resource |
 
+| spacelift_policy.trigger_retries | resource |
+
 | spacelift_policy_attachment.trigger_global | resource |
+
+| spacelift_policy_attachment.trigger_retries | resource |
 
 | spacelift_current_stack.this | data source |
 
@@ -58,15 +62,18 @@
 | <a name="input_manage_state"></a> [manage\_state](#input\_manage\_state) | Global flag to enable/disable manage\_state settings for all project stacks. | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Solution name, e.g. 'app' or 'jenkins' | `string` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `null` | no |
+| <a name="input_process_component_stack_deps"></a> [process\_component\_stack\_deps](#input\_process\_component\_stack\_deps) | Enable/disable processing stack dependencies for components | `bool` | `false` | no |
 | <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
 | <a name="input_repository"></a> [repository](#input\_repository) | The name of your infrastructure repo | `string` | n/a | yes |
 | <a name="input_runner_image"></a> [runner\_image](#input\_runner\_image) | The full image name and tag of the Docker image to use in Spacelift | `string` | `null` | no |
 | <a name="input_stack_config_files"></a> [stack\_config\_files](#input\_stack\_config\_files) | A list of stack config files | `list(any)` | `[]` | no |
-| <a name="input_stack_config_path"></a> [stack\_config\_path](#input\_stack\_config\_path) | Relative path to YAML config files | `string` | `null` | no |
+| <a name="input_stack_config_path"></a> [stack\_config\_path](#input\_stack\_config\_path) | Relative path to YAML config files | `string` | `"stacks"` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
 | <a name="input_terraform_version"></a> [terraform\_version](#input\_terraform\_version) | Specify the version of Terraform to use for the stack | `string` | `null` | no |
 | <a name="input_terraform_version_map"></a> [terraform\_version\_map](#input\_terraform\_version\_map) | A map to determine which Terraform patch version to use for each minor version | `map(string)` | `{}` | no |
+| <a name="input_trigger_global_enabled"></a> [trigger\_global\_enabled](#input\_trigger\_global\_enabled) | Flag to enable/disable the global trigger | `bool` | `false` | no |
+| <a name="input_trigger_retries_enabled"></a> [trigger\_retries\_enabled](#input\_trigger\_retries\_enabled) | Flag to enable/disable the automatic retries trigger | `bool` | `false` | no |
 | <a name="input_worker_pool_id"></a> [worker\_pool\_id](#input\_worker\_pool\_id) | The immutable ID (slug) of the worker pool | `string` | `null` | no |
 
 ## Outputs

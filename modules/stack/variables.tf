@@ -60,6 +60,12 @@ variable "stack_config_name" {
   description = "The name of the stack configuration (Atmos stack name)"
 }
 
+variable "stack_config_path" {
+  type        = string
+  default     = "stacks"
+  description = "Relative path to YAML config files"
+}
+
 variable "component_name" {
   type        = string
   description = "The name of the concrete component (typically a directory name)"
@@ -70,11 +76,22 @@ variable "logical_component" {
   description = "The name of the component (may be an alternate instance of a concrete component)"
 }
 
-
 variable "component_vars" {
   type        = map(any)
   default     = {}
   description = "All Terraform values to be applied to the stack via a mounted file."
+}
+
+variable "component_stack_deps" {
+  type        = list(string)
+  default     = []
+  description = "A list of component stack dependencies."
+}
+
+variable "imports" {
+  type        = list(string)
+  default     = []
+  description = "A list of stack imports."
 }
 
 variable "triggers" {
@@ -111,4 +128,10 @@ variable "manage_state" {
   type        = bool
   description = "Flag to enable/disable manage_state setting in stack"
   default     = true
+}
+
+variable "process_component_stack_deps" {
+  type        = bool
+  description = "Enable/disable processing stack dependencies for components"
+  default     = false
 }

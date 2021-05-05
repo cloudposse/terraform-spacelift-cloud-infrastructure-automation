@@ -9,6 +9,6 @@ trigger[stack.id] {
   input.run.state == "FINISHED"
   stack.labels[_] == concat("", [
     "depends-on:", input.stack.id,
-    "|state:", input.run.state],
+    "|state:", input.run.state]
   )
 }

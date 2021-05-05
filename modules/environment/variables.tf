@@ -5,8 +5,8 @@ variable "stack_config_name" {
 
 variable "stack_config_path" {
   type        = string
-  default     = "stack"
-  description = "The name of the configuration directory to use in the trigger prefix."
+  default     = "stacks"
+  description = "Relative path to YAML config files"
 }
 
 variable "trigger_policy_id" {
@@ -31,6 +31,12 @@ variable "components" {
   type        = any
   default     = {}
   description = "A map of all components and related configurations that exist within the environment."
+}
+
+variable "imports" {
+  type        = list(string)
+  default     = []
+  description = "A list of stack imports."
 }
 
 variable "components_path" {
@@ -84,4 +90,10 @@ variable "autodeploy" {
   type        = string
   description = "Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration)"
   default     = null
+}
+
+variable "process_component_stack_deps" {
+  type        = bool
+  description = "Enable/disable processing stack dependencies for components"
+  default     = false
 }

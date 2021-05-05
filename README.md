@@ -1,3 +1,4 @@
+
 <!-- markdownlint-disable -->
 # terraform-spacelift-cloud-infrastructure-automation
 
@@ -29,9 +30,7 @@
 
 -->
 
-This project provides all the scaffolding for a typical well-built Cloud Posse module. It's a template repository you can
-use when creating new repositories.
-
+Terraform module to provision [Spacelift](https://spacelift.io/) resources for cloud infrastructure automation.
 
 ---
 
@@ -57,7 +56,6 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 
 
 We literally have [*hundreds of terraform modules*][terraform_modules] that are Open Source and well-maintained. Check them out!
-
 
 
 
@@ -98,7 +96,7 @@ The table below correctly indicates which inputs are required.
 
 
 
-The first step is to create a new infrastructure repository in Github and link it in Spacelift. You will want the `Project root` 
+The first step is to create a new infrastructure repository in GitHub and link it in Spacelift. You will want the `Project root`
 of the infrastructure repository to point to the `top-level` project that contains the reference to this module. Beyond that,
 you will also want to enable the `Administrative` and `Autodeploy` options in the configuration.
 
@@ -210,7 +208,7 @@ Available targets:
 |------|--------|---------|
 | <a name="module_spacelift_environment"></a> [spacelift\_environment](#module\_spacelift\_environment) | ./modules/environment |  |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.24.1 |
-| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | cloudposse/stack-config/yaml | 0.14.0 |
+| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | cloudposse/stack-config/yaml | 0.15.3 |
 
 ## Resources
 
@@ -225,7 +223,11 @@ Available targets:
 
 | spacelift_policy.trigger_global | resource |
 
+| spacelift_policy.trigger_retries | resource |
+
 | spacelift_policy_attachment.trigger_global | resource |
+
+| spacelift_policy_attachment.trigger_retries | resource |
 
 | spacelift_current_stack.this | data source |
 
@@ -250,15 +252,18 @@ Available targets:
 | <a name="input_manage_state"></a> [manage\_state](#input\_manage\_state) | Global flag to enable/disable manage\_state settings for all project stacks. | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Solution name, e.g. 'app' or 'jenkins' | `string` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `null` | no |
+| <a name="input_process_component_stack_deps"></a> [process\_component\_stack\_deps](#input\_process\_component\_stack\_deps) | Enable/disable processing stack dependencies for components | `bool` | `false` | no |
 | <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
 | <a name="input_repository"></a> [repository](#input\_repository) | The name of your infrastructure repo | `string` | n/a | yes |
 | <a name="input_runner_image"></a> [runner\_image](#input\_runner\_image) | The full image name and tag of the Docker image to use in Spacelift | `string` | `null` | no |
 | <a name="input_stack_config_files"></a> [stack\_config\_files](#input\_stack\_config\_files) | A list of stack config files | `list(any)` | `[]` | no |
-| <a name="input_stack_config_path"></a> [stack\_config\_path](#input\_stack\_config\_path) | Relative path to YAML config files | `string` | `null` | no |
+| <a name="input_stack_config_path"></a> [stack\_config\_path](#input\_stack\_config\_path) | Relative path to YAML config files | `string` | `"stacks"` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
 | <a name="input_terraform_version"></a> [terraform\_version](#input\_terraform\_version) | Specify the version of Terraform to use for the stack | `string` | `null` | no |
 | <a name="input_terraform_version_map"></a> [terraform\_version\_map](#input\_terraform\_version\_map) | A map to determine which Terraform patch version to use for each minor version | `map(string)` | `{}` | no |
+| <a name="input_trigger_global_enabled"></a> [trigger\_global\_enabled](#input\_trigger\_global\_enabled) | Flag to enable/disable the global trigger | `bool` | `false` | no |
+| <a name="input_trigger_retries_enabled"></a> [trigger\_retries\_enabled](#input\_trigger\_retries\_enabled) | Flag to enable/disable the automatic retries trigger | `bool` | `false` | no |
 | <a name="input_worker_pool_id"></a> [worker\_pool\_id](#input\_worker\_pool\_id) | The immutable ID (slug) of the worker pool | `string` | `null` | no |
 
 ## Outputs
@@ -270,6 +275,23 @@ Available targets:
 
 
 
+## Share the Love
+
+Like this project? Please give it a ★ on [our GitHub](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation)! (it helps us **a lot**)
+
+Are you using this project or any of our other projects? Consider [leaving a testimonial][testimonial]. =)
+
+
+## Related Projects
+
+Check out these related projects.
+
+- [terraform-provider-utils](https://github.com/cloudposse/terraform-provider-utils) - The Cloud Posse Terraform Provider for various utilities.
+- [terraform-yaml-stack-config](https://github.com/cloudposse/terraform-yaml-stack-config) - Terraform module that loads an opinionated stack configuration from local or remote YAML sources. It supports deep-merged variables, settings, ENV variables, backend config, and remote state outputs for Terraform and helmfile components.
+- [terraform-yaml-config](https://github.com/cloudposse/terraform-yaml-config) - Terraform module to convert local and remote YAML configuration templates into Terraform lists and maps.
+
+
+
 
 ## References
 
@@ -278,6 +300,10 @@ For additional context, refer to some of these links.
 - [Terraform Version Pinning](https://www.terraform.io/docs/configuration/terraform.html#specifying-a-required-terraform-version) - The required_version setting can be used to constrain which versions of the Terraform CLI can be used with your configuration
 - [Spacelift](https://spacelift.io/) - The most flexible CI/CD for Terraform
 - [Spacelift Documentation](https://docs.spacelift.io/) - Official documentation site for Spacelift
+- [Open Policy Agent](https://www.openpolicyagent.org/) - Policy-based control for cloud native environments
+- [OPA Documentation](https://www.openpolicyagent.org/docs/latest/) - Open Policy Agent Documentation
+- [Rego - OPA’s query and policy language](https://www.openpolicyagent.org/docs/latest/policy-language/) - Rego focuses on providing powerful support for referencing nested documents and ensuring that queries are correct and unambiguous
+- [Example of using Rego policy language](https://blog.gripdev.xyz/2020/01/13/mutating-admissions-controllers-with-open-policy-agent-and-rego/) - Mutating Admissions Controllers with Open Policy Agent and Rego
 
 
 ## Help
@@ -412,14 +438,16 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 ### Contributors
 
 <!-- markdownlint-disable -->
-|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] | [![Dan Meyers][danjbh_avatar]][danjbh_homepage]<br/>[Dan Meyers][danjbh_homepage] |
-|---|---|
+|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] | [![Dan Meyers][danjbh_avatar]][danjbh_homepage]<br/>[Dan Meyers][danjbh_homepage] | [![Andriy Knysh][aknysh_avatar]][aknysh_homepage]<br/>[Andriy Knysh][aknysh_homepage] |
+|---|---|---|
 <!-- markdownlint-restore -->
 
   [osterman_homepage]: https://github.com/osterman
   [osterman_avatar]: https://img.cloudposse.com/150x150/https://github.com/osterman.png
   [danjbh_homepage]: https://github.com/danjbh
   [danjbh_avatar]: https://img.cloudposse.com/150x150/https://github.com/danjbh.png
+  [aknysh_homepage]: https://github.com/aknysh
+  [aknysh_avatar]: https://img.cloudposse.com/150x150/https://github.com/aknysh.png
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
