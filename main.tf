@@ -44,8 +44,6 @@ module "spacelift_environment" {
 
 # Define the global trigger policy that allows us to trigger on various context-level updates
 resource "spacelift_policy" "trigger_global" {
-  count = var.trigger_global_enabled ? 1 : 0
-
   type = "TRIGGER"
   name = "Global Trigger Policy"
   body = file("${path.module}/policies/trigger-global.rego")
@@ -60,8 +58,6 @@ resource "spacelift_policy" "trigger_dependency" {
 
 # Define the automatic retries trigger policy that allows automatically restarting the failed run
 resource "spacelift_policy" "trigger_retries" {
-  count = var.trigger_retries_enabled ? 1 : 0
-
   type = "TRIGGER"
   name = "Failed Run Automatic Retries Trigger Policy"
   body = file("${path.module}/policies/trigger-retries.rego")
@@ -82,21 +78,21 @@ resource "spacelift_policy" "plan" {
 }
 
 data "spacelift_current_stack" "this" {
-  count = var.external_execution == false ? 1 : 0
+  count = var.external_execution ? 0 : 1
 }
 
 # Attach the Environment Trigger Policy to the current stack
 resource "spacelift_policy_attachment" "trigger_global" {
-  count = var.external_execution == false && var.trigger_global_enabled ? 1 : 0
+  count = var.external_execution || var.trigger_global_enabled == false ? 0 : 1
 
-  policy_id = join("", spacelift_policy.trigger_global.*.id)
+  policy_id = spacelift_policy.trigger_global.id
   stack_id  = data.spacelift_current_stack.this[0].id
 }
 
 # Attach the Retries Trigger Policy to the current stack
 resource "spacelift_policy_attachment" "trigger_retries" {
-  count = var.external_execution == false && var.trigger_retries_enabled ? 1 : 0
+  count = var.external_execution || var.trigger_retries_enabled == false ? 0 : 1
 
-  policy_id = join("", spacelift_policy.trigger_retries.*.id)
+  policy_id = spacelift_policy.trigger_retries.id
   stack_id  = data.spacelift_current_stack.this[0].id
 }
