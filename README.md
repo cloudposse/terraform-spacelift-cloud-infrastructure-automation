@@ -257,6 +257,7 @@ Available targets:
 | <a name="input_repository"></a> [repository](#input\_repository) | The name of your infrastructure repo | `string` | n/a | yes |
 | <a name="input_runner_image"></a> [runner\_image](#input\_runner\_image) | The full image name and tag of the Docker image to use in Spacelift | `string` | `null` | no |
 | <a name="input_stack_config_files"></a> [stack\_config\_files](#input\_stack\_config\_files) | A list of stack config files | `list(any)` | `[]` | no |
+| <a name="input_stack_config_folder_name"></a> [stack\_config\_folder\_name](#input\_stack\_config\_folder\_name) | The name of the folder with YAML config files | `string` | `"stacks"` | no |
 | <a name="input_stack_config_path"></a> [stack\_config\_path](#input\_stack\_config\_path) | Relative path to YAML config files | `string` | `"stacks"` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
