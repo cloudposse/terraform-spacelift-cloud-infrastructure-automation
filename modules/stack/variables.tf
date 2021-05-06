@@ -66,6 +66,12 @@ variable "stack_config_path" {
   description = "Relative path to YAML config files"
 }
 
+variable "stack_config_folder_name" {
+  type        = string
+  description = "The name of the folder with YAML config files"
+  default     = "stacks"
+}
+
 variable "component_name" {
   type        = string
   description = "The name of the concrete component (typically a directory name)"

@@ -22,21 +22,22 @@ module "spacelift_environment" {
 
   for_each = toset(var.stack_config_files)
 
-  trigger_policy_id = join("", spacelift_policy.trigger_global.*.id)
-  push_policy_id    = spacelift_policy.push.id
-  plan_policy_id    = spacelift_policy.plan.id
-  stack_config_name = trimsuffix(each.key, ".yaml")
-  components        = try(module.yaml_stack_config[each.key].config.0.components.terraform, {})
-  imports           = [for import in try(module.yaml_stack_config[each.key].config.0.imports, []) : format("%s/%s.yaml", local.stack_config_path, import)]
-  components_path   = var.components_path
-  stack_config_path = local.stack_config_path
-  repository        = var.repository
-  branch            = var.branch
-  manage_state      = var.manage_state
-  worker_pool_id    = var.worker_pool_id
-  runner_image      = var.runner_image
-  terraform_version = var.terraform_version
-  autodeploy        = var.autodeploy
+  trigger_policy_id        = join("", spacelift_policy.trigger_global.*.id)
+  push_policy_id           = spacelift_policy.push.id
+  plan_policy_id           = spacelift_policy.plan.id
+  stack_config_name        = trimsuffix(each.key, ".yaml")
+  components               = try(module.yaml_stack_config[each.key].config.0.components.terraform, {})
+  imports                  = [for import in try(module.yaml_stack_config[each.key].config.0.imports, []) : format("%s/%s.yaml", var.stack_config_folder_name, import)]
+  components_path          = var.components_path
+  stack_config_path        = local.stack_config_path
+  stack_config_folder_name = var.stack_config_folder_name
+  repository               = var.repository
+  branch                   = var.branch
+  manage_state             = var.manage_state
+  worker_pool_id           = var.worker_pool_id
+  runner_image             = var.runner_image
+  terraform_version        = var.terraform_version
+  autodeploy               = var.autodeploy
 
   terraform_version_map        = var.terraform_version_map
   process_component_stack_deps = var.process_component_stack_deps

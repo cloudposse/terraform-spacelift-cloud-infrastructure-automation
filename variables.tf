@@ -4,6 +4,12 @@ variable "stack_config_path" {
   default     = "stacks"
 }
 
+variable "stack_config_folder_name" {
+  type        = string
+  description = "The name of the folder with YAML config files"
+  default     = "stacks"
+}
+
 variable "stack_config_files" {
   type        = list(any)
   description = "A list of stack config files"
