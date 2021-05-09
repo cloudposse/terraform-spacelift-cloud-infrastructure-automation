@@ -91,7 +91,13 @@ variable "component_vars" {
 variable "component_stack_deps" {
   type        = list(string)
   default     = []
-  description = "A list of component stack dependencies."
+  description = "A list of stacks where the component is defined"
+}
+
+variable "component_deps" {
+  type        = list(string)
+  default     = []
+  description = "A list of stacks the component depends on"
 }
 
 variable "imports" {
@@ -138,6 +144,12 @@ variable "manage_state" {
 
 variable "process_component_stack_deps" {
   type        = bool
-  description = "Enable/disable processing stack dependencies for components"
+  description = "Enable/disable processing all stack dependencies for components"
   default     = false
+}
+
+variable "process_component_deps" {
+  type        = bool
+  description = "Enable/disable processing stack config dependencies for components"
+  default     = true
 }

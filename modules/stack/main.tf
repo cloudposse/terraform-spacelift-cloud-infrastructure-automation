@@ -3,7 +3,9 @@ locals {
 
   imports = [for import in var.imports : "import:${import}"]
 
-  component_stack_deps = [for dep in var.component_stack_deps : format("stack-deps:%s/%s.yaml", var.stack_config_folder_name, dep) if var.process_component_stack_deps == true]
+  component_stack_deps = [for dep in var.component_stack_deps : format("stack:%s/%s.yaml", var.stack_config_folder_name, dep) if var.process_component_stack_deps == true]
+
+  component_deps = [for dep in var.component_deps : format("deps:%s/%s.yaml", var.stack_config_folder_name, dep) if var.process_component_deps == true]
 
   stack_config_name_parts = split("-", var.stack_config_name)
 
@@ -17,6 +19,7 @@ locals {
     local.triggers,
     local.imports,
     local.component_stack_deps,
+    local.component_deps,
     local.folders
   )))
 }

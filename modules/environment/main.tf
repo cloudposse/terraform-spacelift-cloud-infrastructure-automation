@@ -30,4 +30,5 @@ module "stacks" {
   push_policy_id               = var.push_policy_id
   plan_policy_id               = var.plan_policy_id
   process_component_stack_deps = var.process_component_stack_deps
+  process_component_deps       = var.process_component_deps
 }

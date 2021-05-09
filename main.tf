@@ -7,12 +7,13 @@ module "yaml_stack_config" {
   for_each = toset(var.stack_config_files)
 
   source  = "cloudposse/stack-config/yaml"
-  version = "0.15.3"
+  version = "0.16.0"
 
   stack_config_local_path = local.stack_config_path
   stacks                  = [trimsuffix(each.key, ".yaml")]
 
-  process_component_stack_deps = true
+  process_component_stack_deps = var.process_component_stack_deps
+  process_component_deps       = var.process_component_deps
 
   context = module.this.context
 }
@@ -27,7 +28,7 @@ module "spacelift_environment" {
   plan_policy_id           = spacelift_policy.plan.id
   stack_config_name        = trimsuffix(each.key, ".yaml")
   components               = try(module.yaml_stack_config[each.key].config.0.components.terraform, {})
-  imports                  = [for import in try(module.yaml_stack_config[each.key].config.0.imports, []) : format("%s/%s.yaml", var.stack_config_folder_name, import)]
+  imports                  = [for import in try(module.yaml_stack_config[each.key].config.0.imports, []) : format("%s/%s.yaml", var.stack_config_folder_name, import) if var.process_imports == true]
   components_path          = var.components_path
   stack_config_path        = local.stack_config_path
   stack_config_folder_name = var.stack_config_folder_name
@@ -41,6 +42,7 @@ module "spacelift_environment" {
 
   terraform_version_map        = var.terraform_version_map
   process_component_stack_deps = var.process_component_stack_deps
+  process_component_deps       = var.process_component_deps
 }
 
 # Define the global trigger policy that allows us to trigger on various context-level updates

@@ -208,7 +208,7 @@ Available targets:
 |------|--------|---------|
 | <a name="module_spacelift_environment"></a> [spacelift\_environment](#module\_spacelift\_environment) | ./modules/environment |  |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.24.1 |
-| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | cloudposse/stack-config/yaml | 0.15.3 |
+| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | cloudposse/stack-config/yaml | 0.16.0 |
 
 ## Resources
 
@@ -252,7 +252,9 @@ Available targets:
 | <a name="input_manage_state"></a> [manage\_state](#input\_manage\_state) | Global flag to enable/disable manage\_state settings for all project stacks. | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Solution name, e.g. 'app' or 'jenkins' | `string` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `null` | no |
-| <a name="input_process_component_stack_deps"></a> [process\_component\_stack\_deps](#input\_process\_component\_stack\_deps) | Enable/disable processing stack dependencies for components | `bool` | `false` | no |
+| <a name="input_process_component_deps"></a> [process\_component\_deps](#input\_process\_component\_deps) | Enable/disable processing stack config dependencies for components | `bool` | `true` | no |
+| <a name="input_process_component_stack_deps"></a> [process\_component\_stack\_deps](#input\_process\_component\_stack\_deps) | Enable/disable processing all stack dependencies for components | `bool` | `false` | no |
+| <a name="input_process_imports"></a> [process\_imports](#input\_process\_imports) | Enable/disable processing stack imports | `bool` | `false` | no |
 | <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
 | <a name="input_repository"></a> [repository](#input\_repository) | The name of your infrastructure repo | `string` | n/a | yes |
 | <a name="input_runner_image"></a> [runner\_image](#input\_runner\_image) | The full image name and tag of the Docker image to use in Spacelift | `string` | `null` | no |

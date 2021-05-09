@@ -100,6 +100,12 @@ variable "autodeploy" {
 
 variable "process_component_stack_deps" {
   type        = bool
-  description = "Enable/disable processing stack dependencies for components"
+  description = "Enable/disable processing all stack dependencies for components"
   default     = false
+}
+
+variable "process_component_deps" {
+  type        = bool
+  description = "Enable/disable processing stack config dependencies for components"
+  default     = true
 }

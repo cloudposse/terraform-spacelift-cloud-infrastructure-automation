@@ -62,7 +62,9 @@ stack_config_affected {
 # Get labels
 labels := input.stack.labels
 
-# Get imports from the provided `labels`
+# Get stack imports from the provided `labels`
+# NOTE: procesing of stack imports is disabled in the module (var.process_imports == false),
+# and the below rules will not be evaluated by default
 # https://www.openpolicyagent.org/docs/latest/policy-language/#comprehensions
 imports := [imp | startswith(labels[i], "import:"); imp := split(labels[i], ":")[1]]
 
@@ -71,12 +73,20 @@ stack_config_affected {
     endswith(affected_files[_], imports[_])
 }
 
-# Get component stack dependencies from the provided `labels`
-# NOTE: component stack dependencies are disabled in the module (var.process_component_stack_deps == false),
+# Get all stack dependencies for the component from the provided `labels` (all stacks where the component is defined)
+# NOTE: procesing of all stack dependencies is disabled in the module (var.process_component_stack_deps == false),
 # and the below rules will not be evaluated by default
-stack_deps := [dep | startswith(labels[i], "stack-deps:"); dep := split(labels[i], ":")[1]]
+stack_deps := [stack_dep | startswith(labels[i], "stack:"); stack_dep := split(labels[i], ":")[1]]
 
 # Check if any of the stack dependencies have been modified
 stack_config_affected {
     endswith(affected_files[_], stack_deps[_])
+}
+
+# Get stack dependencies for the component from the provided `labels` (imports of this stack where the component is defined)
+deps := [dep | startswith(labels[i], "deps:"); dep := split(labels[i], ":")[1]]
+
+# Check if any of the stack dependencies have been modified
+stack_config_affected {
+    endswith(affected_files[_], deps[_])
 }
