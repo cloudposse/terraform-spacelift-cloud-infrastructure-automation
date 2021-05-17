@@ -1,5 +1,5 @@
 variable "enabled" {
-  description = "Controls creation fo all resources in this module"
+  description = "Controls creation of all resources in this module"
   default     = false
   type        = bool
 }
