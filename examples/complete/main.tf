@@ -14,7 +14,6 @@ locals {
 module "example" {
   source = "../.."
 
-  stack_config_path  = var.stack_config_path
   stack_config_files = local.stack_config_files
   branch             = var.branch
   repository         = var.repository
