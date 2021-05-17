@@ -55,7 +55,7 @@ variable "component_name" {
 }
 
 variable "component_vars" {
-  type        = map(any)
+  type        = any
   default     = {}
   description = "All Terraform values to be applied to the stack via a mounted file"
 }
