@@ -29,7 +29,7 @@ func TestExamplesComplete(t *testing.T) {
 		// and AWS resources do not interfere with each other
 		Vars: map[string]interface{}{
 			"attributes": attributes,
-			"name":    name,
+			"name":       name,
 		},
 	}
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created

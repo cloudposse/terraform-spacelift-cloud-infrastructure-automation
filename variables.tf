@@ -1,7 +1,6 @@
-variable "stack_config_files" {
+variable "stacks" {
   type        = list(any)
-  description = "A list of stack config files"
-  default     = []
+  description = "A list of stack configs"
 }
 
 variable "imports_processing_enabled" {
@@ -26,6 +25,12 @@ variable "stack_config_path_template" {
   type        = string
   description = "Stack config path template"
   default     = "stacks/%s.yaml"
+}
+
+variable "stack_config_path" {
+  type        = string
+  description = "Relative path to YAML config files"
+  default     = "./stacks"
 }
 
 variable "repository" {
