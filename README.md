@@ -208,7 +208,7 @@ Available targets:
 |------|--------|---------|
 | <a name="module_stacks"></a> [stacks](#module\_stacks) | ./modules/stack |  |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.24.1 |
-| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | git::https://github.com/cloudposse/terraform-yaml-stack-config.git//modules/spacelift?ref=add-component-deps |  |
+| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | cloudposse/stack-config/yaml//modules/spacelift | 0.16.0 |
 
 ## Resources
 

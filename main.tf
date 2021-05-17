@@ -1,8 +1,6 @@
 module "yaml_stack_config" {
-  #source  = "cloudposse/stack-config/yaml//modules/spacelift"
-  #version = "0.16.0"
-
-  source = "git::https://github.com/cloudposse/terraform-yaml-stack-config.git//modules/spacelift?ref=add-component-deps"
+  source  = "cloudposse/stack-config/yaml//modules/spacelift"
+  version = "0.16.0"
 
   stacks                            = var.stack_config_files
   stack_deps_processing_enabled     = var.stack_deps_processing_enabled
