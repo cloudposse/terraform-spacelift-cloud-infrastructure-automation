@@ -84,6 +84,7 @@ stack_config_affected {
 }
 
 # Get stack dependencies for the component from the provided `labels`
+# NOTE: procesing of component stack dependencies is controlled by var.component_deps_processing_enabled
 deps := [dep | startswith(labels[i], "deps:"); dep := split(labels[i], ":")[1]]
 
 # Check if any of the stack dependencies have been modified
