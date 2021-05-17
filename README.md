@@ -272,7 +272,7 @@ Available targets:
 
 | Name | Description |
 |------|-------------|
-| <a name="output_environments"></a> [environments](#output\_environments) | A list of generated stacks. |
+| <a name="output_stacks"></a> [stacks](#output\_stacks) | Generated stacks |
 <!-- markdownlint-restore -->
 
 
