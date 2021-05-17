@@ -1,4 +1,4 @@
-output "environments" {
-  description = "A list of generated stacks."
-  value       = module.spacelift_environment
+output "stacks" {
+  description = "Generated stacks"
+  value       = module.stacks
 }

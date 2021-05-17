@@ -1,5 +1,5 @@
 output "config" {
-  description = "A map of important stack configurations."
+  description = "A map of stack configurations"
   value = try({
     id                = spacelift_stack.default[0].id
     name              = spacelift_stack.default[0].name
