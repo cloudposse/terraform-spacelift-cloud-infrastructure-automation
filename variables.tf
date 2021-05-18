@@ -1,19 +1,36 @@
+variable "stacks" {
+  type        = list(any)
+  description = "A list of stack configs"
+}
+
+variable "imports_processing_enabled" {
+  type        = bool
+  description = "Enable/disable processing stack imports"
+  default     = false
+}
+
+variable "stack_deps_processing_enabled" {
+  type        = bool
+  description = "Boolean flag to enable/disable processing all stack dependencies in the provided stack"
+  default     = false
+}
+
+variable "component_deps_processing_enabled" {
+  type        = bool
+  description = "Boolean flag to enable/disable processing stack config dependencies for the components in the provided stack"
+  default     = true
+}
+
+variable "stack_config_path_template" {
+  type        = string
+  description = "Stack config path template"
+  default     = "stacks/%s.yaml"
+}
+
 variable "stack_config_path" {
   type        = string
   description = "Relative path to YAML config files"
-  default     = "stacks"
-}
-
-variable "stack_config_folder_name" {
-  type        = string
-  description = "The name of the folder with YAML config files"
-  default     = "stacks"
-}
-
-variable "stack_config_files" {
-  type        = list(any)
-  description = "A list of stack config files"
-  default     = []
+  default     = "./stacks"
 }
 
 variable "repository" {
@@ -35,7 +52,7 @@ variable "components_path" {
 
 variable "manage_state" {
   type        = bool
-  description = "Global flag to enable/disable manage_state settings for all project stacks."
+  description = "Global flag to enable/disable manage_state settings for all project stacks"
   default     = true
 }
 
@@ -53,7 +70,7 @@ variable "terraform_version_map" {
 
 variable "external_execution" {
   type        = bool
-  description = "Set this to true if you're calling this module from outside of a Spacelift stack (e.g. the `complete` example)."
+  description = "Set this to true if you're calling this module from outside of a Spacelift stack (e.g. the `complete` example)"
   default     = false
 }
 
@@ -84,11 +101,5 @@ variable "trigger_retries_enabled" {
 variable "trigger_global_enabled" {
   type        = bool
   description = "Flag to enable/disable the global trigger"
-  default     = false
-}
-
-variable "process_component_stack_deps" {
-  type        = bool
-  description = "Enable/disable processing stack dependencies for components"
   default     = false
 }
