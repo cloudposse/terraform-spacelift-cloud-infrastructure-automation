@@ -30,7 +30,7 @@ resource "spacelift_environment_variable" "stack_name" {
 
   stack_id   = spacelift_stack.default[0].id
   name       = "ATMOS_STACK"
-  value      = var.stack_name
+  value      = var.infrastructure_stack_name
   write_only = false
 }
 
