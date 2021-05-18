@@ -17,13 +17,13 @@ module "stacks" {
 
   for_each = module.yaml_stack_config.spacelift_stacks
 
-  stack_name = each.key
-  enabled    = each.value.enabled
-
-  component_name      = each.value.component
-  component_vars      = each.value.vars
-  terraform_workspace = each.value.workspace
-  labels              = each.value.labels
+  enabled                   = each.value.enabled
+  stack_name                = each.key
+  infrastructure_stack_name = each.value.stack
+  component_name            = each.value.component
+  component_vars            = each.value.vars
+  terraform_workspace       = each.value.workspace
+  labels                    = each.value.labels
 
   autodeploy        = coalesce(try(each.value.settings.spacelift.autodeploy, null), var.autodeploy)
   component_root    = format("%s/%s", var.components_path, coalesce(each.value.base_component, each.value.component))
