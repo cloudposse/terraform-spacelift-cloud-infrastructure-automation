@@ -17,8 +17,7 @@ module "stacks" {
 
   for_each = module.yaml_stack_config.spacelift_stacks
 
-  enabled = each.value.enabled
-
+  enabled                   = each.value.enabled
   stack_name                = each.key
   infrastructure_stack_name = each.value.stack
   component_name            = each.value.component
