@@ -23,10 +23,12 @@ module "stacks" {
   component_name      = each.value.component
   component_vars      = each.value.vars
   terraform_workspace = each.value.workspace
-  autodeploy          = coalesce(try(each.value.settings.spacelift.autodeploy, null), var.autodeploy)
-  component_root      = format("%s/%s", var.components_path, coalesce(each.value.base_component, each.value.component))
-  branch              = coalesce(try(each.value.settings.spacelift.branch, null), var.branch)
-  terraform_version   = lookup(var.terraform_version_map, try(each.value.settings.spacelift.terraform_version, ""), var.terraform_version)
+  labels              = each.value.labels
+
+  autodeploy        = coalesce(try(each.value.settings.spacelift.autodeploy, null), var.autodeploy)
+  component_root    = format("%s/%s", var.components_path, coalesce(each.value.base_component, each.value.component))
+  branch            = coalesce(try(each.value.settings.spacelift.branch, null), var.branch)
+  terraform_version = lookup(var.terraform_version_map, try(each.value.settings.spacelift.terraform_version, ""), var.terraform_version)
 
   repository     = var.repository
   manage_state   = var.manage_state
