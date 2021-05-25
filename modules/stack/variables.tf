@@ -65,6 +65,12 @@ variable "component_vars" {
   description = "All Terraform values to be applied to the stack via a mounted file"
 }
 
+variable "component_env" {
+  type        = any
+  default     = {}
+  description = "Map of component ENV variables"
+}
+
 variable "trigger_policy_id" {
   type        = string
   default     = null
