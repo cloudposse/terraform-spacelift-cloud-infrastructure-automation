@@ -2,8 +2,13 @@ package spacelift
 
 trigger[stack.id] {
   stack := input.stacks[_]
-  entity := input.run.changes[_].entity
+  # compare a plaintext string (stack.id) to a checksum
+  endswith(crypto.sha256(stack.id), id_shas_of_created_stacks[_])
+}
 
-  input.run.state == "FINISHED"
-  contains(entity.address, concat("", ["stacks[\"", stack.name, "\"].spacelift_mounted_file."]))
+id_shas_of_created_stacks[change.entity.data.values.id] {
+  change := input.run.changes[_]
+  change.action == "added"
+  change.entity.type == "spacelift_stack"
+  change.phase == "apply" # The change has actually been applied, not just planned
 }
