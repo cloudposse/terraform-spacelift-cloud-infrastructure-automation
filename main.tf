@@ -22,6 +22,7 @@ module "stacks" {
   infrastructure_stack_name = each.value.stack
   component_name            = each.value.component
   component_vars            = each.value.vars
+  component_env             = each.value.env
   terraform_workspace       = each.value.workspace
   labels                    = each.value.labels
 
