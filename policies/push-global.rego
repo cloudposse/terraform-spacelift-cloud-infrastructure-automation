@@ -37,7 +37,7 @@ track {
 affected_files := input.push.affected_files
 
 # Track these extensions in the project folder
-tracked_extensions := {".tf", ".tf.json", ".tfvars", ".yaml"}
+tracked_extensions := {".tf", ".tf.json", ".tfvars", ".yaml", ".tpl", ".sh"}
 
 project_root := input.stack.project_root
 
