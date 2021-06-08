@@ -194,13 +194,13 @@ Available targets:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
-| <a name="requirement_spacelift"></a> [spacelift](#requirement\_spacelift) | >= 1.0.0 |
+| <a name="requirement_spacelift"></a> [spacelift](#requirement\_spacelift) | >= 0.0.4 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | >= 1.0.0 |
+| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | >= 0.0.4 |
 
 ## Modules
 
@@ -214,22 +214,14 @@ Available targets:
 
 | Name | Type |
 |------|------|
-
-| spacelift_policy.plan | resource |
-
-| spacelift_policy.push | resource |
-
-| spacelift_policy.trigger_dependency | resource |
-
-| spacelift_policy.trigger_global | resource |
-
-| spacelift_policy.trigger_retries | resource |
-
-| spacelift_policy_attachment.trigger_global | resource |
-
-| spacelift_policy_attachment.trigger_retries | resource |
-
-| spacelift_current_stack.this | data source |
+| [spacelift_policy.plan](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
+| [spacelift_policy.push](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
+| [spacelift_policy.trigger_dependency](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
+| [spacelift_policy.trigger_global](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
+| [spacelift_policy.trigger_retries](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
+| [spacelift_policy_attachment.trigger_global](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy_attachment) | resource |
+| [spacelift_policy_attachment.trigger_retries](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy_attachment) | resource |
+| [spacelift_current_stack.this](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/data-sources/current_stack) | data source |
 
 ## Inputs
 

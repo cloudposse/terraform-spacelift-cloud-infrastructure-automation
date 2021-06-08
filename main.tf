@@ -36,30 +36,9 @@ module "stacks" {
   worker_pool_id = var.worker_pool_id
   runner_image   = var.runner_image
 
-  trigger_policy_id = spacelift_policy.trigger_global.id
   push_policy_id    = spacelift_policy.push.id
   plan_policy_id    = spacelift_policy.plan.id
-}
-
-# Define the global trigger policy that allows us to trigger on various context-level updates
-resource "spacelift_policy" "trigger_global" {
-  type = "TRIGGER"
-  name = "Global Trigger Policy"
-  body = file("${path.module}/policies/trigger-global.rego")
-}
-
-# Define the dependency trigger policy that allows us to define custom triggers
-resource "spacelift_policy" "trigger_dependency" {
-  type = "TRIGGER"
-  name = "Stack Dependency Trigger Policy"
-  body = file("${path.module}/policies/trigger-dependencies.rego")
-}
-
-# Define the automatic retries trigger policy that allows automatically restarting the failed run
-resource "spacelift_policy" "trigger_retries" {
-  type = "TRIGGER"
-  name = "Failed Run Automatic Retries Trigger Policy"
-  body = file("${path.module}/policies/trigger-retries.rego")
+  trigger_policy_id = spacelift_policy.trigger_dependency.id
 }
 
 # Define the global "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
@@ -76,11 +55,33 @@ resource "spacelift_policy" "plan" {
   body = file("${path.module}/policies/plan-global.rego")
 }
 
+# Define the dependency trigger policy that allows us to define custom triggers
+resource "spacelift_policy" "trigger_dependency" {
+  type = "TRIGGER"
+  name = "Stack Dependency Trigger Policy"
+  body = file("${path.module}/policies/trigger-dependencies.rego")
+}
+
+# Define the global trigger policy that allows us to trigger on various context-level updates
+resource "spacelift_policy" "trigger_global" {
+  type = "TRIGGER"
+  name = "Global Trigger Policy"
+  body = file("${path.module}/policies/trigger-global.rego")
+}
+
+# Define the automatic retries trigger policy that allows automatically restarting the failed run
+resource "spacelift_policy" "trigger_retries" {
+  type = "TRIGGER"
+  name = "Failed Run Automatic Retries Trigger Policy"
+  body = file("${path.module}/policies/trigger-retries.rego")
+}
+
+# `spacelift_current_stack` is the administrative stack that manages all other infrastructure stacks
 data "spacelift_current_stack" "this" {
   count = var.external_execution ? 0 : 1
 }
 
-# Attach the Environment Trigger Policy to the current stack
+# Attach the global trigger policy to the current stack
 resource "spacelift_policy_attachment" "trigger_global" {
   count = var.external_execution || var.trigger_global_enabled == false ? 0 : 1
 
@@ -88,7 +89,7 @@ resource "spacelift_policy_attachment" "trigger_global" {
   stack_id  = data.spacelift_current_stack.this[0].id
 }
 
-# Attach the Retries Trigger Policy to the current stack
+# Attach the retries trigger policy to the current stack
 resource "spacelift_policy_attachment" "trigger_retries" {
   count = var.external_execution || var.trigger_retries_enabled == false ? 0 : 1
 
