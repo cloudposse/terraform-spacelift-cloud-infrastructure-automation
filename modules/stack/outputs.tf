@@ -1,5 +1,6 @@
 output "config" {
   description = "A map of stack configurations"
+
   value = try({
     id                = spacelift_stack.default[0].id
     name              = spacelift_stack.default[0].name
@@ -8,5 +9,6 @@ output "config" {
     worker_pool_id    = spacelift_stack.default[0].worker_pool_id
     repository        = spacelift_stack.default[0].repository
     branch            = spacelift_stack.default[0].branch
+    webhook_id        = join("", spacelift_webhook.default.*.id)
   }, "disabled")
 }
