@@ -39,6 +39,10 @@ module "stacks" {
   push_policy_id    = spacelift_policy.push.id
   plan_policy_id    = spacelift_policy.plan.id
   trigger_policy_id = spacelift_policy.trigger_dependency.id
+
+  webhook_enabled  = try(each.value.settings.spacelift.webhook_enabled, null) != null ? each.value.settings.spacelift.webhook_enabled : var.webhook_enabled
+  webhook_endpoint = coalesce(try(each.value.settings.spacelift.webhook_endpoint, null), var.webhook_endpoint)
+  webhook_secret   = var.webhook_secret
 }
 
 # Define the global "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified

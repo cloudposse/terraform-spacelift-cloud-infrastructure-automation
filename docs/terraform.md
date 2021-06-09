@@ -69,6 +69,9 @@
 | <a name="input_terraform_version_map"></a> [terraform\_version\_map](#input\_terraform\_version\_map) | A map to determine which Terraform patch version to use for each minor version | `map(string)` | `{}` | no |
 | <a name="input_trigger_global_enabled"></a> [trigger\_global\_enabled](#input\_trigger\_global\_enabled) | Flag to enable/disable the global trigger | `bool` | `false` | no |
 | <a name="input_trigger_retries_enabled"></a> [trigger\_retries\_enabled](#input\_trigger\_retries\_enabled) | Flag to enable/disable the automatic retries trigger | `bool` | `false` | no |
+| <a name="input_webhook_enabled"></a> [webhook\_enabled](#input\_webhook\_enabled) | Flag to enable/disable the webhook endpoint to which Spacelift sends the POST requests about run state changes | `bool` | `false` | no |
+| <a name="input_webhook_endpoint"></a> [webhook\_endpoint](#input\_webhook\_endpoint) | Webhook endpoint to which Spacelift sends the POST requests about run state changes | `string` | `null` | no |
+| <a name="input_webhook_secret"></a> [webhook\_secret](#input\_webhook\_secret) | Webhook secret used to sign each POST request so you're able to verify that the requests come from Spacelift | `string` | `null` | no |
 | <a name="input_worker_pool_id"></a> [worker\_pool\_id](#input\_worker\_pool\_id) | The immutable ID (slug) of the worker pool | `string` | `null` | no |
 
 ## Outputs
