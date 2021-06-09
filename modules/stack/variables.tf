@@ -106,3 +106,21 @@ variable "labels" {
   description = "A list of labels for the stack"
   default     = []
 }
+
+variable "webhook_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the webhook endpoint to which Spacelift sends the POST requests about run state changes"
+  default     = false
+}
+
+variable "webhook_endpoint" {
+  type        = string
+  description = "Webhook endpoint to which Spacelift sends the POST requests about run state changes"
+  default     = null
+}
+
+variable "webhook_secret" {
+  type        = string
+  description = "Webhook secret used to sign each POST request so you're able to verify that the requests come from Spacelift"
+  default     = null
+}
