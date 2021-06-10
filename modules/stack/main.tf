@@ -78,7 +78,7 @@ resource "spacelift_policy_attachment" "trigger_dependency" {
 }
 
 resource "spacelift_webhook" "default" {
-  count = var.enabled && var.webhook_enabled
+  count = var.enabled && var.webhook_enabled ? 1 : 0
 
   stack_id = spacelift_stack.default[0].id
   endpoint = var.webhook_endpoint
