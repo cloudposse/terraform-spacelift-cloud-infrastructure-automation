@@ -104,6 +104,30 @@ variable "trigger_global_enabled" {
   default     = false
 }
 
+variable "access_policy_id_override" {
+  type        = string
+  description = "ID of an Access policy to override the default"
+  default     = null
+}
+
+variable "push_policy_id_override" {
+  type        = string
+  description = "ID of a Push policy to override the default"
+  default     = null
+}
+
+variable "plan_policy_id_override" {
+  type        = string
+  description = "ID of a Plan policy to override the default"
+  default     = null
+}
+
+variable "trigger_policy_id_override" {
+  type        = string
+  description = "ID of a trigger policy to override the default"
+  default     = null
+}
+
 variable "webhook_enabled" {
   type        = bool
   description = "Flag to enable/disable the webhook endpoint to which Spacelift sends the POST requests about run state changes"

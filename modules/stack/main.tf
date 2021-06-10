@@ -70,6 +70,13 @@ resource "spacelift_policy_attachment" "plan" {
   stack_id  = spacelift_stack.default[0].id
 }
 
+resource "spacelift_policy_attachment" "access" {
+  count = var.enabled ? 1 : 0
+
+  policy_id = var.access_policy_id
+  stack_id  = spacelift_stack.default[0].id
+}
+
 resource "spacelift_policy_attachment" "trigger_dependency" {
   count = var.enabled ? 1 : 0
 

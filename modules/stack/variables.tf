@@ -71,6 +71,12 @@ variable "component_env" {
   description = "Map of component ENV variables"
 }
 
+variable "access_policy_id" {
+  type        = string
+  default     = null
+  description = "ID for the access policy to assign to this stack"
+}
+
 variable "trigger_policy_id" {
   type        = string
   default     = null
