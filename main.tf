@@ -41,7 +41,7 @@ module "stacks" {
   trigger_policy_id = spacelift_policy.trigger_dependency.id
 
   webhook_enabled  = try(each.value.settings.spacelift.webhook_enabled, null) != null ? each.value.settings.spacelift.webhook_enabled : var.webhook_enabled
-  webhook_endpoint = coalesce(try(each.value.settings.spacelift.webhook_endpoint, null), var.webhook_endpoint)
+  webhook_endpoint = try(each.value.settings.spacelift.webhook_endpoint, null) != null ? each.value.settings.spacelift.webhook_endpoint : var.webhook_endpoint
   webhook_secret   = var.webhook_secret
 }
 
