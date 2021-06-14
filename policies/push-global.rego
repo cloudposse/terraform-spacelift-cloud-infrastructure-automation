@@ -89,5 +89,6 @@ deps := [dep | startswith(labels[i], "deps:"); dep := split(labels[i], ":")[1]]
 
 # Check if any of the stack dependencies have been modified
 stack_config_affected {
+    startswith(affected_files[_], deps[_])
     endswith(affected_files[_], deps[_])
 }
