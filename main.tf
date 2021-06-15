@@ -52,7 +52,7 @@ module "stacks" {
   policy_ids = []
 }
 
-# Define "access" policy
+# "access" policy
 resource "spacelift_policy" "access" {
   count = var.access_policy_id == null ? 1 : 0
 
@@ -61,7 +61,7 @@ resource "spacelift_policy" "access" {
   body = file("${path.module}/policies/access.rego")
 }
 
-# Define "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
+# "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
 resource "spacelift_policy" "push" {
   count = var.push_policy_id == null ? 1 : 0
 
@@ -70,7 +70,7 @@ resource "spacelift_policy" "push" {
   body = file("${path.module}/policies/push.rego")
 }
 
-# Define "plan" policy that stops and waits for confirmation after a plan fails
+# "plan" policy that stops and waits for confirmation after a plan fails
 resource "spacelift_policy" "plan" {
   count = var.plan_policy_id == null ? 1 : 0
 
@@ -79,7 +79,7 @@ resource "spacelift_policy" "plan" {
   body = file("${path.module}/policies/plan.rego")
 }
 
-# Define the dependency trigger policy that allows to define custom triggers
+# dependency trigger policy that allows to define custom triggers
 resource "spacelift_policy" "trigger_dependency" {
   count = var.trigger_dependency_policy_id == null ? 1 : 0
 
@@ -88,7 +88,7 @@ resource "spacelift_policy" "trigger_dependency" {
   body = file("${path.module}/policies/trigger-dependencies.rego")
 }
 
-# Define the automatic retries trigger policy that allows automatically restarting the failed run
+# automatic retries trigger policy that allows automatically restarting the failed run
 resource "spacelift_policy" "trigger_retries" {
   count = var.trigger_retries_policy_id == null ? 1 : 0
 
@@ -97,7 +97,7 @@ resource "spacelift_policy" "trigger_retries" {
   body = file("${path.module}/policies/trigger-retries.rego")
 }
 
-# Define the global administrative trigger policy that allows us to trigger a stack right after it gets created
+# global administrative trigger policy that allows us to trigger a stack right after it gets created
 resource "spacelift_policy" "trigger_administrative" {
   type = "TRIGGER"
   name = "Global Administrative Trigger Policy"
