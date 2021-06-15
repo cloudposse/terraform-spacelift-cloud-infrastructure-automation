@@ -106,25 +106,25 @@ variable "trigger_global_enabled" {
 
 variable "access_policy_id" {
   type        = string
-  description = "ID of an Access policy to override the default"
+  description = "ID of an existing Access policy to override the default"
   default     = null
 }
 
 variable "push_policy_id" {
   type        = string
-  description = "ID of a Push policy to override the default"
+  description = "ID of an existing Push policy to override the default"
   default     = null
 }
 
 variable "plan_policy_id" {
   type        = string
-  description = "ID of a Plan policy to override the default"
+  description = "ID of an existing Plan policy to override the default"
   default     = null
 }
 
 variable "trigger_policy_id" {
   type        = string
-  description = "ID of a trigger policy to override the default"
+  description = "ID of an existing Trigger policy to override the default"
   default     = null
 }
 
@@ -146,7 +146,7 @@ variable "webhook_secret" {
   default     = null
 }
 
-variable "enable_local_preview" {
+variable "local_preview_enabled" {
   type        = bool
   description = "Indicates whether local preview runs can be triggered on this Stack"
   default     = false

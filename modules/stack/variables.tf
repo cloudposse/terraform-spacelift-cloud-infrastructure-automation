@@ -1,13 +1,13 @@
 variable "enabled" {
+  type        = bool
   description = "Controls creation of all resources in this module"
   default     = false
-  type        = bool
 }
 
-variable "enable_local_preview" {
+variable "local_preview_enabled" {
+  type        = bool
   description = "Indicates whether local preview runs can be triggered on this Stack"
   default     = false
-  type        = bool
 }
 
 variable "repository" {
