@@ -1,3 +1,11 @@
+locals {
+  access_policy_id             = var.access_policy_id != null ? var.access_policy_id : join("", spacelift_policy.access.*.id)
+  push_policy_id               = var.push_policy_id != null ? var.push_policy_id : join("", spacelift_policy.push.*.id)
+  plan_policy_id               = var.plan_policy_id != null ? var.plan_policy_id : join("", spacelift_policy.plan.*.id)
+  trigger_dependency_policy_id = var.trigger_dependency_policy_id != null ? var.trigger_dependency_policy_id : join("", spacelift_policy.trigger_dependency.*.id)
+  trigger_retries_policy_id    = var.trigger_retries_policy_id != null ? var.trigger_retries_policy_id : join("", spacelift_policy.trigger_retries.*.id)
+}
+
 module "yaml_stack_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
   version = "0.17.0"
@@ -37,64 +45,63 @@ module "stacks" {
   worker_pool_id = var.worker_pool_id
   runner_image   = var.runner_image
 
-  access_policy_id  = var.access_policy_id != null ? var.access_policy_id : join("", spacelift_policy.access.*.id)
-  push_policy_id    = var.push_policy_id != null ? var.push_policy_id : join("", spacelift_policy.push.*.id)
-  plan_policy_id    = var.plan_policy_id != null ? var.plan_policy_id : join("", spacelift_policy.plan.*.id)
-  trigger_policy_id = var.trigger_policy_id != null ? var.trigger_policy_id : join("", spacelift_policy.trigger_dependency.*.id)
-
   webhook_enabled  = try(each.value.settings.spacelift.webhook_enabled, null) != null ? each.value.settings.spacelift.webhook_enabled : var.webhook_enabled
   webhook_endpoint = try(each.value.settings.spacelift.webhook_endpoint, null) != null ? each.value.settings.spacelift.webhook_endpoint : var.webhook_endpoint
   webhook_secret   = var.webhook_secret
+
+  policy_ids = []
 }
 
-# Define the global "access" policy
+# Define "access" policy
 resource "spacelift_policy" "access" {
   count = var.access_policy_id == null ? 1 : 0
 
   type = "ACCESS"
-  name = "Global Access Policy"
-  body = file("${path.module}/policies/access-global.rego")
+  name = "Access Policy"
+  body = file("${path.module}/policies/access.rego")
 }
 
-# Define the global "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
+# Define "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
 resource "spacelift_policy" "push" {
   count = var.push_policy_id == null ? 1 : 0
 
   type = "GIT_PUSH"
-  name = "Global Push Policy"
-  body = file("${path.module}/policies/push-global.rego")
+  name = "Push Policy"
+  body = file("${path.module}/policies/push.rego")
 }
 
-# Define a global "plan" policy that stops and waits for confirmation after a plan fails
+# Define "plan" policy that stops and waits for confirmation after a plan fails
 resource "spacelift_policy" "plan" {
   count = var.plan_policy_id == null ? 1 : 0
 
   type = "PLAN"
-  name = "Global Plan Policy"
-  body = file("${path.module}/policies/plan-global.rego")
+  name = "Plan Policy"
+  body = file("${path.module}/policies/plan.rego")
 }
 
-# Define the dependency trigger policy that allows us to define custom triggers
+# Define the dependency trigger policy that allows to define custom triggers
 resource "spacelift_policy" "trigger_dependency" {
-  count = var.trigger_policy_id == null ? 1 : 0
+  count = var.trigger_dependency_policy_id == null ? 1 : 0
 
   type = "TRIGGER"
   name = "Stack Dependency Trigger Policy"
   body = file("${path.module}/policies/trigger-dependencies.rego")
 }
 
-# Define the global trigger policy that allows us to trigger on various context-level updates
-resource "spacelift_policy" "trigger_global" {
-  type = "TRIGGER"
-  name = "Global Trigger Policy"
-  body = file("${path.module}/policies/trigger-global.rego")
-}
-
 # Define the automatic retries trigger policy that allows automatically restarting the failed run
 resource "spacelift_policy" "trigger_retries" {
+  count = var.trigger_retries_policy_id == null ? 1 : 0
+
   type = "TRIGGER"
   name = "Failed Run Automatic Retries Trigger Policy"
   body = file("${path.module}/policies/trigger-retries.rego")
+}
+
+# Define the global administrative trigger policy that allows us to trigger a stack right after it gets created
+resource "spacelift_policy" "trigger_administrative" {
+  type = "TRIGGER"
+  name = "Global Administrative Trigger Policy"
+  body = file("${path.module}/policies/trigger-administrative.rego")
 }
 
 # `spacelift_current_stack` is the administrative stack that manages all other infrastructure stacks
@@ -102,18 +109,10 @@ data "spacelift_current_stack" "this" {
   count = var.external_execution ? 0 : 1
 }
 
-# Attach the global trigger policy to the current stack
-resource "spacelift_policy_attachment" "trigger_global" {
-  count = var.external_execution || var.trigger_global_enabled == false ? 0 : 1
+# Attach the global trigger policy to the current administrative stack
+resource "spacelift_policy_attachment" "trigger_administrative" {
+  count = var.external_execution || var.trigger_administrative_enabled == false ? 0 : 1
 
-  policy_id = spacelift_policy.trigger_global.id
-  stack_id  = data.spacelift_current_stack.this[0].id
-}
-
-# Attach the retries trigger policy to the current stack
-resource "spacelift_policy_attachment" "trigger_retries" {
-  count = var.external_execution || var.trigger_retries_enabled == false ? 0 : 1
-
-  policy_id = spacelift_policy.trigger_retries.id
+  policy_id = spacelift_policy.trigger_administrative.id
   stack_id  = data.spacelift_current_stack.this[0].id
 }

@@ -92,15 +92,9 @@ variable "autodeploy" {
   default     = false
 }
 
-variable "trigger_retries_enabled" {
+variable "trigger_administrative_enabled" {
   type        = bool
-  description = "Flag to enable/disable the automatic retries trigger"
-  default     = false
-}
-
-variable "trigger_global_enabled" {
-  type        = bool
-  description = "Flag to enable/disable the global trigger"
+  description = "Flag to enable/disable the global administrative trigger"
   default     = false
 }
 
@@ -122,9 +116,15 @@ variable "plan_policy_id" {
   default     = null
 }
 
-variable "trigger_policy_id" {
+variable "trigger_dependency_policy_id" {
   type        = string
-  description = "ID of an existing Trigger policy to override the default"
+  description = "ID of an existing Trigger dependency policy to override the default"
+  default     = null
+}
+
+variable "trigger_retries_policy_id" {
+  type        = string
+  description = "ID of an existing Trigger retries policy to override the default"
   default     = null
 }
 

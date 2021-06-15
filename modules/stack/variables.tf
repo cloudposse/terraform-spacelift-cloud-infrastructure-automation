@@ -77,30 +77,6 @@ variable "component_env" {
   description = "Map of component ENV variables"
 }
 
-variable "access_policy_id" {
-  type        = string
-  default     = null
-  description = "ID for the access policy to assign to this stack"
-}
-
-variable "trigger_policy_id" {
-  type        = string
-  default     = null
-  description = "Context ID for the global trigger policy ID"
-}
-
-variable "push_policy_id" {
-  type        = string
-  default     = null
-  description = "ID for the project-level push policy"
-}
-
-variable "plan_policy_id" {
-  type        = string
-  default     = null
-  description = "ID for the project-level plan policy"
-}
-
 variable "autodeploy" {
   type        = bool
   description = "Controls the Spacelift 'autodeploy' option for a stack"
@@ -135,4 +111,10 @@ variable "webhook_secret" {
   type        = string
   description = "Webhook secret used to sign each POST request so you're able to verify that the requests come from Spacelift"
   default     = null
+}
+
+variable "policy_ids" {
+  type        = list(string)
+  default     = []
+  description = "List of Rego policy IDs to attach to this stack"
 }
