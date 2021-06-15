@@ -37,7 +37,7 @@ track {
 affected_files := input.push.affected_files
 
 # Track these extensions in the project folder
-tracked_extensions := {".tf", ".tf.json", ".tfvars", ".yaml", ".tpl", ".sh"}
+tracked_extensions := {".tf", ".tf.json", ".tfvars", ".yaml", ".yml", ".tpl", ".sh"}
 
 project_root := input.stack.project_root
 
@@ -90,4 +90,9 @@ deps := [dep | startswith(labels[i], "deps:"); dep := split(labels[i], ":")[1]]
 # Check if any of the stack dependencies have been modified
 stack_config_affected {
     endswith(affected_files[_], deps[_])
+}
+
+# Checking startswith allows `deps:*` to reference top level folders.
+stack_config_affected {
+    startswith(affected_files[_], deps[_])
 }
