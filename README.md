@@ -228,7 +228,7 @@ Available targets:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_access_policy_id_override"></a> [access\_policy\_id\_override](#input\_access\_policy\_id\_override) | ID of an Access policy to override the default | `string` | `null` | no |
+| <a name="input_access_policy_id"></a> [access\_policy\_id](#input\_access\_policy\_id) | ID of an Access policy to override the default | `string` | `null` | no |
 | <a name="input_additional_tag_map"></a> [additional\_tag\_map](#input\_additional\_tag\_map) | Additional tags for appending to tags\_as\_list\_of\_maps. Not added to `tags`. | `map(string)` | `{}` | no |
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | Additional attributes (e.g. `1`) | `list(string)` | `[]` | no |
 | <a name="input_autodeploy"></a> [autodeploy](#input\_autodeploy) | Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration) | `bool` | `false` | no |
@@ -249,8 +249,8 @@ Available targets:
 | <a name="input_manage_state"></a> [manage\_state](#input\_manage\_state) | Global flag to enable/disable manage\_state settings for all project stacks | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Solution name, e.g. 'app' or 'jenkins' | `string` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `null` | no |
-| <a name="input_plan_policy_id_override"></a> [plan\_policy\_id\_override](#input\_plan\_policy\_id\_override) | ID of a Plan policy to override the default | `string` | `null` | no |
-| <a name="input_push_policy_id_override"></a> [push\_policy\_id\_override](#input\_push\_policy\_id\_override) | ID of a Push policy to override the default | `string` | `null` | no |
+| <a name="input_plan_policy_id"></a> [plan\_policy\_id](#input\_plan\_policy\_id) | ID of a Plan policy to override the default | `string` | `null` | no |
+| <a name="input_push_policy_id"></a> [push\_policy\_id](#input\_push\_policy\_id) | ID of a Push policy to override the default | `string` | `null` | no |
 | <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
 | <a name="input_repository"></a> [repository](#input\_repository) | The name of your infrastructure repo | `string` | n/a | yes |
 | <a name="input_runner_image"></a> [runner\_image](#input\_runner\_image) | The full image name and tag of the Docker image to use in Spacelift | `string` | `null` | no |
@@ -263,7 +263,7 @@ Available targets:
 | <a name="input_terraform_version"></a> [terraform\_version](#input\_terraform\_version) | Specify the version of Terraform to use for the stack | `string` | `null` | no |
 | <a name="input_terraform_version_map"></a> [terraform\_version\_map](#input\_terraform\_version\_map) | A map to determine which Terraform patch version to use for each minor version | `map(string)` | `{}` | no |
 | <a name="input_trigger_global_enabled"></a> [trigger\_global\_enabled](#input\_trigger\_global\_enabled) | Flag to enable/disable the global trigger | `bool` | `false` | no |
-| <a name="input_trigger_policy_id_override"></a> [trigger\_policy\_id\_override](#input\_trigger\_policy\_id\_override) | ID of a trigger policy to override the default | `string` | `null` | no |
+| <a name="input_trigger_policy_id"></a> [trigger\_policy\_id](#input\_trigger\_policy\_id) | ID of a trigger policy to override the default | `string` | `null` | no |
 | <a name="input_trigger_retries_enabled"></a> [trigger\_retries\_enabled](#input\_trigger\_retries\_enabled) | Flag to enable/disable the automatic retries trigger | `bool` | `false` | no |
 | <a name="input_webhook_enabled"></a> [webhook\_enabled](#input\_webhook\_enabled) | Flag to enable/disable the webhook endpoint to which Spacelift sends the POST requests about run state changes | `bool` | `false` | no |
 | <a name="input_webhook_endpoint"></a> [webhook\_endpoint](#input\_webhook\_endpoint) | Webhook endpoint to which Spacelift sends the POST requests about run state changes | `string` | `null` | no |
