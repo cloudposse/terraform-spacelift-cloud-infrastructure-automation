@@ -39,7 +39,7 @@ module "stacks" {
 
   access_policy_id  = var.access_policy_id_override != null ? var.access_policy_id_override : spacelift_policy.access.id
   push_policy_id    = var.push_policy_id_override != null ? var.push_policy_id_override : spacelift_policy.push.id
-  plan_policy_id    = var.plan_policy_id_override != null ? var.plan_policy_id_override : spacelift_policy.plan.id
+  plan_policy_id    = var.plan_policy_id != null ? var.plan_policy_id : spacelift_policy.plan.id
   trigger_policy_id = var.trigger_policy_id != null ? var.trigger_policy_id : spacelift_policy.trigger_dependency.id
 
   webhook_enabled  = try(each.value.settings.spacelift.webhook_enabled, null) != null ? each.value.settings.spacelift.webhook_enabled : var.webhook_enabled
