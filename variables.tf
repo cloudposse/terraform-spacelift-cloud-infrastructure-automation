@@ -122,7 +122,7 @@ variable "plan_policy_id_override" {
   default     = null
 }
 
-variable "trigger_policy_id_override" {
+variable "trigger_policy_id" {
   type        = string
   description = "ID of a trigger policy to override the default"
   default     = null
