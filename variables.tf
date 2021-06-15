@@ -121,3 +121,9 @@ variable "webhook_secret" {
   description = "Webhook secret used to sign each POST request so you're able to verify that the requests come from Spacelift"
   default     = null
 }
+
+variable "enable_local_preview" {
+  type        = bool
+  description = "Indicates whether local preview runs can be triggered on this Stack"
+  default     = false
+}
