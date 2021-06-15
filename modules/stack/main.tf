@@ -5,14 +5,15 @@ locals {
 resource "spacelift_stack" "default" {
   count = var.enabled ? 1 : 0
 
-  name           = var.stack_name
-  administrative = false
-  autodeploy     = var.autodeploy
-  repository     = var.repository
-  branch         = var.branch
-  project_root   = var.component_root
-  manage_state   = var.manage_state
-  labels         = var.labels
+  name                 = var.stack_name
+  administrative       = false
+  autodeploy           = var.autodeploy
+  repository           = var.repository
+  branch               = var.branch
+  project_root         = var.component_root
+  manage_state         = var.manage_state
+  labels               = var.labels
+  enable_local_preview = var.enable_local_preview
 
   worker_pool_id      = var.worker_pool_id
   runner_image        = var.runner_image

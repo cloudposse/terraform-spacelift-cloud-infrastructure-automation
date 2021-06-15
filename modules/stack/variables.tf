@@ -4,6 +4,12 @@ variable "enabled" {
   type        = bool
 }
 
+variable "enable_local_preview" {
+  description = "Indicates whether local preview runs can be triggered on this Stack"
+  default     = false
+  type        = bool
+}
+
 variable "repository" {
   type        = string
   description = "The name of your infrastructure repo"
