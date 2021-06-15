@@ -110,7 +110,7 @@ variable "access_policy_id_override" {
   default     = null
 }
 
-variable "push_policy_id_override" {
+variable "push_policy_id" {
   type        = string
   description = "ID of a Push policy to override the default"
   default     = null
