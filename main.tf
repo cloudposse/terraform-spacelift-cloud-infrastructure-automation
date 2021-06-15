@@ -37,7 +37,7 @@ module "stacks" {
   worker_pool_id = var.worker_pool_id
   runner_image   = var.runner_image
 
-  access_policy_id  = var.access_policy_id_override != null ? var.access_policy_id_override : spacelift_policy.access.id
+  access_policy_id  = var.access_policy_id != null ? var.access_policy_id : spacelift_policy.access.id
   push_policy_id    = var.push_policy_id != null ? var.push_policy_id : spacelift_policy.push.id
   plan_policy_id    = var.plan_policy_id != null ? var.plan_policy_id : spacelift_policy.plan.id
   trigger_policy_id = var.trigger_policy_id != null ? var.trigger_policy_id : spacelift_policy.trigger_dependency.id
