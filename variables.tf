@@ -116,7 +116,7 @@ variable "push_policy_id_override" {
   default     = null
 }
 
-variable "plan_policy_id_override" {
+variable "plan_policy_id" {
   type        = string
   description = "ID of a Plan policy to override the default"
   default     = null
