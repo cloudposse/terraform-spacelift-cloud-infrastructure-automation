@@ -13,7 +13,7 @@ resource "spacelift_stack" "default" {
   project_root         = var.component_root
   manage_state         = var.manage_state
   labels               = var.labels
-  enable_local_preview = var.enable_local_preview
+  enable_local_preview = var.local_preview_enabled
 
   worker_pool_id      = var.worker_pool_id
   runner_image        = var.runner_image
@@ -68,6 +68,13 @@ resource "spacelift_policy_attachment" "plan" {
   count = var.enabled ? 1 : 0
 
   policy_id = var.plan_policy_id
+  stack_id  = spacelift_stack.default[0].id
+}
+
+resource "spacelift_policy_attachment" "access" {
+  count = var.enabled ? 1 : 0
+
+  policy_id = var.access_policy_id
   stack_id  = spacelift_stack.default[0].id
 }
 
