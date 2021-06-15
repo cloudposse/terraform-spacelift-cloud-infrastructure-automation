@@ -104,7 +104,7 @@ variable "trigger_global_enabled" {
   default     = false
 }
 
-variable "access_policy_id_override" {
+variable "access_policy_id" {
   type        = string
   description = "ID of an Access policy to override the default"
   default     = null
