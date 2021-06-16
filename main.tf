@@ -71,7 +71,6 @@ module "stacks" {
   ])
 }
 
-# "access" policy
 resource "spacelift_policy" "access" {
   count = var.access_policy_id == null ? 1 : 0
 
@@ -80,7 +79,6 @@ resource "spacelift_policy" "access" {
   body = file("${path.module}/policies/access.rego")
 }
 
-# "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
 resource "spacelift_policy" "push" {
   count = var.push_policy_id == null ? 1 : 0
 
@@ -89,7 +87,6 @@ resource "spacelift_policy" "push" {
   body = file("${path.module}/policies/push.rego")
 }
 
-# "plan" policy that stops and waits for confirmation after a plan fails
 resource "spacelift_policy" "plan" {
   count = var.plan_policy_id == null ? 1 : 0
 
@@ -98,7 +95,6 @@ resource "spacelift_policy" "plan" {
   body = file("${path.module}/policies/plan.rego")
 }
 
-# dependency trigger policy that allows to define custom triggers
 resource "spacelift_policy" "trigger_dependency" {
   count = var.trigger_dependency_policy_id == null ? 1 : 0
 
@@ -107,7 +103,6 @@ resource "spacelift_policy" "trigger_dependency" {
   body = file("${path.module}/policies/trigger-dependencies.rego")
 }
 
-# automatic retries trigger policy that allows automatically restarting the failed run
 resource "spacelift_policy" "trigger_retries" {
   count = var.trigger_retries_policy_id == null ? 1 : 0
 
@@ -116,16 +111,17 @@ resource "spacelift_policy" "trigger_retries" {
   body = file("${path.module}/policies/trigger-retries.rego")
 }
 
+# `administrative` policies are always attached to the `administrative` stack
+# `spacelift_current_stack` is the administrative stack that manages all other infrastructure stacks
+data "spacelift_current_stack" "this" {
+  count = var.external_execution ? 0 : 1
+}
+
 # global administrative trigger policy that allows us to trigger a stack right after it gets created
 resource "spacelift_policy" "trigger_administrative" {
   type = "TRIGGER"
   name = "Global Administrative Trigger Policy"
-  body = file("${path.module}/policies/trigger-administrative.rego")
-}
-
-# `spacelift_current_stack` is the administrative stack that manages all other infrastructure stacks
-data "spacelift_current_stack" "this" {
-  count = var.external_execution ? 0 : 1
+  body = file("${path.module}/catalog/policies/trigger.administrative.rego")
 }
 
 # Attach the global trigger policy to the current administrative stack

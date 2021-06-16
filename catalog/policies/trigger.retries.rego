@@ -1,5 +1,7 @@
 package spacelift
 
+# TRIGGER policy that allows automatically restarting the failed run
+
 # You can read more about trigger policies here:
 #
 # https://docs.spacelift.io/concepts/policy/trigger-policy
