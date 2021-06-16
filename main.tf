@@ -1,11 +1,3 @@
-locals {
-  access_policy_id             = var.access_policy_id != null ? var.access_policy_id : join("", spacelift_policy.access.*.id)
-  push_policy_id               = var.push_policy_id != null ? var.push_policy_id : join("", spacelift_policy.push.*.id)
-  plan_policy_id               = var.plan_policy_id != null ? var.plan_policy_id : join("", spacelift_policy.plan.*.id)
-  trigger_dependency_policy_id = var.trigger_dependency_policy_id != null ? var.trigger_dependency_policy_id : join("", spacelift_policy.trigger_dependency.*.id)
-  trigger_retries_policy_id    = var.trigger_retries_policy_id != null ? var.trigger_retries_policy_id : join("", spacelift_policy.trigger_retries.*.id)
-}
-
 module "yaml_stack_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
   version = "0.17.0"
@@ -49,7 +41,34 @@ module "stacks" {
   webhook_endpoint = try(each.value.settings.spacelift.webhook_endpoint, null) != null ? each.value.settings.spacelift.webhook_endpoint : var.webhook_endpoint
   webhook_secret   = var.webhook_secret
 
-  policy_ids = []
+  # Spacelift settings for each stack (if present) override the variables to enable/disable policies on the stack
+  # Provided external policy ID override the internally created policies
+  policy_ids = compact([
+    # `access_policy` enabled by default
+    try(each.value.settings.spacelift.access_policy_enabled, var.access_policy_enabled) ? (
+      var.access_policy_id != null ? var.access_policy_id : join("", spacelift_policy.access.*.id)
+    ) : "",
+
+    # `push_policy` enabled by default
+    try(each.value.settings.spacelift.push_policy_enabled, var.push_policy_enabled) ? (
+      var.push_policy_id != null ? var.push_policy_id : join("", spacelift_policy.push.*.id)
+    ) : "",
+
+    # `plan_policy` enabled by default
+    try(each.value.settings.spacelift.plan_policy_enabled, var.plan_policy_enabled) ? (
+      var.plan_policy_id != null ? var.plan_policy_id : join("", spacelift_policy.plan.*.id)
+    ) : "",
+
+    # `trigger_dependency_policy` enabled by default
+    try(each.value.settings.spacelift.trigger_dependency_policy_enabled, var.trigger_dependency_policy_enabled) ? (
+      var.trigger_dependency_policy_id != null ? var.trigger_dependency_policy_id : join("", spacelift_policy.trigger_dependency.*.id)
+    ) : "",
+
+    # `trigger_retries_policy` disabled by default (can be enabled per stack in `settings.spacelift`)
+    try(each.value.settings.spacelift.trigger_retries_policy_enabled, var.trigger_retries_policy_enabled) ? (
+      var.trigger_retries_policy_id != null ? var.trigger_retries_policy_id : join("", spacelift_policy.trigger_retries.*.id)
+    ) : ""
+  ])
 }
 
 # "access" policy
@@ -111,7 +130,7 @@ data "spacelift_current_stack" "this" {
 
 # Attach the global trigger policy to the current administrative stack
 resource "spacelift_policy_attachment" "trigger_administrative" {
-  count = var.external_execution || var.trigger_administrative_enabled == false ? 0 : 1
+  count = var.external_execution || var.administrative_trigger_policy_enabled == false ? 0 : 1
 
   policy_id = spacelift_policy.trigger_administrative.id
   stack_id  = data.spacelift_current_stack.this[0].id
