@@ -92,18 +92,6 @@ variable "autodeploy" {
   default     = false
 }
 
-variable "trigger_retries_enabled" {
-  type        = bool
-  description = "Flag to enable/disable the automatic retries trigger"
-  default     = false
-}
-
-variable "trigger_global_enabled" {
-  type        = bool
-  description = "Flag to enable/disable the global trigger"
-  default     = false
-}
-
 variable "access_policy_id" {
   type        = string
   description = "ID of an existing Access policy to override the default"
@@ -122,9 +110,15 @@ variable "plan_policy_id" {
   default     = null
 }
 
-variable "trigger_policy_id" {
+variable "trigger_dependency_policy_id" {
   type        = string
-  description = "ID of an existing Trigger policy to override the default"
+  description = "ID of an existing Trigger dependency policy to override the default"
+  default     = null
+}
+
+variable "trigger_retries_policy_id" {
+  type        = string
+  description = "ID of an existing Trigger retries policy to override the default"
   default     = null
 }
 
@@ -150,4 +144,40 @@ variable "local_preview_enabled" {
   type        = bool
   description = "Indicates whether local preview runs can be triggered on this Stack"
   default     = false
+}
+
+variable "administrative_trigger_policy_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the global administrative trigger policy"
+  default     = true
+}
+
+variable "trigger_retries_policy_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the stack automatic retries trigger policy"
+  default     = false
+}
+
+variable "trigger_dependency_policy_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the stack trigger dependency policy"
+  default     = true
+}
+
+variable "access_policy_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the stack access policy"
+  default     = true
+}
+
+variable "push_policy_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the stack push policy"
+  default     = true
+}
+
+variable "plan_policy_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the stack plan policy"
+  default     = true
 }

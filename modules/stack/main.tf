@@ -1,5 +1,6 @@
 locals {
   component_env = { for k, v in var.component_env : k => v if var.enabled == true }
+  policy_ids    = { for v in var.policy_ids : v => v if var.enabled == true }
 }
 
 resource "spacelift_stack" "default" {
@@ -57,38 +58,17 @@ resource "spacelift_environment_variable" "component_env_vars" {
   write_only = false
 }
 
-resource "spacelift_policy_attachment" "push" {
-  count = var.enabled ? 1 : 0
-
-  policy_id = var.push_policy_id
-  stack_id  = spacelift_stack.default[0].id
-}
-
-resource "spacelift_policy_attachment" "plan" {
-  count = var.enabled ? 1 : 0
-
-  policy_id = var.plan_policy_id
-  stack_id  = spacelift_stack.default[0].id
-}
-
-resource "spacelift_policy_attachment" "access" {
-  count = var.enabled ? 1 : 0
-
-  policy_id = var.access_policy_id
-  stack_id  = spacelift_stack.default[0].id
-}
-
-resource "spacelift_policy_attachment" "trigger_dependency" {
-  count = var.enabled ? 1 : 0
-
-  policy_id = var.trigger_policy_id
-  stack_id  = spacelift_stack.default[0].id
-}
-
 resource "spacelift_webhook" "default" {
   count = var.enabled && var.webhook_enabled ? 1 : 0
 
   stack_id = spacelift_stack.default[0].id
   endpoint = var.webhook_endpoint
   secret   = var.webhook_secret
+}
+
+resource "spacelift_policy_attachment" "default" {
+  for_each = local.policy_ids
+
+  policy_id = each.value
+  stack_id  = spacelift_stack.default[0].id
 }
