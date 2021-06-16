@@ -152,31 +152,31 @@ variable "administrative_trigger_policy_enabled" {
   default     = true
 }
 
-variable "policies_config" {
-  type = list(object({
-    path = string
-    policies = list(object({
-      file        = string
-      description = string
-      type        = string
-    }))
-  }))
-  description = "List of policy configurations"
-  default     = []
-}
-
-variable "policies_enabled" {
+variable "default_policies" {
   type        = list(string)
-  description = "List of policies to attach to Spacelift stacks"
+  description = "List of default policies to attach to Spacelift stacks"
   default = [
-    "trigger.retries",
-    "git_push.global",
-    "plan.global"
+    "access.default",
+    "git_push.default",
+    "plan.default",
+    "trigger.dependencies"
   ]
 }
 
-variable "policies_path" {
+variable "default_policies_path" {
   type        = string
-  description = "Path to the catalog of policies"
+  description = "Path to the catalog of default policies"
   default     = "./catalog/policies"
+}
+
+variable "additional_policies" {
+  type        = list(string)
+  description = "List of additional policies to attach to Spacelift stacks"
+  default     = []
+}
+
+variable "additional_policies_path" {
+  type        = string
+  description = "Path to the additional policies"
+  default     = ""
 }
