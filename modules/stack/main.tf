@@ -66,7 +66,7 @@ resource "spacelift_webhook" "default" {
 }
 
 resource "spacelift_policy_attachment" "default" {
-  count = var.policy_ids_count
+  count = length(var.policy_ids)
 
   policy_id = var.policy_ids[count.index]
   stack_id  = spacelift_stack.default[0].id
