@@ -166,7 +166,7 @@ variable "default_policies" {
 
 variable "default_policies_enabled" {
   type        = list(string)
-  description = "List of default policies to attach to Spacelift stacks"
+  description = "List of default policies to attach to all Spacelift stacks"
   default = [
     "access.default",
     "git_push.default",
@@ -179,4 +179,10 @@ variable "default_policies_path" {
   type        = string
   description = "Path to the catalog of default policies"
   default     = "catalog/policies"
+}
+
+variable "additional_policy_ids" {
+  type        = list(string)
+  description = "List of additional (existing) policy IDs to attach to all Spacelift stacks"
+  default     = []
 }
