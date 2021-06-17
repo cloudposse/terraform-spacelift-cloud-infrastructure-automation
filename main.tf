@@ -53,10 +53,10 @@ module "stacks" {
 
   # Policies to attach to the stack (internally created + additional external)
   # The internally created policies to attach can be overridden in YAML config in `settings.spacelift.policies_attach` for each stack
-  policy_ids = concat(
+  policy_ids = compact(concat(
     [for i in try(each.value.settings.spacelift.policies_attach, var.policies_attach) : spacelift_policy.default[i].id],
     var.additional_policy_ids
-  )
+  ))
 }
 
 # `administrative` policies are always attached to the `administrative` stack
