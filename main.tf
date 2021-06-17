@@ -1,6 +1,6 @@
 # Create default policies
 resource "spacelift_policy" "default" {
-  for_each = toset(var.policies_create)
+  for_each = toset(var.policies_available)
 
   type = upper(split(".", each.key)[0])
   name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", "")))
@@ -54,7 +54,7 @@ module "stacks" {
   # Policies to attach to the stack (internally created + additional external)
   # The internally created policies to attach can be overridden in YAML config in `settings.spacelift.policies_attach` for each stack
   policy_ids = concat(
-    [for i in try(each.value.settings.spacelift.policies_attach, var.policies_attach) : spacelift_policy.default[i].id],
+    [for i in try(each.value.settings.spacelift.policies_enabled, var.policies_enabled) : spacelift_policy.default[i].id],
     var.additional_policy_ids
   )
 }
