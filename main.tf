@@ -52,7 +52,7 @@ module "stacks" {
   webhook_secret   = var.webhook_secret
 
   policy_ids       = [for i in try(each.value.settings.spacelift.default_policies_enabled, var.default_policies_enabled) : spacelift_policy.default[i].id]
-  policy_ids_count = length(var.default_policies_enabled)
+  policy_ids_count = length(try(each.value.settings.spacelift.default_policies_enabled, var.default_policies_enabled))
 }
 
 # `administrative` policies are always attached to the `administrative` stack
