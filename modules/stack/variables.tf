@@ -118,3 +118,9 @@ variable "policy_ids" {
   default     = []
   description = "List of Rego policy IDs to attach to this stack"
 }
+
+variable "policy_ids_count" {
+  type        = number
+  default     = 0
+  description = "Count of Rego policy IDs to attach to this stack (needed to prevent errors 'The count value depends on resource attributes that cannot be determined until apply')"
+}

@@ -1,6 +1,5 @@
 locals {
   component_env = { for k, v in var.component_env : k => v if var.enabled == true }
-  policy_ids    = { for v in var.policy_ids : v => v if var.enabled == true }
 }
 
 resource "spacelift_stack" "default" {
@@ -67,8 +66,8 @@ resource "spacelift_webhook" "default" {
 }
 
 resource "spacelift_policy_attachment" "default" {
-  for_each = local.policy_ids
+  count = var.policy_ids_count
 
-  policy_id = each.value
+  policy_id = var.policy_ids[count.index]
   stack_id  = spacelift_stack.default[0].id
 }
