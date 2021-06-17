@@ -180,8 +180,8 @@ variable "policies_path" {
   default     = "catalog/policies"
 }
 
-variable "additional_policy_ids" {
+variable "policies_by_id_enabled" {
   type        = list(string)
-  description = "List of additional (existing) policy IDs to attach to all Spacelift stacks"
+  description = "List of existing policy IDs to attach to all Spacelift stacks"
   default     = []
 }

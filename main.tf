@@ -55,7 +55,7 @@ module "stacks" {
   # The internally created policies to attach can be overridden in YAML config in `settings.spacelift.policies_attach` for each stack
   policy_ids = concat(
     [for i in try(each.value.settings.spacelift.policies_enabled, var.policies_enabled) : spacelift_policy.default[i].id],
-    var.additional_policy_ids
+    var.policies_by_id_enabled
   )
 }
 
