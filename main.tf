@@ -1,10 +1,10 @@
 # Create default policies
 resource "spacelift_policy" "default" {
-  for_each = toset(var.default_policies)
+  for_each = toset(var.policies_create)
 
   type = upper(split(".", each.key)[0])
   name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", "")))
-  body = file(format("%s/%s/%s.rego", path.module, var.default_policies_path, each.key))
+  body = file(format("%s/%s/%s.rego", path.module, var.policies_path, each.key))
 }
 
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
@@ -51,8 +51,7 @@ module "stacks" {
   webhook_endpoint = try(each.value.settings.spacelift.webhook_endpoint, null) != null ? each.value.settings.spacelift.webhook_endpoint : var.webhook_endpoint
   webhook_secret   = var.webhook_secret
 
-  policy_ids       = concat([for i in try(each.value.settings.spacelift.default_policies_enabled, var.default_policies_enabled) : spacelift_policy.default[i].id], var.additional_policy_ids)
-  policy_ids_count = length(concat(try(each.value.settings.spacelift.default_policies_enabled, var.default_policies_enabled), var.additional_policy_ids))
+  policy_ids = concat([for i in try(each.value.settings.spacelift.policies_attach, var.policies_attach) : spacelift_policy.default[i].id], var.additional_policy_ids)
 }
 
 # `administrative` policies are always attached to the `administrative` stack
@@ -65,7 +64,7 @@ data "spacelift_current_stack" "this" {
 resource "spacelift_policy" "trigger_administrative" {
   type = "TRIGGER"
   name = "Global Administrative Trigger Policy"
-  body = file(format("%s/%s/trigger.administrative.rego", path.module, var.default_policies_path))
+  body = file(format("%s/%s/trigger.administrative.rego", path.module, var.policies_path))
 }
 
 # Attach the global trigger policy to the current administrative stack

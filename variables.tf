@@ -152,9 +152,9 @@ variable "administrative_trigger_policy_enabled" {
   default     = true
 }
 
-variable "default_policies" {
+variable "policies_create" {
   type        = list(string)
-  description = "List of default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.default_policies_enabled`)"
+  description = "List of default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_attach`)"
   default = [
     "access.default",
     "git_push.default",
@@ -164,7 +164,7 @@ variable "default_policies" {
   ]
 }
 
-variable "default_policies_enabled" {
+variable "policies_attach" {
   type        = list(string)
   description = "List of default policies to attach to all Spacelift stacks"
   default = [
@@ -174,7 +174,7 @@ variable "default_policies_enabled" {
   ]
 }
 
-variable "default_policies_path" {
+variable "policies_path" {
   type        = string
   description = "Path to the catalog of default policies"
   default     = "catalog/policies"
