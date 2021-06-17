@@ -51,7 +51,12 @@ module "stacks" {
   webhook_endpoint = try(each.value.settings.spacelift.webhook_endpoint, null) != null ? each.value.settings.spacelift.webhook_endpoint : var.webhook_endpoint
   webhook_secret   = var.webhook_secret
 
-  policy_ids = concat([for i in try(each.value.settings.spacelift.policies_attach, var.policies_attach) : spacelift_policy.default[i].id], var.additional_policy_ids)
+  # Policies to attach to the stack (internally created + additional external)
+  # The internally created policies to attach can be overridden in YAML config in `settings.spacelift.policies_attach` for each stack
+  policy_ids = concat(
+    [for i in try(each.value.settings.spacelift.policies_attach, var.policies_attach) : spacelift_policy.default[i].id],
+    var.additional_policy_ids
+  )
 }
 
 # `administrative` policies are always attached to the `administrative` stack

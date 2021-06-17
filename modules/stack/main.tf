@@ -66,6 +66,8 @@ resource "spacelift_webhook" "default" {
 }
 
 resource "spacelift_policy_attachment" "default" {
+  # It does not work with `for_each`
+  # throws the error: The "for_each" value depends on resource attributes that cannot be determined until apply, so Terraform cannot predict how many instances will be created
   count = length(var.policy_ids)
 
   policy_id = var.policy_ids[count.index]
