@@ -1,3 +1,13 @@
+# Create default policies
+resource "spacelift_policy" "default" {
+  for_each = toset(var.policies_available)
+
+  type = upper(split(".", each.key)[0])
+  name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", "")))
+  body = file(format("%s/%s/%s.rego", path.module, var.policies_path, each.key))
+}
+
+# Convert infrastructure stacks from YAML configs into Spacelift stacks
 module "yaml_stack_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
   version = "0.17.0"
@@ -41,91 +51,24 @@ module "stacks" {
   webhook_endpoint = try(each.value.settings.spacelift.webhook_endpoint, null) != null ? each.value.settings.spacelift.webhook_endpoint : var.webhook_endpoint
   webhook_secret   = var.webhook_secret
 
-  # Spacelift settings for each stack (if present) override the variables to enable/disable policies on the stack
-  # Provided external policy ID override the internally created policies
-  policy_ids = compact([
-    # `access_policy` enabled by default
-    try(each.value.settings.spacelift.access_policy_enabled, var.access_policy_enabled) ? (
-      var.access_policy_id != null ? var.access_policy_id : join("", spacelift_policy.access.*.id)
-    ) : "",
-
-    # `push_policy` enabled by default
-    try(each.value.settings.spacelift.push_policy_enabled, var.push_policy_enabled) ? (
-      var.push_policy_id != null ? var.push_policy_id : join("", spacelift_policy.push.*.id)
-    ) : "",
-
-    # `plan_policy` enabled by default
-    try(each.value.settings.spacelift.plan_policy_enabled, var.plan_policy_enabled) ? (
-      var.plan_policy_id != null ? var.plan_policy_id : join("", spacelift_policy.plan.*.id)
-    ) : "",
-
-    # `trigger_dependency_policy` enabled by default
-    try(each.value.settings.spacelift.trigger_dependency_policy_enabled, var.trigger_dependency_policy_enabled) ? (
-      var.trigger_dependency_policy_id != null ? var.trigger_dependency_policy_id : join("", spacelift_policy.trigger_dependency.*.id)
-    ) : "",
-
-    # `trigger_retries_policy` disabled by default (can be enabled per stack in `settings.spacelift`)
-    try(each.value.settings.spacelift.trigger_retries_policy_enabled, var.trigger_retries_policy_enabled) ? (
-      var.trigger_retries_policy_id != null ? var.trigger_retries_policy_id : join("", spacelift_policy.trigger_retries.*.id)
-    ) : ""
-  ])
+  # Policies to attach to the stack (internally created + additional external)
+  policy_ids = concat(
+    [for i in try(each.value.settings.spacelift.policies_enabled, var.policies_enabled) : spacelift_policy.default[i].id],
+    var.policies_by_id_enabled
+  )
 }
 
-# "access" policy
-resource "spacelift_policy" "access" {
-  count = var.access_policy_id == null ? 1 : 0
-
-  type = "ACCESS"
-  name = "Access Policy"
-  body = file("${path.module}/policies/access.rego")
-}
-
-# "git push" policy that causes executions on stacks when `<component_root>/*.tf` is modified
-resource "spacelift_policy" "push" {
-  count = var.push_policy_id == null ? 1 : 0
-
-  type = "GIT_PUSH"
-  name = "Push Policy"
-  body = file("${path.module}/policies/push.rego")
-}
-
-# "plan" policy that stops and waits for confirmation after a plan fails
-resource "spacelift_policy" "plan" {
-  count = var.plan_policy_id == null ? 1 : 0
-
-  type = "PLAN"
-  name = "Plan Policy"
-  body = file("${path.module}/policies/plan.rego")
-}
-
-# dependency trigger policy that allows to define custom triggers
-resource "spacelift_policy" "trigger_dependency" {
-  count = var.trigger_dependency_policy_id == null ? 1 : 0
-
-  type = "TRIGGER"
-  name = "Stack Dependency Trigger Policy"
-  body = file("${path.module}/policies/trigger-dependencies.rego")
-}
-
-# automatic retries trigger policy that allows automatically restarting the failed run
-resource "spacelift_policy" "trigger_retries" {
-  count = var.trigger_retries_policy_id == null ? 1 : 0
-
-  type = "TRIGGER"
-  name = "Failed Run Automatic Retries Trigger Policy"
-  body = file("${path.module}/policies/trigger-retries.rego")
+# `administrative` policies are always attached to the `administrative` stack
+# `spacelift_current_stack` is the administrative stack that manages all other infrastructure stacks
+data "spacelift_current_stack" "this" {
+  count = var.external_execution ? 0 : 1
 }
 
 # global administrative trigger policy that allows us to trigger a stack right after it gets created
 resource "spacelift_policy" "trigger_administrative" {
   type = "TRIGGER"
   name = "Global Administrative Trigger Policy"
-  body = file("${path.module}/policies/trigger-administrative.rego")
-}
-
-# `spacelift_current_stack` is the administrative stack that manages all other infrastructure stacks
-data "spacelift_current_stack" "this" {
-  count = var.external_execution ? 0 : 1
+  body = file(format("%s/%s/trigger.administrative.rego", path.module, var.policies_path))
 }
 
 # Attach the global trigger policy to the current administrative stack

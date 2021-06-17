@@ -152,32 +152,36 @@ variable "administrative_trigger_policy_enabled" {
   default     = true
 }
 
-variable "trigger_retries_policy_enabled" {
-  type        = bool
-  description = "Flag to enable/disable the stack automatic retries trigger policy"
-  default     = false
+variable "policies_available" {
+  type        = list(string)
+  description = "List of available default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_enabled`)"
+  default = [
+    "access.default",
+    "git_push.default",
+    "plan.default",
+    "trigger.dependencies",
+    "trigger.retries"
+  ]
 }
 
-variable "trigger_dependency_policy_enabled" {
-  type        = bool
-  description = "Flag to enable/disable the stack trigger dependency policy"
-  default     = true
+variable "policies_enabled" {
+  type        = list(string)
+  description = "List of default policies to attach to all Spacelift stacks"
+  default = [
+    "git_push.default",
+    "plan.default",
+    "trigger.dependencies"
+  ]
 }
 
-variable "access_policy_enabled" {
-  type        = bool
-  description = "Flag to enable/disable the stack access policy"
-  default     = true
+variable "policies_path" {
+  type        = string
+  description = "Path to the catalog of default policies"
+  default     = "catalog/policies"
 }
 
-variable "push_policy_enabled" {
-  type        = bool
-  description = "Flag to enable/disable the stack push policy"
-  default     = true
-}
-
-variable "plan_policy_enabled" {
-  type        = bool
-  description = "Flag to enable/disable the stack plan policy"
-  default     = true
+variable "policies_by_id_enabled" {
+  type        = list(string)
+  description = "List of existing policy IDs to attach to all Spacelift stacks"
+  default     = []
 }

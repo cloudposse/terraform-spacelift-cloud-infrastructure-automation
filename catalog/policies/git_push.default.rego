@@ -1,4 +1,5 @@
 # https://docs.spacelift.io/concepts/policy/git-push-policy
+# GIT_PUSH policy that causes executions on stacks when `<component_root>/*.tf` or YAML config files are modified
 
 package spacelift
 

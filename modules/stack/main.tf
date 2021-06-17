@@ -1,6 +1,5 @@
 locals {
   component_env = { for k, v in var.component_env : k => v if var.enabled == true }
-  policy_ids    = { for v in var.policy_ids : v => v if var.enabled == true }
 }
 
 resource "spacelift_stack" "default" {
@@ -67,8 +66,10 @@ resource "spacelift_webhook" "default" {
 }
 
 resource "spacelift_policy_attachment" "default" {
-  for_each = local.policy_ids
+  # It does not work with `for_each`
+  # throws the error: The "for_each" value depends on resource attributes that cannot be determined until apply, so Terraform cannot predict how many instances will be created
+  count = length(var.policy_ids)
 
-  policy_id = each.value
+  policy_id = var.policy_ids[count.index]
   stack_id  = spacelift_stack.default[0].id
 }

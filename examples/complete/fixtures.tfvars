@@ -6,6 +6,6 @@ branch = "master"
 
 repository = "spacelift-demo"
 
-terraform_version = "0.13.5"
+terraform_version = "0.13.7"
 
 external_execution = true

@@ -1,5 +1,6 @@
 package spacelift
 
+# Trigger the stack after it gets created in the `administrative` stack
 trigger[stack.id] {
   stack := input.stacks[_]
   # compare a plaintext string (stack.id) to a checksum
