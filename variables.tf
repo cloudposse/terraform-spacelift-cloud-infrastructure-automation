@@ -182,6 +182,12 @@ variable "policies_path" {
 
 variable "policies_by_id_enabled" {
   type        = list(string)
-  description = "List of existing policy IDs to attach to all Spacelift stacks"
+  description = "List of existing policy IDs to attach to all Spacelift stacks. These policies must be created outside of this module"
   default     = []
+}
+
+variable "policies_by_name_path" {
+  type        = string
+  description = "Path to the catalog of external Rego policies. The Rego files must exist in the caller's code at the path. The module will create Spacelift policies from the external Rego definitions"
+  default     = ""
 }

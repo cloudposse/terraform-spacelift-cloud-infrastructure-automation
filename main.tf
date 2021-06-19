@@ -1,4 +1,4 @@
-# Create default policies
+# Create default policies (Rego defined in the catalog in this module)
 resource "spacelift_policy" "default" {
   for_each = toset(var.policies_available)
 
@@ -20,6 +20,22 @@ module "yaml_stack_config" {
   stack_config_path                 = var.stack_config_path
 
   context = module.this.context
+}
+
+locals {
+  # Find Rego policies defined in YAML config in all stacks
+  distinct_policy_names = distinct(compact(flatten([
+    for k, v in module.yaml_stack_config.spacelift_stacks : try(v.settings.spacelift.policies_by_name_enabled, []) if v.enabled
+  ])))
+}
+
+# Create custom policies (Rego defined externally in the caller code)
+resource "spacelift_policy" "custom" {
+  for_each = toset(local.distinct_policy_names)
+
+  type = upper(split(".", each.key)[0])
+  name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", "")))
+  body = file(format("%s/%s.rego", var.policies_by_name_path, each.key))
 }
 
 module "stacks" {
@@ -51,9 +67,10 @@ module "stacks" {
   webhook_endpoint = try(each.value.settings.spacelift.webhook_endpoint, null) != null ? each.value.settings.spacelift.webhook_endpoint : var.webhook_endpoint
   webhook_secret   = var.webhook_secret
 
-  # Policies to attach to the stack (internally created + additional external)
+  # Policies to attach to the stack (internally created + additional external provided by IDs + additional external created by this module from external Rego files)
   policy_ids = concat(
-    [for i in try(each.value.settings.spacelift.policies_enabled, var.policies_enabled) : spacelift_policy.default[i].id],
+    compact([for i in try(each.value.settings.spacelift.policies_enabled, var.policies_enabled) : spacelift_policy.default[i].id]),
+    compact([for i in try(each.value.settings.spacelift.policies_by_name_enabled, []) : spacelift_policy.custom[i].id]),
     var.policies_by_id_enabled
   )
 }
