@@ -73,11 +73,15 @@ module "stacks" {
     [for i in try(each.value.settings.spacelift.policies_by_name_enabled, []) : spacelift_policy.custom[i].id],
     var.policies_by_id_enabled
   )
+
+  drift_detection_enabled   = try(each.value.settings.spacelift.drift_detection_enabled, null) != null ? each.value.settings.spacelift.drift_detection_enabled : var.drift_detection_enabled
+  drift_detection_reconcile = try(each.value.settings.spacelift.drift_detection_reconcile, null) != null ? each.value.settings.spacelift.drift_detection_reconcile : var.drift_detection_reconcile
+  drift_detection_schedule  = try(each.value.settings.spacelift.drift_detection_schedule, null) != null ? each.value.settings.spacelift.drift_detection_schedule : var.drift_detection_schedule
 }
 
 # `administrative` policies are always attached to the `administrative` stack
 # `spacelift_current_stack` is the administrative stack that manages all other infrastructure stacks
-data "spacelift_current_stack" "this" {
+data "spacelift_current_stack" "administrative" {
   count = var.external_execution ? 0 : 1
 }
 
@@ -93,5 +97,13 @@ resource "spacelift_policy_attachment" "trigger_administrative" {
   count = var.external_execution || var.administrative_trigger_policy_enabled == false ? 0 : 1
 
   policy_id = spacelift_policy.trigger_administrative.id
-  stack_id  = data.spacelift_current_stack.this[0].id
+  stack_id  = data.spacelift_current_stack.administrative[0].id
+}
+
+resource "spacelift_drift_detection" "drift_detection_administrative" {
+  count = var.external_execution || var.administrative_stack_drift_detection_enabled == false ? 0 : 1
+
+  stack_id  = data.spacelift_current_stack.administrative[0].id
+  reconcile = var.administrative_stack_drift_detection_reconcile
+  schedule  = var.administrative_stack_drift_detection_schedule
 }

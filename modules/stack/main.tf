@@ -73,3 +73,11 @@ resource "spacelift_policy_attachment" "default" {
   policy_id = var.policy_ids[count.index]
   stack_id  = spacelift_stack.default[0].id
 }
+
+resource "spacelift_drift_detection" "default" {
+  count = var.enabled && var.drift_detection_enabled ? 1 : 0
+
+  stack_id  = spacelift_stack.default[0].id
+  reconcile = var.drift_detection_reconcile
+  schedule  = var.drift_detection_schedule
+}

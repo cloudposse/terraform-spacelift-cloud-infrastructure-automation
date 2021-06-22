@@ -191,3 +191,39 @@ variable "policies_by_name_path" {
   description = "Path to the catalog of external Rego policies. The Rego files must exist in the caller's code at the path. The module will create Spacelift policies from the external Rego definitions"
   default     = ""
 }
+
+variable "administrative_stack_drift_detection_enabled" {
+  type        = bool
+  description = "Flag to enable/disable administrative stack drift detection"
+  default     = true
+}
+
+variable "administrative_stack_drift_detection_reconcile" {
+  type        = bool
+  description = "Flag to enable/disable administrative stack drift automatic reconciliation. If drift is detected and `reconcile` is turned on, Spacelift will create a tracked run to correct the drift"
+  default     = true
+}
+
+variable "administrative_stack_drift_detection_schedule" {
+  type        = list(string)
+  description = "List of cron expressions to schedule drift detection for the administrative stack"
+  default     = ["0 */24 * * *"]
+}
+
+variable "drift_detection_enabled" {
+  type        = bool
+  description = "Flag to enable/disable drift detection on the infrastructure stacks"
+  default     = false
+}
+
+variable "drift_detection_reconcile" {
+  type        = bool
+  description = "Flag to enable/disable infrastructure stacks drift automatic reconciliation. If drift is detected and `reconcile` is turned on, Spacelift will create a tracked run to correct the drift"
+  default     = false
+}
+
+variable "drift_detection_schedule" {
+  type        = list(string)
+  description = "List of cron expressions to schedule drift detection for the infrastructure stacks"
+  default     = ["0 */24 * * *"]
+}

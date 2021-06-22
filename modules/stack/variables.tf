@@ -118,3 +118,21 @@ variable "policy_ids" {
   default     = []
   description = "List of Rego policy IDs to attach to this stack"
 }
+
+variable "drift_detection_enabled" {
+  type        = bool
+  description = "Flag to enable/disable drift detection on the infrastructure stacks"
+  default     = false
+}
+
+variable "drift_detection_reconcile" {
+  type        = bool
+  description = "Flag to enable/disable infrastructure stacks drift automatic reconciliation. If drift is detected and `reconcile` is turned on, Spacelift will create a tracked run to correct the drift"
+  default     = false
+}
+
+variable "drift_detection_schedule" {
+  type        = list(string)
+  description = "List of cron expressions to schedule drift detection for the infrastructure stacks"
+  default     = ["0 */24 * * *"]
+}
