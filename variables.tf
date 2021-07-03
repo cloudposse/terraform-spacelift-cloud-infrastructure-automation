@@ -227,3 +227,33 @@ variable "drift_detection_schedule" {
   description = "List of cron expressions to schedule drift detection for the infrastructure stacks"
   default     = ["0 */24 * * *"]
 }
+
+variable "aws_role_enabled" {
+  type        = bool
+  description = "Flag to enable/disable Spacelift to use AWS STS to assume the supplied IAM role and put its temporary credentials in the runtime environment"
+  default     = false
+}
+
+variable "aws_role_arn" {
+  type        = string
+  description = "ARN of the AWS IAM role to assume and put its temporary credentials in the runtime environment"
+  default     = null
+}
+
+variable "aws_role_external_id" {
+  type        = string
+  description = "Custom external ID (works only for private workers). See https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html for more details"
+  default     = null
+}
+
+variable "aws_role_generate_credentials_in_worker" {
+  type        = bool
+  description = "Flag to enable/disable generating AWS credentials in the private worker after assuming the supplied IAM role"
+  default     = true
+}
+
+variable "stack_destructor_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the stack destructor to destroy the resources of a stack before deleting the stack itself"
+  default     = false
+}

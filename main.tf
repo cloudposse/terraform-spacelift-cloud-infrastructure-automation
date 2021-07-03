@@ -77,6 +77,16 @@ module "stacks" {
   drift_detection_enabled   = try(each.value.settings.spacelift.drift_detection_enabled, null) != null ? each.value.settings.spacelift.drift_detection_enabled : var.drift_detection_enabled
   drift_detection_reconcile = try(each.value.settings.spacelift.drift_detection_reconcile, null) != null ? each.value.settings.spacelift.drift_detection_reconcile : var.drift_detection_reconcile
   drift_detection_schedule  = try(each.value.settings.spacelift.drift_detection_schedule, null) != null ? each.value.settings.spacelift.drift_detection_schedule : var.drift_detection_schedule
+
+  aws_role_enabled     = try(each.value.settings.spacelift.aws_role_enabled, null) != null ? each.value.settings.spacelift.aws_role_enabled : var.aws_role_enabled
+  aws_role_arn         = try(each.value.settings.spacelift.aws_role_arn, null) != null ? each.value.settings.spacelift.aws_role_arn : var.aws_role_arn
+  aws_role_external_id = try(each.value.settings.spacelift.aws_role_external_id, null) != null ? each.value.settings.spacelift.aws_role_external_id : var.aws_role_external_id
+
+  aws_role_generate_credentials_in_worker = try(each.value.settings.spacelift.aws_role_generate_credentials_in_worker, null) != null ? (
+    each.value.settings.spacelift.aws_role_generate_credentials_in_worker
+  ) : var.aws_role_generate_credentials_in_worker
+
+  stack_destructor_enabled = try(each.value.settings.spacelift.stack_destructor_enabled, null) != null ? each.value.settings.spacelift.stack_destructor_enabled : var.stack_destructor_enabled
 }
 
 # `administrative` policies are always attached to the `administrative` stack
