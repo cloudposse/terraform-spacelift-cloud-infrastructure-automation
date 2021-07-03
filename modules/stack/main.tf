@@ -81,3 +81,27 @@ resource "spacelift_drift_detection" "default" {
   reconcile = var.drift_detection_reconcile
   schedule  = var.drift_detection_schedule
 }
+
+resource "spacelift_aws_role" "default" {
+  count = var.enabled && var.aws_role_enabled ? 1 : 0
+
+  stack_id                       = spacelift_stack.default[0].id
+  role_arn                       = var.aws_role_arn
+  external_id                    = var.aws_role_external_id
+  generate_credentials_in_worker = var.aws_role_generate_credentials_in_worker
+}
+
+resource "spacelift_stack_destructor" "default" {
+  count = var.enabled && var.stack_destructor_enabled ? 1 : 0
+
+  stack_id = spacelift_stack.default[0].id
+
+  depends_on = [
+    spacelift_mounted_file.stack_config,
+    spacelift_environment_variable.stack_name,
+    spacelift_environment_variable.component_name,
+    spacelift_environment_variable.component_env_vars,
+    spacelift_policy_attachment.default,
+    spacelift_aws_role.default
+  ]
+}
