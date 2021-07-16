@@ -18,17 +18,27 @@ ignore  {
     input.push.message == "pre-commit fixes"
 }
 
+# Propose a run if component's files are affected
+# https://docs.spacelift.io/concepts/run/proposed
 propose {
     project_affected
 }
 
-# Track if project files are affected
+# Propose a run if component's stack config files are affected
+# https://docs.spacelift.io/concepts/run/proposed
+propose {
+    stack_config_affected
+}
+
+# Track if project files are affected and the push was to the stack's tracked branch
+# https://docs.spacelift.io/concepts/run/tracked
 track {
     project_affected
     input.push.branch == input.stack.branch
 }
 
-# Track if stack config files are affected
+# Track if stack config files are affected and the push was to the stacks' tracked branch
+# https://docs.spacelift.io/concepts/run/tracked
 track {
     stack_config_affected
     input.push.branch == input.stack.branch
@@ -88,12 +98,12 @@ stack_config_affected {
 # NOTE: procesing of component stack dependencies is controlled by var.component_deps_processing_enabled
 deps := [dep | startswith(labels[i], "deps:"); dep := split(labels[i], ":")[1]]
 
-# Check if any of the stack dependencies have been modified
+# Check if any of the component stack dependencies have been modified
 stack_config_affected {
     endswith(affected_files[_], deps[_])
 }
 
-# Checking startswith allows `deps:*` to reference top level folders.
+# Checking startswith allows `deps:*` to reference top level folders
 stack_config_affected {
     startswith(affected_files[_], deps[_])
 }
