@@ -45,9 +45,9 @@ track {
 }
 
 # Get all affected files
-# `input.push.head_diff` contains a list of file names (relative to the project root)
+# `input.head_diff` contains a list of file names (relative to the project root)
 # that were changed with respect to the HEAD of the branch
-affected_files := input.push.head_diff
+affected_files := input.head_diff
 
 # Track these extensions in the project folder
 tracked_extensions := {".tf", ".tf.json", ".tfvars", ".yaml", ".yml", ".tpl", ".sh", ".shell", ".bash"}
