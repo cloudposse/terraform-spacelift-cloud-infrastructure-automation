@@ -45,7 +45,7 @@ track {
 }
 
 # Get all affected files
-# `input.push.affected_files` containts a list of file names (relative to the project root)
+# `input.push.affected_files` contains a list of file names (relative to the project root)
 # that were changed in the current push to the branch
 affected_files := input.push.affected_files
 

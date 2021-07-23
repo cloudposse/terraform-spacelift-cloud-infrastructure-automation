@@ -45,7 +45,7 @@ track {
 }
 
 # Get all affected files
-# `input.push.head_diff` containts a list of file names (relative to the project root)
+# `input.push.head_diff` contains a list of file names (relative to the project root)
 # that were changed with respect to the HEAD of the branch
 affected_files := input.push.head_diff
 
