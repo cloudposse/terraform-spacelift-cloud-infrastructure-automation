@@ -3,14 +3,14 @@ resource "spacelift_policy" "default" {
   for_each = toset(var.policies_available)
 
   type = upper(split(".", each.key)[0])
-  name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", "")))
+  name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
   body = file(format("%s/%s/%s.rego", path.module, var.policies_path, each.key))
 }
 
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
 module "yaml_stack_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
-  version = "0.17.0"
+  version = "0.18.0"
 
   stacks                            = var.stacks
   stack_deps_processing_enabled     = var.stack_deps_processing_enabled
@@ -34,7 +34,7 @@ resource "spacelift_policy" "custom" {
   for_each = toset(local.distinct_policy_names)
 
   type = upper(split(".", each.key)[0])
-  name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", "")))
+  name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
   body = file(format("%s/%s.rego", var.policies_by_name_path, each.key))
 }
 

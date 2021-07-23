@@ -158,6 +158,7 @@ variable "policies_available" {
   default = [
     "access.default",
     "git_push.default",
+    "git_push.head-diff",
     "plan.default",
     "trigger.dependencies",
     "trigger.retries"
