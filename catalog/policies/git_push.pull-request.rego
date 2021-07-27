@@ -3,6 +3,21 @@
 
 package spacelift
 
+# Track these extensions in the project folder
+tracked_extensions := {".tf", ".tf.json", ".tfvars", ".yaml", ".yml", ".tpl", ".sh", ".shell", ".bash", ".json"}
+
+# Project root
+project_root := input.stack.project_root
+
+# Currently supported actions are: opened, reopened, merged, edited, synchronize, labeled, unlabeled
+# List of PR actions to trigger a proposed run
+proposed_run_pull_request_actions := {"opened", "reopened", "synchronize"}
+
+# Get all affected files
+# `input.pull_request.diff` contains a list of file names (relative to the project root)
+# that have changes with respect to the BASE branch (difference between the BASE branch and the HEAD of the PR branch)
+affected_files := input.pull_request.diff
+
 # Ignore if any of the `ignore` rules evaluates to `true`
 ignore  {
     not project_affected
@@ -18,16 +33,18 @@ ignore  {
     input.push.message == "pre-commit fixes"
 }
 
-# Propose a run if component's files are affected
+# Propose a run if component's files are affected and the pull request action is in the `proposed_run_pull_request_actions` array
 # https://docs.spacelift.io/concepts/run/proposed
 propose {
     project_affected
+    proposed_run_pull_request_actions[_] = input.pull_request.action
 }
 
-# Propose a run if component's stack config files are affected
+# Propose a run if component's stack config files are affected and the pull request action is in the `proposed_run_pull_request_actions` array
 # https://docs.spacelift.io/concepts/run/proposed
 propose {
     stack_config_affected
+    proposed_run_pull_request_actions[_] = input.pull_request.action
 }
 
 # Track if project files are affected and the push was to the stack's tracked branch
@@ -43,16 +60,6 @@ track {
     stack_config_affected
     input.push.branch == input.stack.branch
 }
-
-# Get all affected files
-# `input.head_diff` contains a list of file names (relative to the project root)
-# that were changed with respect to the BASE branch (difference between the BASE branch and the HEAD of the current branch)
-affected_files := input.head_diff
-
-# Track these extensions in the project folder
-tracked_extensions := {".tf", ".tf.json", ".tfvars", ".yaml", ".yml", ".tpl", ".sh", ".shell", ".bash"}
-
-project_root := input.stack.project_root
 
 # Check if any of the tracked extensions were modified in the project folder
 # https://www.openpolicyagent.org/docs/latest/policy-language/#some-keyword

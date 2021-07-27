@@ -157,7 +157,7 @@ variable "policies_available" {
   description = "List of available default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_enabled`)"
   default = [
     "access.default",
-    "git_push.default",
+    "git_push.pull-request",
     "plan.default",
     "trigger.dependencies",
     "trigger.retries"
@@ -168,7 +168,7 @@ variable "policies_enabled" {
   type        = list(string)
   description = "List of default policies to attach to all Spacelift stacks"
   default = [
-    "git_push.default",
+    "git_push.pull-request",
     "plan.default",
     "trigger.dependencies"
   ]
