@@ -46,7 +46,7 @@ track {
 
 # Get all affected files
 # `input.head_diff` contains a list of file names (relative to the project root)
-# that were changed with respect to the HEAD of the branch
+# that were changed with respect to the BASE branch (difference between the BASE branch and the HEAD of the current branch)
 affected_files := input.head_diff
 
 # Track these extensions in the project folder

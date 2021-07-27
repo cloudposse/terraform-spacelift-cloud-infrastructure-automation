@@ -15,7 +15,7 @@ proposed_run_pull_request_actions := {"opened", "reopened", "synchronize"}
 
 # Get all affected files
 # `input.pull_request.diff` contains a list of file names (relative to the project root)
-# that have changes with respect to the BASE branch
+# that have changes with respect to the BASE branch (difference between the BASE branch and the HEAD of the PR branch)
 affected_files := input.pull_request.diff
 
 # Ignore if any of the `ignore` rules evaluates to `true`
