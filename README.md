@@ -258,10 +258,10 @@ Available targets:
 | <a name="input_name"></a> [name](#input\_name) | Solution name, e.g. 'app' or 'jenkins' | `string` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `null` | no |
 | <a name="input_plan_policy_id"></a> [plan\_policy\_id](#input\_plan\_policy\_id) | ID of an existing Plan policy to override the default | `string` | `null` | no |
-| <a name="input_policies_available"></a> [policies\_available](#input\_policies\_available) | List of available default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_enabled`) | `list(string)` | <pre>[<br>  "access.default",<br>  "git_push.pull-request",<br>  "plan.default",<br>  "trigger.dependencies",<br>  "trigger.retries"<br>]</pre> | no |
+| <a name="input_policies_available"></a> [policies\_available](#input\_policies\_available) | List of available default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_enabled`) | `list(string)` | <pre>[<br>  "access.default",<br>  "git_push.proposed-run",<br>  "git_push.tracked-run",<br>  "plan.default",<br>  "trigger.dependencies",<br>  "trigger.retries"<br>]</pre> | no |
 | <a name="input_policies_by_id_enabled"></a> [policies\_by\_id\_enabled](#input\_policies\_by\_id\_enabled) | List of existing policy IDs to attach to all Spacelift stacks. These policies must be created outside of this module | `list(string)` | `[]` | no |
 | <a name="input_policies_by_name_path"></a> [policies\_by\_name\_path](#input\_policies\_by\_name\_path) | Path to the catalog of external Rego policies. The Rego files must exist in the caller's code at the path. The module will create Spacelift policies from the external Rego definitions | `string` | `""` | no |
-| <a name="input_policies_enabled"></a> [policies\_enabled](#input\_policies\_enabled) | List of default policies to attach to all Spacelift stacks | `list(string)` | <pre>[<br>  "git_push.pull-request",<br>  "plan.default",<br>  "trigger.dependencies"<br>]</pre> | no |
+| <a name="input_policies_enabled"></a> [policies\_enabled](#input\_policies\_enabled) | List of default policies to attach to all Spacelift stacks | `list(string)` | <pre>[<br>  "git_push.proposed-run",<br>  "git_push.tracked-run",<br>  "plan.default",<br>  "trigger.dependencies"<br>]</pre> | no |
 | <a name="input_policies_path"></a> [policies\_path](#input\_policies\_path) | Path to the catalog of default policies | `string` | `"catalog/policies"` | no |
 | <a name="input_push_policy_id"></a> [push\_policy\_id](#input\_push\_policy\_id) | ID of an existing Push policy to override the default | `string` | `null` | no |
 | <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
@@ -394,7 +394,7 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
 ## Copyrights
 
-Copyright © 2020-2021 [Cloud Posse, LLC](https://cloudposse.com)
+Copyright © 2021-2021 [Cloud Posse, LLC](https://cloudposse.com)
 
 
 
