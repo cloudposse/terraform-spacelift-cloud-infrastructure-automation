@@ -134,7 +134,7 @@ variable "drift_detection_reconcile" {
 variable "drift_detection_schedule" {
   type        = list(string)
   description = "List of cron expressions to schedule drift detection for the infrastructure stacks"
-  default     = ["0 */24 * * *"]
+  default     = ["0 4 * * *"]
 }
 
 variable "aws_role_enabled" {

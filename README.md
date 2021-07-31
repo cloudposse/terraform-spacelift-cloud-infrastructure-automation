@@ -229,7 +229,7 @@ Available targets:
 | <a name="input_additional_tag_map"></a> [additional\_tag\_map](#input\_additional\_tag\_map) | Additional tags for appending to tags\_as\_list\_of\_maps. Not added to `tags`. | `map(string)` | `{}` | no |
 | <a name="input_administrative_stack_drift_detection_enabled"></a> [administrative\_stack\_drift\_detection\_enabled](#input\_administrative\_stack\_drift\_detection\_enabled) | Flag to enable/disable administrative stack drift detection | `bool` | `true` | no |
 | <a name="input_administrative_stack_drift_detection_reconcile"></a> [administrative\_stack\_drift\_detection\_reconcile](#input\_administrative\_stack\_drift\_detection\_reconcile) | Flag to enable/disable administrative stack drift automatic reconciliation. If drift is detected and `reconcile` is turned on, Spacelift will create a tracked run to correct the drift | `bool` | `true` | no |
-| <a name="input_administrative_stack_drift_detection_schedule"></a> [administrative\_stack\_drift\_detection\_schedule](#input\_administrative\_stack\_drift\_detection\_schedule) | List of cron expressions to schedule drift detection for the administrative stack | `list(string)` | <pre>[<br>  "0 */24 * * *"<br>]</pre> | no |
+| <a name="input_administrative_stack_drift_detection_schedule"></a> [administrative\_stack\_drift\_detection\_schedule](#input\_administrative\_stack\_drift\_detection\_schedule) | List of cron expressions to schedule drift detection for the administrative stack | `list(string)` | <pre>[<br>  "0 4 * * *"<br>]</pre> | no |
 | <a name="input_administrative_trigger_policy_enabled"></a> [administrative\_trigger\_policy\_enabled](#input\_administrative\_trigger\_policy\_enabled) | Flag to enable/disable the global administrative trigger policy | `bool` | `true` | no |
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | Additional attributes (e.g. `1`) | `list(string)` | `[]` | no |
 | <a name="input_autodeploy"></a> [autodeploy](#input\_autodeploy) | Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration) | `bool` | `false` | no |
@@ -244,7 +244,7 @@ Available targets:
 | <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes`.<br>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
 | <a name="input_drift_detection_enabled"></a> [drift\_detection\_enabled](#input\_drift\_detection\_enabled) | Flag to enable/disable drift detection on the infrastructure stacks | `bool` | `false` | no |
 | <a name="input_drift_detection_reconcile"></a> [drift\_detection\_reconcile](#input\_drift\_detection\_reconcile) | Flag to enable/disable infrastructure stacks drift automatic reconciliation. If drift is detected and `reconcile` is turned on, Spacelift will create a tracked run to correct the drift | `bool` | `false` | no |
-| <a name="input_drift_detection_schedule"></a> [drift\_detection\_schedule](#input\_drift\_detection\_schedule) | List of cron expressions to schedule drift detection for the infrastructure stacks | `list(string)` | <pre>[<br>  "0 */24 * * *"<br>]</pre> | no |
+| <a name="input_drift_detection_schedule"></a> [drift\_detection\_schedule](#input\_drift\_detection\_schedule) | List of cron expressions to schedule drift detection for the infrastructure stacks | `list(string)` | <pre>[<br>  "0 4 * * *"<br>]</pre> | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment, e.g. 'uw2', 'us-west-2', OR 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
 | <a name="input_external_execution"></a> [external\_execution](#input\_external\_execution) | Set this to true if you're calling this module from outside of a Spacelift stack (e.g. the `complete` example) | `bool` | `false` | no |
@@ -258,10 +258,10 @@ Available targets:
 | <a name="input_name"></a> [name](#input\_name) | Solution name, e.g. 'app' or 'jenkins' | `string` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `null` | no |
 | <a name="input_plan_policy_id"></a> [plan\_policy\_id](#input\_plan\_policy\_id) | ID of an existing Plan policy to override the default | `string` | `null` | no |
-| <a name="input_policies_available"></a> [policies\_available](#input\_policies\_available) | List of available default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_enabled`) | `list(string)` | <pre>[<br>  "access.default",<br>  "git_push.pull-request",<br>  "plan.default",<br>  "trigger.dependencies",<br>  "trigger.retries"<br>]</pre> | no |
+| <a name="input_policies_available"></a> [policies\_available](#input\_policies\_available) | List of available default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_enabled`) | `list(string)` | <pre>[<br>  "access.default",<br>  "git_push.proposed-run",<br>  "git_push.tracked-run",<br>  "plan.default",<br>  "trigger.dependencies",<br>  "trigger.retries"<br>]</pre> | no |
 | <a name="input_policies_by_id_enabled"></a> [policies\_by\_id\_enabled](#input\_policies\_by\_id\_enabled) | List of existing policy IDs to attach to all Spacelift stacks. These policies must be created outside of this module | `list(string)` | `[]` | no |
 | <a name="input_policies_by_name_path"></a> [policies\_by\_name\_path](#input\_policies\_by\_name\_path) | Path to the catalog of external Rego policies. The Rego files must exist in the caller's code at the path. The module will create Spacelift policies from the external Rego definitions | `string` | `""` | no |
-| <a name="input_policies_enabled"></a> [policies\_enabled](#input\_policies\_enabled) | List of default policies to attach to all Spacelift stacks | `list(string)` | <pre>[<br>  "git_push.pull-request",<br>  "plan.default",<br>  "trigger.dependencies"<br>]</pre> | no |
+| <a name="input_policies_enabled"></a> [policies\_enabled](#input\_policies\_enabled) | List of default policies to attach to all Spacelift stacks | `list(string)` | <pre>[<br>  "git_push.proposed-run",<br>  "git_push.tracked-run",<br>  "plan.default",<br>  "trigger.dependencies"<br>]</pre> | no |
 | <a name="input_policies_path"></a> [policies\_path](#input\_policies\_path) | Path to the catalog of default policies | `string` | `"catalog/policies"` | no |
 | <a name="input_push_policy_id"></a> [push\_policy\_id](#input\_push\_policy\_id) | ID of an existing Push policy to override the default | `string` | `null` | no |
 | <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
@@ -394,7 +394,7 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
 ## Copyrights
 
-Copyright © 2020-2021 [Cloud Posse, LLC](https://cloudposse.com)
+Copyright © 2021-2021 [Cloud Posse, LLC](https://cloudposse.com)
 
 
 

@@ -157,7 +157,8 @@ variable "policies_available" {
   description = "List of available default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_enabled`)"
   default = [
     "access.default",
-    "git_push.pull-request",
+    "git_push.proposed-run",
+    "git_push.tracked-run",
     "plan.default",
     "trigger.dependencies",
     "trigger.retries"
@@ -168,7 +169,8 @@ variable "policies_enabled" {
   type        = list(string)
   description = "List of default policies to attach to all Spacelift stacks"
   default = [
-    "git_push.pull-request",
+    "git_push.proposed-run",
+    "git_push.tracked-run",
     "plan.default",
     "trigger.dependencies"
   ]
@@ -207,7 +209,7 @@ variable "administrative_stack_drift_detection_reconcile" {
 variable "administrative_stack_drift_detection_schedule" {
   type        = list(string)
   description = "List of cron expressions to schedule drift detection for the administrative stack"
-  default     = ["0 */24 * * *"]
+  default     = ["0 4 * * *"]
 }
 
 variable "drift_detection_enabled" {
@@ -225,7 +227,7 @@ variable "drift_detection_reconcile" {
 variable "drift_detection_schedule" {
   type        = list(string)
   description = "List of cron expressions to schedule drift detection for the infrastructure stacks"
-  default     = ["0 */24 * * *"]
+  default     = ["0 4 * * *"]
 }
 
 variable "aws_role_enabled" {
