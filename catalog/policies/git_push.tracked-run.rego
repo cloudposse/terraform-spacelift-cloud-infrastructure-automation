@@ -14,17 +14,6 @@ tracked_extensions := {".tf", ".tf.json", ".tfvars", ".yaml", ".yml", ".tpl", ".
 # Project root
 project_root := input.stack.project_root
 
-# Ignore if any of the `ignore` rules evaluates to `true`
-ignore  {
-    not project_affected
-    not stack_config_affected
-}
-
-# If pre-commit hooks make changes, they are not semantic changes and can and should be ignored
-ignore  {
-    input.push.message == "pre-commit fixes"
-}
-
 # Track if project files are affected and the push was to the stack's tracked branch
 # https://docs.spacelift.io/concepts/run/tracked
 track {

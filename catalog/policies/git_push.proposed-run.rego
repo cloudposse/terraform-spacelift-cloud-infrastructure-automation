@@ -19,11 +19,6 @@ project_root := input.stack.project_root
 proposed_run_pull_request_actions := {"opened", "reopened", "synchronize"}
 
 # Ignore if any of the `ignore` rules evaluates to `true`
-ignore  {
-    not project_affected
-    not stack_config_affected
-}
-
 # If pre-commit hooks make changes, they are not semantic changes and can and should be ignored
 ignore  {
     input.push.message == "pre-commit fixes"
