@@ -28,8 +28,7 @@ resource "spacelift_run" "this" {
   commit_sha = var.commit_sha
 
   keepers = {
-    branch     = spacelift_stack.default.branch
-    commit_sha = var.commit_sha
+    branch = spacelift_stack.default.branch
   }
 
   depends_on = [
