@@ -31,7 +31,7 @@ resource "spacelift_run" "this" {
     branch     = spacelift_stack.default.branch
     commit_sha = var.commit_sha
   }
-  
+
   depends_on = [
     spacelift_mounted_file.stack_config,
     spacelift_environment_variable.stack_name,
