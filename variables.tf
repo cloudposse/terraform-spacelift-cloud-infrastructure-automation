@@ -44,6 +44,12 @@ variable "branch" {
   default     = "main"
 }
 
+variable "commit_sha" {
+  type        = string
+  description = "The commit SHA for which to trigger a run."
+  default     = null
+}
+
 variable "components_path" {
   type        = string
   description = "The relative pathname for where all components reside"
