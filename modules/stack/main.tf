@@ -24,18 +24,18 @@ resource "spacelift_stack" "default" {
 resource "spacelift_run" "this" {
   count = var.enabled && var.commit_sha != null ? 1 : 0
 
-  stack_id   = spacelift_stack.default.id
+  stack_id   = spacelift_stack.default[0].id
   commit_sha = var.commit_sha
 
   keepers = {
-    branch = spacelift_stack.default.branch
+    branch = spacelift_stack.default[0].branch
   }
 
   depends_on = [
-    spacelift_mounted_file.stack_config,
-    spacelift_environment_variable.stack_name,
-    spacelift_environment_variable.component_name,
-    spacelift_policy_attachment.default,
+    spacelift_mounted_file.stack_config[0],
+    spacelift_environment_variable.stack_name[0],
+    spacelift_environment_variable.component_name[0],
+    spacelift_policy_attachment.default[0],
   ]
 }
 
