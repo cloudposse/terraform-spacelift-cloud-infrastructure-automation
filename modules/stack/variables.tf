@@ -21,6 +21,12 @@ variable "branch" {
   default     = "main"
 }
 
+variable "commit_sha" {
+  type        = string
+  description = "The commit SHA for which to trigger a run."
+  default     = null
+}
+
 variable "terraform_version" {
   type        = string
   description = "Specify the version of Terraform to use for the stack"
