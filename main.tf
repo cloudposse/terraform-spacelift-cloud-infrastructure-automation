@@ -10,7 +10,7 @@ resource "spacelift_policy" "default" {
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
 module "yaml_stack_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
-  version = "0.18.1"
+  version = "0.18.2"
 
   stacks                            = var.stacks
   stack_deps_processing_enabled     = var.stack_deps_processing_enabled
