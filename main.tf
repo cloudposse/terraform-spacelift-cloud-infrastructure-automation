@@ -56,7 +56,7 @@ module "stacks" {
   branch                = coalesce(try(each.value.settings.spacelift.branch, null), var.branch)
   repository            = coalesce(try(each.value.settings.spacelift.repository, null), var.repository)
   terraform_version     = lookup(var.terraform_version_map, try(each.value.settings.spacelift.terraform_version, ""), var.terraform_version)
-  component_root        = format("%s/%s", var.components_path, coalesce(each.value.base_component, each.value.component))
+  component_root        = coalesce(each.value.component_root, format("%s/%s", var.components_path, coalesce(each.value.base_component, each.value.component)))
   local_preview_enabled = try(each.value.settings.spacelift.local_preview_enabled, null) != null ? each.value.settings.spacelift.local_preview_enabled : var.local_preview_enabled
 
   manage_state   = var.manage_state
