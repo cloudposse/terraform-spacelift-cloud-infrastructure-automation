@@ -44,6 +44,18 @@ variable "branch" {
   default     = "main"
 }
 
+variable "commit_sha" {
+  type        = string
+  description = "The commit SHA for which to trigger a run. Requires `var.spacelift_run_enabled` to be set to `true`"
+  default     = null
+}
+
+variable "spacelift_run_enabled" {
+  type        = bool
+  description = "Enable/disable creation of the `spacelift_run` resource"
+  default     = false
+}
+
 variable "components_path" {
   type        = string
   description = "The relative pathname for where all components reside"
