@@ -31,7 +31,7 @@ resource "spacelift_run" "this" {
     spacelift_mounted_file.stack_config[0],
     spacelift_environment_variable.stack_name[0],
     spacelift_environment_variable.component_name[0],
-    spacelift_policy_attachment.default[0],
+    spacelift_policy_attachment.default[0]
   ]
 }
 
