@@ -46,13 +46,13 @@ variable "branch" {
 
 variable "commit_sha" {
   type        = string
-  description = "The commit SHA for which to trigger a run. Requires `var.spacelift_run` to be enabled."
+  description = "The commit SHA for which to trigger a run. Requires `var.spacelift_run_enabled` to be enabled."
   default     = null
 }
 
-variable "spacelift_run" {
+variable "spacelift_run_enabled" {
   type        = bool
-  description = "Whether to create a `spacelift_run` resource."
+  description = "Whether to create a `spacelift_run_enabled` resource."
   default     = false
 }
 

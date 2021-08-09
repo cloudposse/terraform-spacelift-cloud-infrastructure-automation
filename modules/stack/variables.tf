@@ -27,9 +27,9 @@ variable "commit_sha" {
   default     = null
 }
 
-variable "spacelift_run" {
+variable "spacelift_run_enabled" {
   type        = bool
-  description = "Whether to create a `spacelift_run` resource."
+  description = "Whether to create a `spacelift_run_enabled` resource."
   default     = false
 }
 

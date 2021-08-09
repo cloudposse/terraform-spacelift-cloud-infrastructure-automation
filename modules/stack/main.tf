@@ -21,8 +21,8 @@ resource "spacelift_stack" "default" {
   terraform_workspace = var.terraform_workspace
 }
 
-resource "spacelift_run" "this" {
-  count = var.enabled && var.spacelift_run ? 1 : 0
+resource "spacelift_run_enabled" "this" {
+  count = var.enabled && var.spacelift_run_enabled ? 1 : 0
 
   stack_id   = spacelift_stack.default[0].id
   commit_sha = var.commit_sha
