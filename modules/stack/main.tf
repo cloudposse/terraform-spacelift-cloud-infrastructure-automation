@@ -21,6 +21,20 @@ resource "spacelift_stack" "default" {
   terraform_workspace = var.terraform_workspace
 }
 
+resource "spacelift_run" "default" {
+  count = var.enabled && var.spacelift_run_enabled ? 1 : 0
+
+  stack_id   = spacelift_stack.default[0].id
+  commit_sha = var.commit_sha
+
+  depends_on = [
+    spacelift_mounted_file.stack_config[0],
+    spacelift_environment_variable.stack_name[0],
+    spacelift_environment_variable.component_name[0],
+    spacelift_policy_attachment.default[0]
+  ]
+}
+
 resource "spacelift_mounted_file" "stack_config" {
   count = var.enabled ? 1 : 0
 

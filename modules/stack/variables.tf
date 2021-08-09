@@ -21,6 +21,18 @@ variable "branch" {
   default     = "main"
 }
 
+variable "commit_sha" {
+  type        = string
+  description = "The commit SHA for which to trigger a run. Requires `var.spacelift_run_enabled` to be set to `true`"
+  default     = null
+}
+
+variable "spacelift_run_enabled" {
+  type        = bool
+  description = "Enable/disable creation of the `spacelift_run` resource"
+  default     = false
+}
+
 variable "terraform_version" {
   type        = string
   description = "Specify the version of Terraform to use for the stack"
