@@ -27,6 +27,12 @@ variable "commit_sha" {
   default     = null
 }
 
+variable "spacelift_run" {
+  type        = bool
+  description = "Whether to create a `spacelift_run` resource."
+  default     = false
+}
+
 variable "terraform_version" {
   type        = string
   description = "Specify the version of Terraform to use for the stack"

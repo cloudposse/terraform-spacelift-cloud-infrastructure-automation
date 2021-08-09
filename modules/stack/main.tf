@@ -22,7 +22,7 @@ resource "spacelift_stack" "default" {
 }
 
 resource "spacelift_run" "this" {
-  count = var.enabled && var.commit_sha != null ? 1 : 0
+  count = var.enabled && var.spacelift_run ? 1 : 0
 
   stack_id   = spacelift_stack.default[0].id
   commit_sha = var.commit_sha
