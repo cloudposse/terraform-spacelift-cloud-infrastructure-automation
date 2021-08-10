@@ -208,7 +208,7 @@ Available targets:
 |------|--------|---------|
 | <a name="module_stacks"></a> [stacks](#module\_stacks) | ./modules/stack | n/a |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.24.1 |
-| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | cloudposse/stack-config/yaml//modules/spacelift | 0.18.1 |
+| <a name="module_yaml_stack_config"></a> [yaml\_stack\_config](#module\_yaml\_stack\_config) | cloudposse/stack-config/yaml//modules/spacelift | 0.18.3 |
 
 ## Resources
 
