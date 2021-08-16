@@ -99,6 +99,8 @@ data "spacelift_current_stack" "administrative" {
 
 # global administrative trigger policy that allows us to trigger a stack right after it gets created
 resource "spacelift_policy" "trigger_administrative" {
+  count = var.external_execution || var.administrative_trigger_policy_enabled == false ? 0 : 1
+
   type = "TRIGGER"
   name = "Global Administrative Trigger Policy"
   body = file(format("%s/%s/trigger.administrative.rego", path.module, var.policies_path))
@@ -108,7 +110,7 @@ resource "spacelift_policy" "trigger_administrative" {
 resource "spacelift_policy_attachment" "trigger_administrative" {
   count = var.external_execution || var.administrative_trigger_policy_enabled == false ? 0 : 1
 
-  policy_id = spacelift_policy.trigger_administrative.id
+  policy_id = join("", spacelift_policy.trigger_administrative.*.id)
   stack_id  = data.spacelift_current_stack.administrative[0].id
 }
 
