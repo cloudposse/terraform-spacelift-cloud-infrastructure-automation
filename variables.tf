@@ -104,36 +104,6 @@ variable "autodeploy" {
   default     = false
 }
 
-variable "access_policy_id" {
-  type        = string
-  description = "ID of an existing Access policy to override the default"
-  default     = null
-}
-
-variable "push_policy_id" {
-  type        = string
-  description = "ID of an existing Push policy to override the default"
-  default     = null
-}
-
-variable "plan_policy_id" {
-  type        = string
-  description = "ID of an existing Plan policy to override the default"
-  default     = null
-}
-
-variable "trigger_dependency_policy_id" {
-  type        = string
-  description = "ID of an existing Trigger dependency policy to override the default"
-  default     = null
-}
-
-variable "trigger_retries_policy_id" {
-  type        = string
-  description = "ID of an existing Trigger retries policy to override the default"
-  default     = null
-}
-
 variable "webhook_enabled" {
   type        = bool
   description = "Flag to enable/disable the webhook endpoint to which Spacelift sends the POST requests about run state changes"
