@@ -6,7 +6,7 @@ resource "spacelift_stack" "default" {
   count = var.enabled ? 1 : 0
 
   name                 = var.stack_name
-  administrative       = false
+  administrative       = var.administrative
   autodeploy           = var.autodeploy
   repository           = var.repository
   branch               = var.branch
@@ -14,11 +14,10 @@ resource "spacelift_stack" "default" {
   manage_state         = var.manage_state
   labels               = var.labels
   enable_local_preview = var.local_preview_enabled
-
-  worker_pool_id      = var.worker_pool_id
-  runner_image        = var.runner_image
-  terraform_version   = var.terraform_version
-  terraform_workspace = var.terraform_workspace
+  worker_pool_id       = var.worker_pool_id
+  runner_image         = var.runner_image
+  terraform_version    = var.terraform_version
+  terraform_workspace  = var.terraform_workspace
 }
 
 resource "spacelift_run" "default" {
