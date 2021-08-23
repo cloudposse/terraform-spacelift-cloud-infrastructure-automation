@@ -241,3 +241,9 @@ variable "stack_destructor_enabled" {
   description = "Flag to enable/disable the stack destructor to destroy the resources of a stack before deleting the stack itself"
   default     = false
 }
+
+variable "administrative" {
+  type        = bool
+  description = "Whether this stack can manage others"
+  default     = false
+}
