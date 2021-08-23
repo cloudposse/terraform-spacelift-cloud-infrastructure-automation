@@ -181,6 +181,6 @@ variable "stack_destructor_enabled" {
 
 variable "administrative" {
   type        = bool
-  description = "Whether this stack can manage others"
+  description = "Whether this stack can manage other stacks"
   default     = false
 }
