@@ -178,3 +178,63 @@ variable "stack_destructor_enabled" {
   description = "Flag to enable/disable the stack destructor to destroy the resources of the stack before deleting the stack itself"
   default     = false
 }
+
+variable "before_apply" {
+  type        = list(string)
+  description = "List of before-apply scripts"
+  default     = []
+}
+
+variable "before_destroy" {
+  type        = list(string)
+  description = "List of before-destroy scripts"
+  default     = []
+}
+
+variable "before_init" {
+  type        = list(string)
+  description = "List of before-init scripts"
+  default     = []
+}
+
+variable "before_perform" {
+  type        = list(string)
+  description = "List of before-perform scripts"
+  default     = []
+}
+
+variable "before_plan" {
+  type        = list(string)
+  description = "List of before-plan scripts"
+  default     = []
+}
+
+variable "after_apply" {
+  type        = list(string)
+  description = "List of after-apply scripts"
+  default     = []
+}
+
+variable "after_destroy" {
+  type        = list(string)
+  description = "List of after-destroy scripts"
+  default     = []
+}
+
+variable "after_init" {
+  type        = list(string)
+  description = "List of after-init scripts"
+  default     = []
+}
+
+variable "after_perform" {
+  type        = list(string)
+  description = "List of after-perform scripts"
+  default     = []
+}
+
+variable "after_plan" {
+  type        = list(string)
+  description = "List of after-plan scripts"
+  default     = []
+}
