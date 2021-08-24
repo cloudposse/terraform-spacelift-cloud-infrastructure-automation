@@ -25,7 +25,7 @@ module "yaml_stack_config" {
 locals {
   # Find Rego policies defined in YAML config in all stacks
   distinct_policy_names = distinct(compact(flatten([
-    for k, v in module.yaml_stack_config.spacelift_stacks : try(v.settings.spacelift.policies_by_name_enabled, []) if v.enabled
+    for k, v in module.yaml_stack_config.spacelift_stacks : try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) if v.enabled
   ])))
 }
 
