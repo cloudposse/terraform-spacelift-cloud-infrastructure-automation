@@ -6,7 +6,7 @@ resource "spacelift_stack" "default" {
   count = var.enabled ? 1 : 0
 
   name                 = var.stack_name
-  administrative       = false
+  administrative       = var.administrative
   autodeploy           = var.autodeploy
   repository           = var.repository
   branch               = var.branch
@@ -19,7 +19,6 @@ resource "spacelift_stack" "default" {
   runner_image        = var.runner_image
   terraform_version   = var.terraform_version
   terraform_workspace = var.terraform_workspace
-
 
   after_apply    = var.after_apply
   after_destroy  = var.after_destroy

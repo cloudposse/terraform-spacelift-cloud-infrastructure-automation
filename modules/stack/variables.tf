@@ -238,3 +238,9 @@ variable "after_plan" {
   description = "List of after-plan scripts"
   default     = []
 }
+
+variable "administrative" {
+  type        = bool
+  description = "Whether this stack can manage other stacks"
+  default     = false
+}
