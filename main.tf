@@ -90,6 +90,17 @@ module "stacks" {
   ) : var.aws_role_generate_credentials_in_worker
 
   stack_destructor_enabled = try(each.value.settings.spacelift.stack_destructor_enabled, null) != null ? each.value.settings.spacelift.stack_destructor_enabled : var.stack_destructor_enabled
+
+  after_apply    = try(each.value.settings.spacelift.after_apply, null) != null ? each.value.settings.spacelift.after_apply : var.after_apply
+  after_destroy  = try(each.value.settings.spacelift.after_destroy, null) != null ? each.value.settings.spacelift.after_destroy : var.after_destroy
+  after_init     = try(each.value.settings.spacelift.after_init, null) != null ? each.value.settings.spacelift.after_init : var.after_init
+  after_perform  = try(each.value.settings.spacelift.after_perform, null) != null ? each.value.settings.spacelift.after_perform : var.after_perform
+  after_plan     = try(each.value.settings.spacelift.after_plan, null) != null ? each.value.settings.spacelift.after_plan : var.after_plan
+  before_apply   = try(each.value.settings.spacelift.before_apply, null) != null ? each.value.settings.spacelift.before_apply : var.before_apply
+  before_destroy = try(each.value.settings.spacelift.before_destroy, null) != null ? each.value.settings.spacelift.before_destroy : var.before_destroy
+  before_init    = try(each.value.settings.spacelift.before_init, null) != null ? each.value.settings.spacelift.before_init : var.before_init
+  before_perform = try(each.value.settings.spacelift.before_perform, null) != null ? each.value.settings.spacelift.before_perform : var.before_perform
+  before_plan    = try(each.value.settings.spacelift.before_plan, null) != null ? each.value.settings.spacelift.before_plan : var.before_plan
 }
 
 # `administrative` policies are always attached to the `administrative` stack

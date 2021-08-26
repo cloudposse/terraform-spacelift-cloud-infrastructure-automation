@@ -14,10 +14,22 @@ resource "spacelift_stack" "default" {
   manage_state         = var.manage_state
   labels               = var.labels
   enable_local_preview = var.local_preview_enabled
-  worker_pool_id       = var.worker_pool_id
-  runner_image         = var.runner_image
-  terraform_version    = var.terraform_version
-  terraform_workspace  = var.terraform_workspace
+
+  worker_pool_id      = var.worker_pool_id
+  runner_image        = var.runner_image
+  terraform_version   = var.terraform_version
+  terraform_workspace = var.terraform_workspace
+
+  after_apply    = var.after_apply
+  after_destroy  = var.after_destroy
+  after_init     = var.after_init
+  after_perform  = var.after_perform
+  after_plan     = var.after_plan
+  before_apply   = var.before_apply
+  before_destroy = var.before_destroy
+  before_init    = var.before_init
+  before_perform = var.before_perform
+  before_plan    = var.before_plan
 }
 
 resource "spacelift_run" "default" {
