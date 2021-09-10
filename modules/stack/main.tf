@@ -1,5 +1,12 @@
 locals {
   component_env = { for k, v in var.component_env : k => v if var.enabled == true }
+
+  # Create a map of the given context_attachments so we have the index (for priority)
+  # and pretty names for the resource paths.
+  context_attachments_map = {
+    for idx, context_id in var.context_attachments:
+    context_id => idx
+  }
 }
 
 resource "spacelift_stack" "default" {
@@ -129,4 +136,12 @@ resource "spacelift_stack_destructor" "default" {
     spacelift_policy_attachment.default,
     spacelift_aws_role.default
   ]
+}
+
+resource "spacelift_context_attachment" "attachment" {
+  for_each = local.context_attachments_map
+
+  context_id = each.key
+  stack_id   = spacelift_stack.default[0].id
+  priority   = each.value
 }

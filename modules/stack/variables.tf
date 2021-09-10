@@ -244,3 +244,9 @@ variable "administrative" {
   description = "Whether this stack can manage other stacks"
   default     = false
 }
+
+variable "context_attachments" {
+  type        = list(string)
+  description = "A list of context IDs to attach to this stack"
+  default     = []
+}
