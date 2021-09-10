@@ -52,6 +52,7 @@ module "stacks" {
   terraform_workspace       = each.value.workspace
   labels                    = each.value.labels
 
+  context_attachments   = coalesce(try(each.value.settings.spacelift.context_attachments, null), var.context_attachments)
   autodeploy            = coalesce(try(each.value.settings.spacelift.autodeploy, null), var.autodeploy)
   branch                = coalesce(try(each.value.settings.spacelift.branch, null), var.branch)
   repository            = coalesce(try(each.value.settings.spacelift.repository, null), var.repository)
