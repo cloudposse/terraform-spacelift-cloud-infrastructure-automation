@@ -4,7 +4,7 @@ locals {
   # Create a map of the given context_attachments so we have the index (for priority)
   # and pretty names for the resource paths.
   context_attachments_map = {
-    for idx, context_id in var.context_attachments:
+    for idx, context_id in var.context_attachments :
     context_id => idx
   }
 }
