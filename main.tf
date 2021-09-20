@@ -105,9 +105,7 @@ module "stacks" {
   # If `worker_pool_name` is specified for the stack in YAML config AND `var.worker_pool_name_id_map` contains `worker_pool_name` key,
   # lookup and use the worker pool ID from the map.
   # Otherwise, use `var.worker_pool_id`.
-  worker_pool_id = try(lookup(var.worker_pool_name_id_map, each.value.settings.spacelift.worker_pool_name), null) != null ? (
-    lookup(var.worker_pool_name_id_map, each.value.settings.spacelift.worker_pool_name)
-  ) : var.worker_pool_id
+  worker_pool_id = try(var.worker_pool_name_id_map[each.value.settings.spacelift.worker_pool_name], var.worker_pool_id)
 }
 
 # `administrative` policies are always attached to the `administrative` stack
