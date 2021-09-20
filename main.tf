@@ -102,7 +102,8 @@ module "stacks" {
   before_perform = try(each.value.settings.spacelift.before_perform, null) != null ? each.value.settings.spacelift.before_perform : var.before_perform
   before_plan    = try(each.value.settings.spacelift.before_plan, null) != null ? each.value.settings.spacelift.before_plan : var.before_plan
 
-  # If `worker_pool_name` is specified for the stack in YAML config AND `var.worker_pool_name_id_map` contains `worker_pool_name` key, lookup and use the worker pool ID from the map.
+  # If `worker_pool_name` is specified for the stack in YAML config AND `var.worker_pool_name_id_map` contains `worker_pool_name` key,
+  # lookup and use the worker pool ID from the map.
   # Otherwise, use `var.worker_pool_id`.
   worker_pool_id = try(lookup(var.worker_pool_name_id_map, each.value.settings.spacelift.worker_pool_name), null) != null ? (
     lookup(var.worker_pool_name_id_map, each.value.settings.spacelift.worker_pool_name)
