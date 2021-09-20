@@ -62,3 +62,15 @@ variable "stack_config_path_template" {
   description = "Stack config path template"
   default     = "stacks/%s.yaml"
 }
+
+variable "worker_pool_id" {
+  type        = string
+  description = "The immutable ID (slug) of the default worker pool"
+  default     = null
+}
+
+variable "worker_pool_name_id_map" {
+  type        = map(string)
+  description = "Map of worker pool names to worker pool IDs. If this map is not provided or a worker pool name is not specified for a stack in YAML config, `var.worker_pool_id` will be used to assign a worker pool to the stack"
+  default     = {}
+}

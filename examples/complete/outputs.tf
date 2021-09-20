@@ -1,3 +1,4 @@
 output "stacks" {
-  value = module.example.stacks
+  value       = module.example.stacks
+  description = "Spacelift stacks"
 }

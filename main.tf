@@ -10,7 +10,7 @@ resource "spacelift_policy" "default" {
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
 module "yaml_stack_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
-  version = "0.18.3"
+  version = "0.19.0"
 
   stacks                            = var.stacks
   stack_deps_processing_enabled     = var.stack_deps_processing_enabled
@@ -63,9 +63,8 @@ module "stacks" {
   local_preview_enabled = try(each.value.settings.spacelift.local_preview_enabled, null) != null ? each.value.settings.spacelift.local_preview_enabled : var.local_preview_enabled
   administrative        = try(each.value.settings.spacelift.administrative, null) != null ? each.value.settings.spacelift.administrative : var.administrative
 
-  manage_state   = var.manage_state
-  worker_pool_id = var.worker_pool_id
-  runner_image   = var.runner_image
+  manage_state = var.manage_state
+  runner_image = var.runner_image
 
   webhook_enabled  = try(each.value.settings.spacelift.webhook_enabled, null) != null ? each.value.settings.spacelift.webhook_enabled : var.webhook_enabled
   webhook_endpoint = try(each.value.settings.spacelift.webhook_endpoint, null) != null ? each.value.settings.spacelift.webhook_endpoint : var.webhook_endpoint
@@ -102,6 +101,12 @@ module "stacks" {
   before_init    = try(each.value.settings.spacelift.before_init, null) != null ? each.value.settings.spacelift.before_init : var.before_init
   before_perform = try(each.value.settings.spacelift.before_perform, null) != null ? each.value.settings.spacelift.before_perform : var.before_perform
   before_plan    = try(each.value.settings.spacelift.before_plan, null) != null ? each.value.settings.spacelift.before_plan : var.before_plan
+
+  # If `worker_pool_name` is specified for the stack in YAML config AND `var.worker_pool_name_id_map` contains `worker_pool_name` key, lookup and use the worker pool ID from the map.
+  # Otherwise, use `var.worker_pool_id`.
+  worker_pool_id = try(lookup(var.worker_pool_name_id_map, each.value.settings.spacelift.worker_pool_name), null) != null ? (
+    lookup(var.worker_pool_name_id_map, each.value.settings.spacelift.worker_pool_name)
+  ) : var.worker_pool_id
 }
 
 # `administrative` policies are always attached to the `administrative` stack
