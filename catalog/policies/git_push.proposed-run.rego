@@ -19,9 +19,9 @@ project_root := input.stack.project_root
 proposed_run_pull_request_actions := {"opened", "reopened", "synchronize"}
 
 # Ignore if any of the `ignore` rules evaluates to `true`
-# If pre-commit hooks make changes, they are not semantic changes and can and should be ignored
+# 1) Ignore if the PR has a label `spacelift-no-trigger`
 ignore  {
-    input.push.message == "pre-commit fixes"
+    input.pull_request.labels[_] = "spacelift-no-trigger"
 }
 
 # Propose a run if component's files are affected and the pull request action is in the `proposed_run_pull_request_actions` array
@@ -60,7 +60,7 @@ stack_config_affected {
 labels := input.stack.labels
 
 # Get stack imports from the provided `labels`
-# NOTE: procesing of stack imports is disabled in the module (var.imports_processing_enabled == false),
+# NOTE: procesing of stack imports is disabled in the module (var.imports_processing_enabled = false),
 # and the below rules will not be evaluated by default
 # https://www.openpolicyagent.org/docs/latest/policy-language/#comprehensions
 imports := [imp | startswith(labels[i], "import:"); imp := split(labels[i], ":")[1]]
@@ -71,7 +71,7 @@ stack_config_affected {
 }
 
 # Get all stack dependencies for the component from the provided `labels` (all stacks where the component is defined)
-# NOTE: procesing of all stack dependencies is disabled in the module (var.stack_deps_processing_enabled == false),
+# NOTE: procesing of all stack dependencies is disabled in the module (var.stack_deps_processing_enabled = false),
 # and the below rules will not be evaluated by default
 stack_deps := [stack_dep | startswith(labels[i], "stack:"); stack_dep := split(labels[i], ":")[1]]
 

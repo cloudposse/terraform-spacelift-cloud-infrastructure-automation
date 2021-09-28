@@ -76,7 +76,7 @@ stack_config_affected {
 labels := input.stack.labels
 
 # Get stack imports from the provided `labels`
-# NOTE: procesing of stack imports is disabled in the module (var.imports_processing_enabled == false),
+# NOTE: procesing of stack imports is disabled in the module (var.imports_processing_enabled = false),
 # and the below rules will not be evaluated by default
 # https://www.openpolicyagent.org/docs/latest/policy-language/#comprehensions
 imports := [imp | startswith(labels[i], "import:"); imp := split(labels[i], ":")[1]]
@@ -87,7 +87,7 @@ stack_config_affected {
 }
 
 # Get all stack dependencies for the component from the provided `labels` (all stacks where the component is defined)
-# NOTE: procesing of all stack dependencies is disabled in the module (var.stack_deps_processing_enabled == false),
+# NOTE: procesing of all stack dependencies is disabled in the module (var.stack_deps_processing_enabled = false),
 # and the below rules will not be evaluated by default
 stack_deps := [stack_dep | startswith(labels[i], "stack:"); stack_dep := split(labels[i], ":")[1]]
 
