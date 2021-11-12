@@ -314,3 +314,9 @@ variable "context_attachments" {
   description = "A list of context IDs to attach to all stacks administered by this module"
   default     = []
 }
+
+variable "spacelift_stacks_override" {
+  type        = any
+  description = "A map of spacelift_stacks to override the stacks in the module"
+  default     = {}
+}
