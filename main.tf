@@ -13,7 +13,7 @@ module "spacelift_config" {
   version = "0.22.0"
 
   count = var.spacelift_stacks_override == {} ? 1 : 0
-  
+
   stack_config_path_template = var.stack_config_path_template
 
   stack_deps_processing_enabled     = var.stack_deps_processing_enabled
