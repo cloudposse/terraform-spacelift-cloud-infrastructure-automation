@@ -1,9 +1,3 @@
-variable "stack_config_path" {
-  type        = string
-  description = "Relative path to YAML config files"
-  default     = "./stacks"
-}
-
 variable "repository" {
   type        = string
   description = "The name of your infrastructure repo"

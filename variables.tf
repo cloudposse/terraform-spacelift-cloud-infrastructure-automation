@@ -1,8 +1,3 @@
-variable "stacks" {
-  type        = list(any)
-  description = "A list of stack configs"
-}
-
 variable "imports_processing_enabled" {
   type        = bool
   description = "Enable/disable processing stack imports"
@@ -25,12 +20,6 @@ variable "stack_config_path_template" {
   type        = string
   description = "Stack config path template"
   default     = "stacks/%s.yaml"
-}
-
-variable "stack_config_path" {
-  type        = string
-  description = "Relative path to YAML config files"
-  default     = "./stacks"
 }
 
 variable "repository" {
@@ -324,4 +313,10 @@ variable "context_attachments" {
   type        = list(string)
   description = "A list of context IDs to attach to all stacks administered by this module"
   default     = []
+}
+
+variable "context_filters" {
+  type        = map(list(string))
+  description = "Context filters to create stacks for specific context information. Valid lists are `namespaces`, `environments`, `tenants`, `stages`."
+  default     = {}
 }
