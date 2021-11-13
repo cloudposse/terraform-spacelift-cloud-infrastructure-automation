@@ -24,7 +24,7 @@ module "spacelift_config" {
 }
 
 locals {
-  spacelift_stacks = var.spacelift_stacks_override == {} ? module.spacelift_config[0].spacelift_stacks : var.spacelift_stacks_override
+  spacelift_stacks = length(var.spacelift_stacks_override) == 0 ? module.spacelift_config[0].spacelift_stacks : var.spacelift_stacks_override
   # Find Rego policies defined in YAML config in all stacks
   distinct_policy_names = distinct(compact(flatten([
     for k, v in local.spacelift_stacks : try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) if v.enabled
