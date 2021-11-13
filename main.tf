@@ -22,13 +22,15 @@ module "spacelift_config" {
 }
 
 locals {
-  spacelift_stacks = {
+  # if context_filters are provided, then filter for them, otherwise return the original stacks unfiltered
+  spacelift_stacks = length(var.context_filters) > 0 ? {
     for k, v in module.spacelift_config.spacelift_stacks :
     k => v
-    if contains(lookup(var.context_filters, "tenants", [v.vars.tenant]), v.vars.tenant) &&
-    contains(lookup(var.context_filters, "stages", [v.vars.stage]), v.vars.stage) &&
-    contains(lookup(var.context_filters, "environments", [v.vars.environment]), v.vars.environment)
-  }
+    if ((lookup(var.context_filters, "tenants", null) == null || contains(lookup(var.context_filters, "tenants", [v.vars.tenant]), v.vars.tenant)) &&
+    ((lookup(var.context_filters, "stages", null) == null || contains(lookup(var.context_filters, "stages", [v.vars.stage]), v.vars.stage)) &&
+    ((lookup(var.context_filters, "environments", null) == null || contains(lookup(var.context_filters, "environments", [v.vars.environment]), v.vars.environment))
+  } : module.spacelift_config.spacelift_stacks
+
   # Find Rego policies defined in YAML config in all stacks
   distinct_policy_names = distinct(compact(flatten([
     for k, v in local.spacelift_stacks : try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) if v.enabled
