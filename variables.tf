@@ -324,9 +324,9 @@ variable "spacelift_stacks_override" {
 variable "context_filters" {
   type        = map(list(string))
   description = "Filter stacks using `environments`, `tenants`, or `stages`."
-  default     = {
-    tenants = []
+  default = {
+    tenants      = []
     environments = []
-    stages = []
+    stages       = []
   }
 }
