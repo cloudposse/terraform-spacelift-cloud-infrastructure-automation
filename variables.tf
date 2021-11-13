@@ -317,6 +317,6 @@ variable "context_attachments" {
 
 variable "spacelift_stacks_override" {
   type        = any
-  description = "A map of spacelift_stacks to override the stacks in the module"
+  description = "A map of Spacelift stacks to override the stacks in the module"
   default     = {}
 }
