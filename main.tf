@@ -12,8 +12,6 @@ module "spacelift_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
   version = "0.22.0"
 
-  count = length(var.spacelift_stacks_override) == 0 ? 1 : 0
-
   stack_config_path_template = var.stack_config_path_template
 
   stack_deps_processing_enabled     = var.stack_deps_processing_enabled
@@ -24,7 +22,13 @@ module "spacelift_config" {
 }
 
 locals {
-  spacelift_stacks = length(var.spacelift_stacks_override) == 0 ? module.spacelift_config[0].spacelift_stacks : var.spacelift_stacks_override
+  spacelift_stacks = {
+    for k, v in module.spacelift_config.spacelift_stacks :
+    k => v
+    if contains(lookup(var.context_filters, "tenants", [v.vars.tenant]), v.vars.tenant) &&
+    contains(lookup(var.context_filters, "stages", [v.vars.stage]), v.vars.stage) &&
+    contains(lookup(var.context_filters, "environments", [v.vars.environment]), v.vars.environment)
+  }
   # Find Rego policies defined in YAML config in all stacks
   distinct_policy_names = distinct(compact(flatten([
     for k, v in local.spacelift_stacks : try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) if v.enabled
