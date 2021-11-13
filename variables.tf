@@ -317,10 +317,6 @@ variable "context_attachments" {
 
 variable "context_filters" {
   type        = map(list(string))
-  description = "Context filters to only create stacks for specific environments, tenants and stages"
-  default = {
-    tenants      = []
-    environments = []
-    stages       = []
-  }
+  description = "Context filters to create stacks for specific environments, tenants and stages"
+  default     = {}
 }
