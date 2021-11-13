@@ -320,3 +320,13 @@ variable "spacelift_stacks_override" {
   description = "A map of Spacelift stacks to override the stacks in the module"
   default     = {}
 }
+
+variable "context_filters" {
+  type        = map(list(string))
+  description = "Filter stacks using `environments`, `tenants`, or `stages`."
+  default     = {
+    tenants = []
+    environments = []
+    stages = []
+  }
+}
