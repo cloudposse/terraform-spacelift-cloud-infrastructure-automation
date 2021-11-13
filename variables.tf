@@ -314,3 +314,9 @@ variable "context_attachments" {
   description = "A list of context IDs to attach to all stacks administered by this module"
   default     = []
 }
+
+variable "context_filters" {
+  type        = map(list(string))
+  description = "Context filters to create stacks for specific context information. Valid lists are `namespaces`, `environments`, `tenants`, `stages`."
+  default     = {}
+}
