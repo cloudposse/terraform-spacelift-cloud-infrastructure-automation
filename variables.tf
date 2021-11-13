@@ -315,12 +315,6 @@ variable "context_attachments" {
   default     = []
 }
 
-variable "spacelift_stacks_override" {
-  type        = any
-  description = "A map of Spacelift stacks to override the stacks in the module"
-  default     = {}
-}
-
 variable "context_filters" {
   type        = map(list(string))
   description = "Filter stacks using `environments`, `tenants`, or `stages`."
