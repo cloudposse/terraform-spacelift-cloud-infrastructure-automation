@@ -26,7 +26,7 @@ locals {
   spacelift_stacks = length(var.context_filters) > 0 ? {
     for k, v in module.spacelift_config.spacelift_stacks :
     k => v
-    if (lookup(var.context_filters, "namespaces", null) == null || contains(lookup(var.context_filters, "namespaces", [v.vars.namespace]), v.vars.namespace)) &&
+    if(lookup(var.context_filters, "namespaces", null) == null || contains(lookup(var.context_filters, "namespaces", [v.vars.namespace]), v.vars.namespace)) &&
     (lookup(var.context_filters, "tenants", null) == null || contains(lookup(var.context_filters, "tenants", [v.vars.tenant]), v.vars.tenant)) &&
     (lookup(var.context_filters, "environments", null) == null || contains(lookup(var.context_filters, "environments", [v.vars.environment]), v.vars.environment)) &&
     (lookup(var.context_filters, "stages", null) == null || contains(lookup(var.context_filters, "stages", [v.vars.stage]), v.vars.stage))
