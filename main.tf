@@ -12,7 +12,7 @@ module "spacelift_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
   version = "0.22.0"
 
-  count = var.spacelift_stacks_override == {} ? 1 : 0
+  count = length(var.spacelift_stacks_override) == 0 ? 1 : 0
 
   stack_config_path_template = var.stack_config_path_template
 
