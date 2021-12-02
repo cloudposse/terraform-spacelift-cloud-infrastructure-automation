@@ -111,7 +111,7 @@ module "stacks" {
   before_perform = try(each.value.settings.spacelift.before_perform, null) != null ? each.value.settings.spacelift.before_perform : var.before_perform
   before_plan    = try(each.value.settings.spacelift.before_plan, null) != null ? each.value.settings.spacelift.before_plan : var.before_plan
 
-  protect_from_deletion = try(each.value.settings.spacelift.protect_from_deletion, null) != null ? each.value.settings.spacelift.protect_from_deletion: var.protect_from_deletion
+  protect_from_deletion = try(each.value.settings.spacelift.protect_from_deletion, null) != null ? each.value.settings.spacelift.protect_from_deletion : var.protect_from_deletion
 
   # If `worker_pool_name` is specified for the stack in YAML config AND `var.worker_pool_name_id_map` contains `worker_pool_name` key,
   # lookup and use the worker pool ID from the map.
