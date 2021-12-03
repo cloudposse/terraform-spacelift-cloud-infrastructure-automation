@@ -37,6 +37,8 @@ resource "spacelift_stack" "default" {
   before_init    = var.before_init
   before_perform = var.before_perform
   before_plan    = var.before_plan
+
+  protect_from_deletion = var.protect_from_deletion
 }
 
 resource "spacelift_run" "default" {

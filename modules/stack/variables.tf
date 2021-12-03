@@ -250,3 +250,9 @@ variable "context_attachments" {
   description = "A list of context IDs to attach to this stack"
   default     = []
 }
+
+variable "protect_from_deletion" {
+  type        = bool
+  description = "Flag to enable/disable deletion protection."
+  default     = false
+}

@@ -320,3 +320,9 @@ variable "context_filters" {
   description = "Context filters to create stacks for specific context information. Valid lists are `namespaces`, `environments`, `tenants`, `stages`."
   default     = {}
 }
+
+variable "protect_from_deletion" {
+  type        = bool
+  description = "Flag to enable/disable deletion protection."
+  default     = false
+}
