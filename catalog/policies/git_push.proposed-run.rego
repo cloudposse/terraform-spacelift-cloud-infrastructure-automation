@@ -94,7 +94,8 @@ stack_config_affected {
     startswith(affected_files[_], deps[_])
 }
 
-# Cancel previous runs if a new commit is pushed
+# Cancel previous queued proposed runs if a new commit is pushed
+# Tracked runs will not be cancelled
 # https://docs.spacelift.io/concepts/policy/git-push-policy#canceling-in-progress-runs
 cancel[run.id] {
   run := input.in_progress[_]
