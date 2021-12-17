@@ -117,9 +117,10 @@ locals {
   stacks             = [for f in local.stack_config_files : trimsuffix(basename(f), ".yaml")]
 }
 
-module "example" {
+module "spacelift" {
   source  = "cloudposse/cloud-infrastructure-automation/spacelift"
-  version = "x.x.x"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
 
   stacks                     = local.stacks
   stack_config_path          = var.stack_config_path
