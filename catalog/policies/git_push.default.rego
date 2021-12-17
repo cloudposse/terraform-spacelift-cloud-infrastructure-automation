@@ -109,5 +109,3 @@ stack_config_affected {
 stack_config_affected {
     startswith(affected_files[_], deps[_])
 }
-
-cancel[run.id] { run := input.in_progress[_] }
