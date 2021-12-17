@@ -93,3 +93,6 @@ stack_config_affected {
 stack_config_affected {
     startswith(affected_files[_], deps[_])
 }
+
+# Cancel previous runs if a new commit is pushed
+cancel[run.id] { run := input.in_progress[_] }
