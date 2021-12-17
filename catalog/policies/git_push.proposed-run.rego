@@ -95,4 +95,9 @@ stack_config_affected {
 }
 
 # Cancel previous runs if a new commit is pushed
-cancel[run.id] { run := input.in_progress[_] }
+# https://docs.spacelift.io/concepts/policy/git-push-policy#canceling-in-progress-runs
+cancel[run.id] {
+  run := input.in_progress[_]
+  run.type == "PROPOSED"
+  run.state == "QUEUED"
+}
