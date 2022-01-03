@@ -122,6 +122,8 @@ module "spacelift" {
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
 
+  stacks                     = local.stacks
+  stack_config_path          = var.stack_config_path
   stack_config_path_template = var.stack_config_path_template
   components_path            = var.spacelift_component_path
 
@@ -449,7 +451,7 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
 ## Copyrights
 
-Copyright © 2021-2021 [Cloud Posse, LLC](https://cloudposse.com)
+Copyright © 2021-2022 [Cloud Posse, LLC](https://cloudposse.com)
 
 
 
