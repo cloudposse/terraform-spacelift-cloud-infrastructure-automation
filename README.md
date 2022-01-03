@@ -111,6 +111,12 @@ Here's how to invoke this module in your project:
 ```hcl
 provider "spacelift" {}
 
+locals {
+  config_filenames   = fileset(var.stack_config_path, "*.yaml")
+  stack_config_files = [for f in local.config_filenames : f if(replace(f, "globals", "") == f)]
+  stacks             = [for f in local.stack_config_files : trimsuffix(basename(f), ".yaml")]
+}
+
 module "spacelift" {
   source  = "cloudposse/cloud-infrastructure-automation/spacelift"
   # Cloud Posse recommends pinning every module to a specific version
