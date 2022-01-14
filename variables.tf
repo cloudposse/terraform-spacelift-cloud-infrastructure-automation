@@ -326,3 +326,9 @@ variable "protect_from_deletion" {
   description = "Flag to enable/disable deletion protection."
   default     = false
 }
+
+variable "infracost_enabled" {
+  type        = bool
+  description = "Flag to enable/disable infracost. If this is enabled, it will add infracost label to each stack. See [spacelift infracost](https://docs.spacelift.io/vendors/terraform/infracost) docs for more details."
+  default     = false
+}
