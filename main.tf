@@ -60,7 +60,7 @@ module "stacks" {
   component_vars            = each.value.vars
   component_env             = each.value.env
   terraform_workspace       = each.value.workspace
-  labels                    = each.value.labels
+  labels                    = var.infracost_enabled ? concat(each.value.labels, ["infracost"]) : each.value.labels
 
   context_attachments   = coalesce(try(each.value.settings.spacelift.context_attachments, null), var.context_attachments)
   autodeploy            = coalesce(try(each.value.settings.spacelift.autodeploy, null), var.autodeploy)
