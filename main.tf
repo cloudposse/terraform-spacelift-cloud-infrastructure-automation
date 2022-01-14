@@ -26,10 +26,11 @@ locals {
   spacelift_stacks = {
     for k, v in module.spacelift_config.spacelift_stacks :
     k => v
-    if(lookup(var.context_filters, "namespaces", null) == null || contains(lookup(var.context_filters, "namespaces", [v.vars.namespace]), v.vars.namespace)) &&
-    (lookup(var.context_filters, "tenants", null) == null || contains(lookup(var.context_filters, "tenants", [v.vars.tenant]), v.vars.tenant)) &&
-    (lookup(var.context_filters, "environments", null) == null || contains(lookup(var.context_filters, "environments", [v.vars.environment]), v.vars.environment)) &&
-    (lookup(var.context_filters, "stages", null) == null || contains(lookup(var.context_filters, "stages", [v.vars.stage]), v.vars.stage))
+    if
+    (lookup(var.context_filters, "namespaces", null) == null || contains(lookup(var.context_filters, "namespaces", [lookup(v.vars, "namespace", "")]), lookup(v.vars, "namespace", ""))) &&
+    (lookup(var.context_filters, "tenants", null) == null || contains(lookup(var.context_filters, "tenants", [lookup(v.vars, "tenant", "")]), lookup(v.vars, "tenant", ""))) &&
+    (lookup(var.context_filters, "environments", null) == null || contains(lookup(var.context_filters, "environments", [lookup(v.vars, "environment", "")]), lookup(v.vars, "environment", ""))) &&
+    (lookup(var.context_filters, "stages", null) == null || contains(lookup(var.context_filters, "stages", [lookup(v.vars, "stage", "")]), lookup(v.vars, "stage", "")))
   }
 
   # Find Rego policies defined in YAML config in all stacks
