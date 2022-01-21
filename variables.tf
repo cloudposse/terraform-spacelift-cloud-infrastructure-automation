@@ -332,3 +332,9 @@ variable "infracost_enabled" {
   description = "Flag to enable/disable infracost. If this is enabled, it will add infracost label to each stack. See [spacelift infracost](https://docs.spacelift.io/vendors/terraform/infracost) docs for more details."
   default     = false
 }
+
+variable "labels" {
+  type        = set(string)
+  description = "A list of labels to attach to each stack"
+  default     = []
+}
