@@ -259,48 +259,47 @@ variable "protect_from_deletion" {
 
 variable "azure_devops" {
   type        = map(any)
-  description = "(Block List, Max: 1) Azure DevOps VCS settings"
+  description = "Azure DevOps VCS settings"
   default     = null
 }
 
 variable "bitbucket_cloud" {
   type        = map(any)
-  description = "(Block List, Max: 1) Bitbucket Cloud VCS settings"
+  description = "Bitbucket Cloud VCS settings"
   default     = null
 }
 
 variable "bitbucket_datacenter" {
   type        = map(any)
-  description = "(Block List, Max: 1) Bitbucket Datacenter VCS settings"
+  description = "Bitbucket Datacenter VCS settings"
   default     = null
 }
 
 variable "cloudformation" {
   type        = map(any)
-  description = "(Block List, Max: 1) CloudFormation-specific configuration. Presence means this Stack is a CloudFormation Stack."
+  description = "CloudFormation-specific configuration. Presence means this Stack is a CloudFormation Stack."
   default     = null
 }
 
 variable "github_enterprise" {
   type        = map(any)
-  description = "(Block List, Max: 1) GitHub Enterprise (self-hosted) VCS settings"
+  description = "GitHub Enterprise (self-hosted) VCS settings"
   default     = null
 }
 
 variable "gitlab" {
   type        = map(any)
-  description = "(Block List, Max: 1) GitLab VCS settings"
+  description = "GitLab VCS settings"
   default     = null
 }
 
 variable "pulumi" {
   type        = map(any)
-  description = "(Block List, Max: 1) Pulumi-specific configuration. Presence means this Stack is a Pulumi Stack."
+  description = "Pulumi-specific configuration. Presence means this Stack is a Pulumi Stack."
   default     = null
 }
 
 variable "showcase" {
-  type        = map(any)
-  description = "(Block List, Max: 1)"
-  default     = null
+  type    = map(any)
+  default = null
 }
