@@ -39,6 +39,66 @@ resource "spacelift_stack" "default" {
   before_plan    = var.before_plan
 
   protect_from_deletion = var.protect_from_deletion
+
+  dynamic "azure_devops" {
+    for_each = var.azure_devops ? [var.azure_devops] : []
+    content {
+      project = lookup(var.azure_devops, "project", null)
+    }
+  }
+
+  dynamic "bitbucket_cloud" {
+    for_each = var.bitbucket_cloud ? [var.bitbucket_cloud] : []
+    content {
+      namespace = lookup(var.bitbucket_cloud, "namespace", null)
+    }
+  }
+
+  dynamic "bitbucket_datacenter" {
+    for_each = var.bitbucket_datacenter ? [var.bitbucket_datacenter] : []
+    content {
+      namespace = lookup(var.bitbucket_datacenter, "namespace", null)
+    }
+  }
+
+  dynamic "cloudformation" {
+    for_each = var.cloudformation ? [var.cloudformation] : []
+    content {
+      entry_template_file = lookup(var.cloudformation, "entry_template_file", null)
+      region              = lookup(var.cloudformation, "region", null)
+      stack_name          = lookup(var.cloudformation, "stack_name", null)
+      template_bucket     = lookup(var.cloudformation, "template_bucket", null)
+    }
+  }
+
+  dynamic "github_enterprise" {
+    for_each = var.github_enterprise ? [var.github_enterprise] : []
+    content {
+      namespace = lookup(var.github_enterprise, "namespace", null)
+    }
+  }
+
+  dynamic "gitlab" {
+    for_each = var.gitlab ? [var.gitlab] : []
+    content {
+      namespace = lookup(var.gitlab, "namespace", null)
+    }
+  }
+
+  dynamic "pulumi" {
+    for_each = var.pulumi ? [var.pulumi] : []
+    content {
+      login_url  = lookup(var.pulumi, "login_url", null)
+      stack_name = lookup(var.pulumi, "stack_name", null)
+    }
+  }
+
+  dynamic "showcase" {
+    for_each = var.showcase ? [var.showcase] : []
+    content {
+      namespace = lookup(var.showcase, "namespace", null)
+    }
+  }
 }
 
 resource "spacelift_run" "default" {
