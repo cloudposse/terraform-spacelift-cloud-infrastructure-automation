@@ -300,6 +300,7 @@ variable "pulumi" {
 }
 
 variable "showcase" {
-  type    = map(any)
-  default = null
+  type        = map(any)
+  description = "Showcase settings"
+  default     = null
 }
