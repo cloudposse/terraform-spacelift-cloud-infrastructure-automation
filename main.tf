@@ -73,6 +73,15 @@ module "stacks" {
   local_preview_enabled = try(each.value.settings.spacelift.local_preview_enabled, null) != null ? each.value.settings.spacelift.local_preview_enabled : var.local_preview_enabled
   administrative        = try(each.value.settings.spacelift.administrative, null) != null ? each.value.settings.spacelift.administrative : var.administrative
 
+  azure_devops         = try(each.value.settings.spacelift.azure_devops, null)
+  bitbucket_cloud      = try(each.value.settings.spacelift.bitbucket_cloud, null)
+  bitbucket_datacenter = try(each.value.settings.spacelift.bitbucket_datacenter, null)
+  cloudformation       = try(each.value.settings.spacelift.cloudformation, null)
+  github_enterprise    = try(each.value.settings.spacelift.github_enterprise, null)
+  gitlab               = try(each.value.settings.spacelift.gitlab, null)
+  pulumi               = try(each.value.settings.spacelift.pulumi, null)
+  showcase             = try(each.value.settings.spacelift.showcase, null)
+
   manage_state = var.manage_state
   runner_image = var.runner_image
 
