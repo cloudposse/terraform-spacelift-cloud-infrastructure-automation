@@ -185,10 +185,17 @@ resource "spacelift_aws_role" "default" {
   generate_credentials_in_worker = var.aws_role_generate_credentials_in_worker
 }
 
+# spacelift_stack_destructor is a special resource which, when deleted, will delete all resources in the stack.
+# var.stack_destructor_enabled should not toggle the creation or destruction of this resource, because toggling it from
+# 'true' to 'false' with the intention of disabling the stack destructor functionality will result in all of the resources
+# in the stack being deleted. Instead, this resource is always created, with var.stack_destructor_enabled toggling its
+# 'deactivated' attribute, which allows for the stack destructor functionality to be disabled.
+# See: https://github.com/spacelift-io/terraform-provider-spacelift/blob/master/spacelift/resource_stack_destructor.go
 resource "spacelift_stack_destructor" "default" {
-  count = var.enabled && var.stack_destructor_enabled ? 1 : 0
+  count = var.enabled ? 1 : 0
 
-  stack_id = spacelift_stack.default[0].id
+  stack_id    = spacelift_stack.default[0].id
+  deactivated = ! var.stack_destructor_enabled
 
   depends_on = [
     spacelift_mounted_file.stack_config,
