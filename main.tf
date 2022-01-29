@@ -22,9 +22,7 @@ module "spacelift_config" {
 }
 
 locals {
-  enabled = module.this.enabled
-
-  stack_context_variables_enabled = local.enabled && length(var.stack_context_variables) > 0
+  stack_context_variables_enabled = length(var.stack_context_variables) > 0
 
   # if context_filters are provided, then filter for them, otherwise return the original stacks unfiltered
   spacelift_stacks = {
@@ -169,7 +167,7 @@ resource "spacelift_drift_detection" "drift_detection_administrative" {
 }
 
 resource "spacelift_context" "default" {
-  count = local.enabled ? 1 : 0
+  count = local.stack_context_variables_enabled ? 1 : 0
 
   description = var.stack_context_description
   name        = var.stack_context_name
