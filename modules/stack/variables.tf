@@ -257,12 +257,6 @@ variable "protect_from_deletion" {
   default     = false
 }
 
-variable "context_ids" {
-  type        = set(string)
-  description = "The IDs of contexts to attach to stack"
-  default     = []
-}
-
 variable "azure_devops" {
   type        = map(any)
   description = "Azure DevOps VCS settings"
