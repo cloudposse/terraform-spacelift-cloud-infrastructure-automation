@@ -41,6 +41,13 @@ resource "spacelift_stack" "default" {
   protect_from_deletion = var.protect_from_deletion
 }
 
+resource "spacelift_context_attachment" "default" {
+  for_each   = var.enabled && length(var.context_ids) > 0 ? var.context_ids : toset([])
+  context_id = each.key
+  stack_id   = spacelift_stack.default.id
+  priority   = 0
+}
+
 resource "spacelift_run" "default" {
   count = var.enabled && var.spacelift_run_enabled ? 1 : 0
 
