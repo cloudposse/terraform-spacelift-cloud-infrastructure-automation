@@ -338,3 +338,9 @@ variable "labels" {
   description = "A list of labels to attach to each stack"
   default     = []
 }
+
+variable "stack_context_variables" {
+  type        = map(string)
+  description = "Map of variables to create a global context attached to each stack"
+  default     = {}
+}
