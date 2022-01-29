@@ -24,7 +24,9 @@
 
 | Name | Type |
 |------|------|
+| [spacelift_context.default](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/context) | resource |
 | [spacelift_drift_detection.drift_detection_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/drift_detection) | resource |
+| [spacelift_environment_variable.default](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/environment_variable) | resource |
 | [spacelift_policy.custom](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
 | [spacelift_policy.default](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
 | [spacelift_policy.trigger_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
