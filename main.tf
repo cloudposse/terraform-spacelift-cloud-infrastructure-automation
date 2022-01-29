@@ -66,7 +66,7 @@ module "stacks" {
   terraform_workspace       = each.value.workspace
   labels                    = concat(var.labels, each.value.labels)
 
-  context_attachments   = coalesce(try(each.value.settings.spacelift.context_attachments, null), var.context_attachments)
+  context_attachments   = concat([join("", spacelift.context.default.*.id)], coalesce(try(each.value.settings.spacelift.context_attachments, null), var.context_attachments))
   autodeploy            = coalesce(try(each.value.settings.spacelift.autodeploy, null), var.autodeploy)
   branch                = coalesce(try(each.value.settings.spacelift.branch, null), var.branch)
   repository            = coalesce(try(each.value.settings.spacelift.repository, null), var.repository)
@@ -131,8 +131,6 @@ module "stacks" {
   # lookup and use the worker pool ID from the map.
   # Otherwise, use `var.worker_pool_id`.
   worker_pool_id = try(var.worker_pool_name_id_map[each.value.settings.spacelift.worker_pool_name], var.worker_pool_id)
-
-  context_ids = concat([join("", spacelift.context.default.*.id)], try(each.value.settings.spacelift.context_ids, []))
 }
 
 # `administrative` policies are always attached to the `administrative` stack
