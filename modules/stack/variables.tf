@@ -257,8 +257,8 @@ variable "protect_from_deletion" {
   default     = false
 }
 
-variable "context_id" {
-  type        = string
-  description = "Name of context id to attach to stack"
-  default     = null
+variable "context_ids" {
+  type        = set(string)
+  description = "The IDs of contexts to attach to stack"
+  default     = []
 }
