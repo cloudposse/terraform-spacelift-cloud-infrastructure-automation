@@ -262,3 +262,51 @@ variable "context_ids" {
   description = "The IDs of contexts to attach to stack"
   default     = []
 }
+
+variable "azure_devops" {
+  type        = map(any)
+  description = "Azure DevOps VCS settings"
+  default     = null
+}
+
+variable "bitbucket_cloud" {
+  type        = map(any)
+  description = "Bitbucket Cloud VCS settings"
+  default     = null
+}
+
+variable "bitbucket_datacenter" {
+  type        = map(any)
+  description = "Bitbucket Datacenter VCS settings"
+  default     = null
+}
+
+variable "cloudformation" {
+  type        = map(any)
+  description = "CloudFormation-specific configuration. Presence means this Stack is a CloudFormation Stack."
+  default     = null
+}
+
+variable "github_enterprise" {
+  type        = map(any)
+  description = "GitHub Enterprise (self-hosted) VCS settings"
+  default     = null
+}
+
+variable "gitlab" {
+  type        = map(any)
+  description = "GitLab VCS settings"
+  default     = null
+}
+
+variable "pulumi" {
+  type        = map(any)
+  description = "Pulumi-specific configuration. Presence means this Stack is a Pulumi Stack."
+  default     = null
+}
+
+variable "showcase" {
+  type        = map(any)
+  description = "Showcase settings"
+  default     = null
+}
