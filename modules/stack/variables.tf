@@ -256,3 +256,9 @@ variable "protect_from_deletion" {
   description = "Flag to enable/disable deletion protection."
   default     = false
 }
+
+variable "context_id" {
+  type        = string
+  description = "Name of context id to attach to stack"
+  default     = null
+}
