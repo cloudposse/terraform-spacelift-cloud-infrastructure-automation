@@ -162,8 +162,8 @@ resource "spacelift_drift_detection" "drift_detection_administrative" {
 resource "spacelift_context" "default" {
   count = local.enabled ? 1 : 0
 
-  description = "Global stack variables"
-  name        = module.this.id
+  description = var.stack_context_description
+  name        = var.stack_context_name
 }
 
 resource "spacelift_environment_variable" "default" {
