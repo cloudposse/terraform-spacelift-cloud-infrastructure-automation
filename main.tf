@@ -37,6 +37,8 @@ locals {
   distinct_policy_names = distinct(compact(flatten([
     for k, v in local.spacelift_stacks : try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) if v.enabled
   ])))
+
+  labels = var.infracost_enabled ? concat(var.labels, ["infracost"]) : var.labels
 }
 
 # Create custom policies (Rego defined externally in the caller code)
@@ -60,7 +62,7 @@ module "stacks" {
   component_vars            = each.value.vars
   component_env             = each.value.env
   terraform_workspace       = each.value.workspace
-  labels                    = var.infracost_enabled ? concat(each.value.labels, ["infracost"]) : each.value.labels
+  labels                    = concat(var.labels, each.value.labels)
 
   context_attachments   = coalesce(try(each.value.settings.spacelift.context_attachments, null), var.context_attachments)
   autodeploy            = coalesce(try(each.value.settings.spacelift.autodeploy, null), var.autodeploy)
