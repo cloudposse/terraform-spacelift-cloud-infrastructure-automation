@@ -22,6 +22,10 @@ module "spacelift_config" {
 }
 
 locals {
+  enabled = module.this.enabled
+
+  stack_context_variables_enabled = local.enabled && length(var.stack_context_variables) > 0
+
   # if context_filters are provided, then filter for them, otherwise return the original stacks unfiltered
   spacelift_stacks = {
     for k, v in module.spacelift_config.spacelift_stacks :
@@ -120,6 +124,8 @@ module "stacks" {
   # lookup and use the worker pool ID from the map.
   # Otherwise, use `var.worker_pool_id`.
   worker_pool_id = try(var.worker_pool_name_id_map[each.value.settings.spacelift.worker_pool_name], var.worker_pool_id)
+
+  context_id = local.stack_context_variables_enabled ? join("", spacelift.context.default.*.id) : null
 }
 
 # `administrative` policies are always attached to the `administrative` stack
@@ -151,4 +157,19 @@ resource "spacelift_drift_detection" "drift_detection_administrative" {
   stack_id  = data.spacelift_current_stack.administrative[0].id
   reconcile = var.administrative_stack_drift_detection_reconcile
   schedule  = var.administrative_stack_drift_detection_schedule
+}
+
+resource "spacelift_context" "default" {
+  count = local.enabled ? 1 : 0
+
+  description = "Global stack variables"
+  name        = module.this.id
+}
+
+resource "spacelift_environment_variable" "default" {
+  for_each   = local.stack_context_variables_enabled ? var.stack_context_variables : {}
+  context_id = join("", spacelift.context.default.*.id)
+  name       = each.key
+  value      = each.value
+  write_only = false
 }
