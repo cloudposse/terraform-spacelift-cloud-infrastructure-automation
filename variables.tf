@@ -339,6 +339,18 @@ variable "labels" {
   default     = []
 }
 
+variable "stack_context_name" {
+  type        = string
+  description = "Name of global stack context"
+  default     = "Global stack variables"
+}
+
+variable "stack_context_description" {
+  type        = string
+  description = "Description of global stack context"
+  default     = "Stack global variables"
+}
+
 variable "stack_context_variables" {
   type        = map(string)
   description = "Map of variables to create a global context attached to each stack"
