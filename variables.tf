@@ -335,7 +335,7 @@ variable "infracost_enabled" {
 
 variable "labels" {
   type        = set(string)
-  description = "A list of labels to attach to each stack"
+  description = "Set of labels to attach to each stack"
   default     = []
 }
 
