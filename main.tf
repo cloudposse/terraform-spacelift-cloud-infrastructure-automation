@@ -125,7 +125,7 @@ module "stacks" {
   # Otherwise, use `var.worker_pool_id`.
   worker_pool_id = try(var.worker_pool_name_id_map[each.value.settings.spacelift.worker_pool_name], var.worker_pool_id)
 
-  context_id = local.stack_context_variables_enabled ? join("", spacelift.context.default.*.id) : null
+  context_ids = concat([join("", spacelift.context.default.*.id)], try(each.value.settings.spacelift.context_ids, []))
 }
 
 # `administrative` policies are always attached to the `administrative` stack
