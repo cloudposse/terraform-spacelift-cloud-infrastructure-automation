@@ -98,6 +98,8 @@
 | <a name="input_runner_image"></a> [runner\_image](#input\_runner\_image) | The full image name and tag of the Docker image to use in Spacelift | `string` | `null` | no |
 | <a name="input_spacelift_run_enabled"></a> [spacelift\_run\_enabled](#input\_spacelift\_run\_enabled) | Enable/disable creation of the `spacelift_run` resource | `bool` | `false` | no |
 | <a name="input_stack_config_path_template"></a> [stack\_config\_path\_template](#input\_stack\_config\_path\_template) | Stack config path template | `string` | `"stacks/%s.yaml"` | no |
+| <a name="input_stack_context_description"></a> [stack\_context\_description](#input\_stack\_context\_description) | Description of global stack context | `string` | `"Stack global variables"` | no |
+| <a name="input_stack_context_name"></a> [stack\_context\_name](#input\_stack\_context\_name) | Name of global stack context | `string` | `"Global stack variables"` | no |
 | <a name="input_stack_context_variables"></a> [stack\_context\_variables](#input\_stack\_context\_variables) | Map of variables to create a global context attached to each stack | `map(string)` | `{}` | no |
 | <a name="input_stack_deps_processing_enabled"></a> [stack\_deps\_processing\_enabled](#input\_stack\_deps\_processing\_enabled) | Boolean flag to enable/disable processing all stack dependencies in the provided stack | `bool` | `false` | no |
 | <a name="input_stack_destructor_enabled"></a> [stack\_destructor\_enabled](#input\_stack\_destructor\_enabled) | Flag to enable/disable the stack destructor to destroy the resources of a stack before deleting the stack itself | `bool` | `false` | no |
