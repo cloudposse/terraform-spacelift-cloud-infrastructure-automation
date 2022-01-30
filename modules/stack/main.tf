@@ -39,6 +39,66 @@ resource "spacelift_stack" "default" {
   before_plan    = var.before_plan
 
   protect_from_deletion = var.protect_from_deletion
+
+  dynamic "azure_devops" {
+    for_each = var.azure_devops != null ? [true] : []
+    content {
+      project = lookup(var.azure_devops, "project", null)
+    }
+  }
+
+  dynamic "bitbucket_cloud" {
+    for_each = var.bitbucket_cloud != null ? [true] : []
+    content {
+      namespace = lookup(var.bitbucket_cloud, "namespace", null)
+    }
+  }
+
+  dynamic "bitbucket_datacenter" {
+    for_each = var.bitbucket_datacenter != null ? [true] : []
+    content {
+      namespace = lookup(var.bitbucket_datacenter, "namespace", null)
+    }
+  }
+
+  dynamic "cloudformation" {
+    for_each = var.cloudformation != null ? [true] : []
+    content {
+      entry_template_file = lookup(var.cloudformation, "entry_template_file", null)
+      region              = lookup(var.cloudformation, "region", null)
+      stack_name          = lookup(var.cloudformation, "stack_name", null)
+      template_bucket     = lookup(var.cloudformation, "template_bucket", null)
+    }
+  }
+
+  dynamic "github_enterprise" {
+    for_each = var.github_enterprise != null ? [true] : []
+    content {
+      namespace = lookup(var.github_enterprise, "namespace", null)
+    }
+  }
+
+  dynamic "gitlab" {
+    for_each = var.gitlab != null ? [true] : []
+    content {
+      namespace = lookup(var.gitlab, "namespace", null)
+    }
+  }
+
+  dynamic "pulumi" {
+    for_each = var.pulumi != null ? [true] : []
+    content {
+      login_url  = lookup(var.pulumi, "login_url", null)
+      stack_name = lookup(var.pulumi, "stack_name", null)
+    }
+  }
+
+  dynamic "showcase" {
+    for_each = var.showcase != null ? [true] : []
+    content {
+      namespace = lookup(var.showcase, "namespace", null)
+    }
+  }
 }
 
 resource "spacelift_run" "default" {
@@ -125,10 +185,17 @@ resource "spacelift_aws_role" "default" {
   generate_credentials_in_worker = var.aws_role_generate_credentials_in_worker
 }
 
+# spacelift_stack_destructor is a special resource which, when deleted, will delete all resources in the stack.
+# var.stack_destructor_enabled should not toggle the creation or destruction of this resource, because toggling it from
+# 'true' to 'false' with the intention of disabling the stack destructor functionality will result in all of the resources
+# in the stack being deleted. Instead, this resource is always created, with var.stack_destructor_enabled toggling its
+# 'deactivated' attribute, which allows for the stack destructor functionality to be disabled.
+# See: https://github.com/spacelift-io/terraform-provider-spacelift/blob/master/spacelift/resource_stack_destructor.go
 resource "spacelift_stack_destructor" "default" {
-  count = var.enabled && var.stack_destructor_enabled ? 1 : 0
+  count = var.enabled ? 1 : 0
 
-  stack_id = spacelift_stack.default[0].id
+  stack_id    = spacelift_stack.default[0].id
+  deactivated = ! var.stack_destructor_enabled
 
   depends_on = [
     spacelift_mounted_file.stack_config,
