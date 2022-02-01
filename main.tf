@@ -173,7 +173,7 @@ resource "spacelift_context" "default" {
 
 resource "spacelift_environment_variable" "default" {
   for_each   = local.stack_context_variables_enabled ? var.stack_context_variables : {}
-  context_id = join("", spacelift.context.default.*.id)
+  context_id = join("", spacelift_context.default.*.id)
   name       = each.key
   value      = each.value
   write_only = false
