@@ -101,5 +101,5 @@ cancel[run.id] {
   run := input.in_progress[_]
   run.type == "PROPOSED"
   run.state == "QUEUED"
-  run.branch == input.commit.branch
+  run.branch == input.pull_request.head.branch
 }
