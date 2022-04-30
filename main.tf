@@ -43,22 +43,29 @@ locals {
   # Find Rego policies defined in YAML config in all stacks
   # policies_by_name_enabled = [GIT_PUSH Proposed Run Policy, xyz]
   # policies_by_name_enabled."GIT_PUSH Proposed Run Policy", xyz]
-  custom_policy_names = [
-    for k, v in local.spacelift_stacks :
-    length(try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)) > 0 ? (
-      try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)
-      ) : {
-      for policy in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) :
-      policy => {}
-    }
-    if v.enabled
-  ]
+  # custom_policy_names = [
+  #   for k, v in local.spacelift_stacks :
+    # length(try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)) > 0 ? (
+    #   try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)
+    #   ) :
+  #   {
+  #     for policy in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) :
+  #     policy => {}
+  #   }
+  #   if v.enabled
+  # ]
 
   # Support both var.policies_available (deprecated) and var.policies_available_map
   policies_available = merge({
     for policy in var.policies_available :
     policy => {}
   }, var.policies_available_map)
+
+  custom_policy_names = [
+    for k, v in local.spacelift_stacks :
+    try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled)
+    if v.enabled
+  ]
 }
 
 # Create custom policies (Rego defined externally in the caller code)
