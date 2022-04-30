@@ -142,20 +142,9 @@ variable "policies_available" {
   ]
 }
 
-variable "policies_enabled" {
-  type        = list(string)
-  description = "List of default policies to attach to all Spacelift stacks"
-  default = [
-    "git_push.proposed-run",
-    "git_push.tracked-run",
-    "plan.default",
-    "trigger.dependencies"
-  ]
-}
-
-variable "policies_enabled_map" {
+variable "policies_available_map" {
   type        = map(string)
-  description = "Map of default policies to attach to all Spacelift stacks"
+  description = "Map of available default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_enabled`)"
   default = {
     "git_push.proposed-run" = {
       type   = "GIT_PUSH"
@@ -178,6 +167,17 @@ variable "policies_enabled_map" {
       labels = []
     }
   }
+}
+
+variable "policies_enabled" {
+  type        = list(string)
+  description = "List of default policies to attach to all Spacelift stacks"
+  default = [
+    "git_push.proposed-run",
+    "git_push.tracked-run",
+    "plan.default",
+    "trigger.dependencies"
+  ]
 }
 
 variable "policies_path" {
