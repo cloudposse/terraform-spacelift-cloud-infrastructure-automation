@@ -55,10 +55,10 @@ locals {
   ]
 
   # Support both var.policies_available (deprecated) and var.policies_available_map
-  policies_available = length(var.policies_available) > 0 ? {
+  policies_available = merge({
     for policy in var.policies_available :
     policy => {}
-  } : var.policies_available_map
+  }, var.policies_available_map)
 }
 
 # Create custom policies (Rego defined externally in the caller code)
