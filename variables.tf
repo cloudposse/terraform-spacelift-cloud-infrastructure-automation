@@ -177,7 +177,7 @@ variable "policies_enabled_map" {
       name   = "TRIGGER Dependencies Policy"
       labels = []
     }
-  ]
+  }
 }
 
 variable "policies_path" {
