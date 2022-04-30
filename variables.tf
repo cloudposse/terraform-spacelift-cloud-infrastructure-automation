@@ -143,7 +143,7 @@ variable "policies_available" {
 }
 
 variable "policies_available_map" {
-  type        = map(string)
+  type        = any
   description = "Map of available default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_enabled`)"
   default = {
     "git_push.proposed-run" = {
@@ -199,7 +199,7 @@ variable "policies_by_name_enabled" {
 }
 
 variable "policies_by_map_enabled" {
-  type        = map(string)
+  type        = any
   description = "Map of existing policy names to attach to all Spacelift stacks. These policies must be created outside of this module"
   default     = {}
 }
