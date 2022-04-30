@@ -45,9 +45,9 @@ locals {
   # policies_by_name_enabled."GIT_PUSH Proposed Run Policy", xyz]
   # custom_policy_names = [
   #   for k, v in local.spacelift_stacks :
-    # length(try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)) > 0 ? (
-    #   try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)
-    #   ) :
+  # length(try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)) > 0 ? (
+  #   try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)
+  #   ) :
   #   {
   #     for policy in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) :
   #     policy => {}
