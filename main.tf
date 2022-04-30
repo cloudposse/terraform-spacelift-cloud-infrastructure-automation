@@ -9,7 +9,7 @@ resource "spacelift_policy" "default" {
   # body = file("./catalog/policies/git_push.proposed-run.rego")
   type = lookup(each, "type", upper(split(".", each.key)[0]))
   name = lookup(each, "name", format("%s %s Policy", upper(split(".", each.name)[0]), title(replace(split(".", each.key)[1], "-", " "))))
-  body = lookup(each, "body", file(format("%s/%s/%s.rego", path.module, var.policies_path, each.key)))
+  body = file(format("%s/%s/%s.rego", path.module, var.policies_path, each.key))
   
   labels = lookup(each, "labels", [])
 }
