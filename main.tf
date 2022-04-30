@@ -57,7 +57,7 @@ locals {
   # Support both var.policies_available (deprecated) and var.policies_available_map
   policies_available = length(var.policies_available) > 0 ? {
     for policy in var.policies_available :
-    name => {}
+    policy => {}
   } : var.policies_available_map
 }
 
