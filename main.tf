@@ -10,7 +10,7 @@ resource "spacelift_policy" "default" {
   type = lookup(each, "type", upper(split(".", each.key)[0]))
   name = lookup(each, "name", format("%s %s Policy", upper(split(".", each.name)[0]), title(replace(split(".", each.key)[1], "-", " "))))
   body = file(format("%s/%s/%s.rego", path.module, var.policies_path, each.key))
-  
+
   labels = lookup(each, "labels", [])
 }
 
@@ -44,11 +44,11 @@ locals {
   # policies_by_name_enabled = [GIT_PUSH Proposed Run Policy, xyz]
   # policies_by_name_enabled."GIT_PUSH Proposed Run Policy", xyz]
   custom_policy_names = [
-    for k, v in local.spacelift_stacks : 
-      length(try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)) > 0 ? (
-        try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)
+    for k, v in local.spacelift_stacks :
+    length(try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)) > 0 ? (
+      try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)
       ) : {
-      for policy in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled):
+      for policy in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) :
       policy => {}
     }
     if v.enabled
