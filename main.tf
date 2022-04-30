@@ -1,10 +1,17 @@
 # Create default policies (Rego defined in the catalog in this module)
 resource "spacelift_policy" "default" {
-  for_each = toset(var.policies_available)
+  for_each = toset(local.policies_available_map)
 
-  type = upper(split(".", each.key)[0])
-  name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
-  body = file(format("%s/%s/%s.rego", path.module, var.policies_path, each.key))
+  # naming convention type.human_friendly_name.xyz
+  # e.g. git_push.proposed-run.rego
+  # type = GIT_PUSH
+  # name = GIT_PUSH Proposed Run Policy
+  # body = file("./catalog/policies/git_push.proposed-run.rego")
+  type = lookup(each, "type", upper(split(".", each.name)[0]))
+  name = lookup(each, "name", format("%s %s Policy", upper(split(".", each.name)[0]), title(replace(split(".", each.name)[1], "-", " "))))
+  body = lookup(each, "body", file(format("%s/%s/%s.rego", path.module, var.policies_path, each.key)))
+  
+  labels = lookup(each, "labels", [])
 }
 
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
@@ -34,14 +41,29 @@ locals {
   }
 
   # Find Rego policies defined in YAML config in all stacks
-  distinct_policy_names = distinct(compact(flatten([
-    for k, v in local.spacelift_stacks : try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) if v.enabled
-  ])))
+  # policies_by_name_enabled = [GIT_PUSH Proposed Run Policy, xyz]
+  # policies_by_name_enabled."GIT_PUSH Proposed Run Policy", xyz]
+  custom_policy_names = [
+    for k, v in local.spacelift_stacks : 
+      length(try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)) > 0 ? (
+        try(v.settings.spacelift.policies_by_map_enabled, var.policies_by_map_enabled)
+      ) : {
+      for policy in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled):
+      policy => {}
+    }
+    if v.enabled
+  ]
+
+  # Support both var.policies_available (deprecated) and var.policies_available_map
+  policies_available = length(var.policies_available) > 0 ? {
+    for policy in var.policies_available :
+    name => {}
+  } : var.policies_available_map
 }
 
 # Create custom policies (Rego defined externally in the caller code)
 resource "spacelift_policy" "custom" {
-  for_each = toset(local.distinct_policy_names)
+  for_each = toset(local.custom_policy_names)
 
   type = upper(split(".", each.key)[0])
   name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
