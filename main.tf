@@ -1,6 +1,6 @@
 # Create default policies (Rego defined in the catalog in this module)
 resource "spacelift_policy" "default" {
-  for_each = toset(local.policies_available_map)
+  for_each = toset(local.policies_available)
 
   # naming convention type.human_friendly_name.xyz
   # e.g. git_push.proposed-run.rego
