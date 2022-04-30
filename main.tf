@@ -7,11 +7,11 @@ resource "spacelift_policy" "default" {
   # type = GIT_PUSH
   # name = GIT_PUSH Proposed Run Policy
   # body = file("./catalog/policies/git_push.proposed-run.rego")
-  type = lookup(each, "type", upper(split(".", each.key)[0]))
-  name = lookup(each, "name", format("%s %s Policy", upper(split(".", each.name)[0]), title(replace(split(".", each.key)[1], "-", " "))))
+  type = try(each.type, upper(split(".", each.key)[0]))
+  name = try(each.name", format("%s %s Policy", upper(split(".", each.name)[0]), title(replace(split(".", each.key)[1], "-", " "))))
   body = file(format("%s/%s/%s.rego", path.module, var.policies_path, each.key))
 
-  labels = lookup(each, "labels", [])
+  labels = try(each.labels, [])
 }
 
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
