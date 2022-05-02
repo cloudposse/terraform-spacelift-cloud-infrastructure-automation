@@ -26,7 +26,7 @@ ignore  {
 
 # Ignore draft PRs unless they explicitly have a `spacelift-trigger` label
 ignore {
-   input.pull_request.draft = true
+   input.pull_request.draft
    input.pull_request.labels[_] != "spacelift-trigger"
 }
 
