@@ -22,7 +22,7 @@ module "spacelift_config" {
 }
 
 locals {
-  stack_context_variables_enabled = length(var.stack_context_variables) > 0
+  stack_context_variables_enabled = length(keys(var.stack_context_variables)) > 0
 
   # if context_filters are provided, then filter for them, otherwise return the original stacks unfiltered
   spacelift_stacks = {
