@@ -304,3 +304,9 @@ variable "showcase" {
   description = "Showcase settings"
   default     = null
 }
+
+variable "description" {
+  type        = string
+  description = "Specify description of stack"
+  default     = null
+}

@@ -67,6 +67,7 @@ module "stacks" {
   terraform_workspace       = each.value.workspace
   labels                    = concat(local.labels, try(each.value.labels, []))
 
+  description           = try(each.value.settings.spacelift.description, null)
   context_attachments   = compact(concat([join("", spacelift_context.default.*.id)], coalesce(try(each.value.settings.spacelift.context_attachments, null), var.context_attachments)))
   autodeploy            = coalesce(try(each.value.settings.spacelift.autodeploy, null), var.autodeploy)
   branch                = coalesce(try(each.value.settings.spacelift.branch, null), var.branch)
