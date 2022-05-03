@@ -24,6 +24,12 @@ ignore  {
     input.pull_request.labels[_] = "spacelift-no-trigger"
 }
 
+# Ignore draft PRs unless they explicitly have a `spacelift-trigger` label
+ignore {
+   input.pull_request.draft
+   input.pull_request.labels[_] != "spacelift-trigger"
+}
+
 # Propose a run if component's files are affected and the pull request action is in the `proposed_run_pull_request_actions` array
 # https://docs.spacelift.io/concepts/run/proposed
 propose {
@@ -101,4 +107,5 @@ cancel[run.id] {
   run := input.in_progress[_]
   run.type == "PROPOSED"
   run.state == "QUEUED"
+  run.branch == input.pull_request.head.branch
 }
