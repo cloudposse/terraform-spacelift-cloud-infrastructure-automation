@@ -40,7 +40,11 @@ locals {
     for k, v in local.spacelift_stacks : try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) if v.enabled
   ])))
 
+  # Concatenate labels with infracost if it's enabled
   labels = var.infracost_enabled ? concat(var.labels, ["infracost"]) : var.labels
+
+  # Check if INFRACOST_API_KEY env variable was provided if var.infracost_enabled is true
+  infracost_api_token_check = var.infracost_enabled ? { for sv in var.stack_context_variables : sv => sv }["INFRACOST_API_KEY"] : ""
 }
 
 # Create custom policies (Rego defined externally in the caller code)
