@@ -342,13 +342,13 @@ variable "labels" {
 variable "stack_context_name" {
   type        = string
   description = "Name of global stack context"
-  default     = "Global stack variables"
+  default     = ""
 }
 
 variable "stack_context_description" {
   type        = string
   description = "Description of global stack context"
-  default     = "Stack global variables"
+  default     = ""
 }
 
 variable "stack_context_variables" {
