@@ -14,9 +14,19 @@ warn[sprintf("Detected recreated resource: %s", [resource.address])] {
   input.stack.autodeploy
 }
 
-deny[sprintf("Must not create AWS IAM users: %s", [resource.address])] {
+# This could be a separate policy below
+
+contains(list, elem) {
+  list[_] = elem
+}
+
+denied_resources := [
+  "aws_iam_user",
+]
+
+deny[sprintf("Must not create: %s", [resource.address])] {
   some resource
   created_resources[resource]
 
-  resource.type == "aws_iam_user"
+  contains(denied_resources, resource.type)
 }
