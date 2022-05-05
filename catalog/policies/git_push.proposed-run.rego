@@ -25,17 +25,14 @@ ignore  {
 }
 
 # Ignore draft PRs unless they explicitly have a `spacelift-trigger` label
-# This ignore statement assumes count(input.pull_request.labels) > 0
-ignore {
-   input.pull_request.draft
-   input.pull_request.labels[_] != "spacelift-trigger"
+# This function and the following "not" expression allows working with zero and non-zero "labels" counts
+has_spacelift_trigger_label {
+  input.pull_request.labels[_] == "spacelift-trigger"
 }
 
-# Ignore draft PRs if there are 0 labels.
-# If this block isn't there, the above ignore policy will result in false unless there is at least one label present.
 ignore {
    input.pull_request.draft
-   count(input.pull_request.labels) == 0
+   not has_spacelift_trigger_label
 }
 
 # Propose a run if component's files are affected and the pull request action is in the `proposed_run_pull_request_actions` array
