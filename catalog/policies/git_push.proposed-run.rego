@@ -25,14 +25,14 @@ ignore  {
 }
 
 # Ignore draft PRs unless they explicitly have a `spacelift-trigger` label
+# This ignore statement assumes count(input.pull_request.labels) > 0
 ignore {
    input.pull_request.draft
-   # we can only check if labels contains something if there is more than one label
-   count(input.pull_request.labels) > 0
    input.pull_request.labels[_] != "spacelift-trigger"
 }
 
-# Ignore draft PRs if they have 0 labels
+# Ignore draft PRs if there are 0 labels.
+# If this block isn't there, the above ignore policy will result in false unless there is at least one label present.
 ignore {
    input.pull_request.draft
    count(input.pull_request.labels) == 0
