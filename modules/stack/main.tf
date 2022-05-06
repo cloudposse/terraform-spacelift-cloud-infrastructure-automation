@@ -8,7 +8,7 @@ locals {
     context_id => idx
   }
 
-  labels = var.tfvars_checksum_label_enabled ? concat(var.labels, [sha256(jsonencode(var.component_vars))]) : var.labels
+  labels = var.tfvars_checksum_label_enabled ? concat(var.labels, ["checksum:${sha256(jsonencode(var.component_vars))}"]) : var.labels
 }
 
 resource "spacelift_stack" "default" {
