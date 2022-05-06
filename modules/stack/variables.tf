@@ -310,3 +310,9 @@ variable "description" {
   description = "Specify description of stack"
   default     = null
 }
+
+variable "tfvars_checksum_label_enabled" {
+  type        = bool
+  description = "Whether to add a label of the tfvars checksum"
+  default     = false
+}
