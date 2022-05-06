@@ -356,3 +356,9 @@ variable "stack_context_variables" {
   description = "Map of variables to create a global context attached to each stack"
   default     = {}
 }
+
+variable "tfvars_checksum_label_enabled" {
+  type        = bool
+  description = "Whether to add a label of the tfvars checksum"
+  default     = false
+}
