@@ -7,6 +7,8 @@ locals {
     for idx, context_id in var.context_attachments :
     context_id => idx
   }
+
+  labels = var.tfvars_checksum_label_enabled ? concat(var.labels, [sha256(jsonencode(var.component_vars))]) : var.labels
 }
 
 resource "spacelift_stack" "default" {
@@ -20,7 +22,7 @@ resource "spacelift_stack" "default" {
   branch               = var.branch
   project_root         = var.component_root
   manage_state         = var.manage_state
-  labels               = var.labels
+  labels               = local.labels
   enable_local_preview = var.local_preview_enabled
 
   worker_pool_id      = var.worker_pool_id
