@@ -22,6 +22,8 @@ module "spacelift_config" {
 }
 
 locals {
+  stack_context_variables_enabled = length(keys(var.stack_context_variables)) > 0
+
   # if context_filters are provided, then filter for them, otherwise return the original stacks unfiltered
   spacelift_stacks = {
     for k, v in module.spacelift_config.spacelift_stacks :
@@ -37,6 +39,9 @@ locals {
   distinct_policy_names = distinct(compact(flatten([
     for k, v in local.spacelift_stacks : try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) if v.enabled
   ])))
+
+  # Concatenate labels with infracost if it's enabled
+  labels = var.infracost_enabled ? concat(var.labels, ["infracost"]) : var.labels
 }
 
 # Create custom policies (Rego defined externally in the caller code)
@@ -60,9 +65,10 @@ module "stacks" {
   component_vars            = each.value.vars
   component_env             = each.value.env
   terraform_workspace       = each.value.workspace
-  labels                    = each.value.labels
+  labels                    = concat(local.labels, try(each.value.labels, []))
 
-  context_attachments   = coalesce(try(each.value.settings.spacelift.context_attachments, null), var.context_attachments)
+  description           = try(each.value.settings.spacelift.description, null)
+  context_attachments   = compact(concat([join("", spacelift_context.default.*.id)], coalesce(try(each.value.settings.spacelift.context_attachments, null), var.context_attachments)))
   autodeploy            = coalesce(try(each.value.settings.spacelift.autodeploy, null), var.autodeploy)
   branch                = coalesce(try(each.value.settings.spacelift.branch, null), var.branch)
   repository            = coalesce(try(each.value.settings.spacelift.repository, null), var.repository)
@@ -158,4 +164,19 @@ resource "spacelift_drift_detection" "drift_detection_administrative" {
   stack_id  = data.spacelift_current_stack.administrative[0].id
   reconcile = var.administrative_stack_drift_detection_reconcile
   schedule  = var.administrative_stack_drift_detection_schedule
+}
+
+resource "spacelift_context" "default" {
+  count = local.stack_context_variables_enabled ? 1 : 0
+
+  description = var.stack_context_description
+  name        = var.stack_context_name
+}
+
+resource "spacelift_environment_variable" "default" {
+  for_each   = local.stack_context_variables_enabled ? var.stack_context_variables : {}
+  context_id = join("", spacelift_context.default.*.id)
+  name       = each.key
+  value      = each.value
+  write_only = false
 }
