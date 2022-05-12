@@ -88,8 +88,8 @@ module "stacks" {
   pulumi               = try(each.value.settings.spacelift.pulumi, null)
   showcase             = try(each.value.settings.spacelift.showcase, null)
 
-  manage_state = var.manage_state
-  runner_image = var.runner_image
+  manage_state = try(each.value.settings.spacelift.manage_state, var.manage_state)
+  runner_image = try(each.value.settings.spacelift.runner_image, var.runner_image)
 
   webhook_enabled  = try(each.value.settings.spacelift.webhook_enabled, null) != null ? each.value.settings.spacelift.webhook_enabled : var.webhook_enabled
   webhook_endpoint = try(each.value.settings.spacelift.webhook_endpoint, null) != null ? each.value.settings.spacelift.webhook_endpoint : var.webhook_endpoint
@@ -99,7 +99,7 @@ module "stacks" {
   policy_ids = concat(
     [for i in try(each.value.settings.spacelift.policies_enabled, var.policies_enabled) : spacelift_policy.default[i].id],
     [for i in try(each.value.settings.spacelift.policies_by_name_enabled, []) : spacelift_policy.custom[i].id],
-    var.policies_by_id_enabled
+    try(each.value.settings.spacelift.policies_by_id_enabled, var.policies_by_id_enabled)
   )
 
   drift_detection_enabled   = try(each.value.settings.spacelift.drift_detection_enabled, null) != null ? each.value.settings.spacelift.drift_detection_enabled : var.drift_detection_enabled
