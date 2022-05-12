@@ -326,3 +326,33 @@ variable "protect_from_deletion" {
   description = "Flag to enable/disable deletion protection."
   default     = false
 }
+
+variable "infracost_enabled" {
+  type        = bool
+  description = "Flag to enable/disable infracost. If this is enabled, it will add infracost label to each stack. See [spacelift infracost](https://docs.spacelift.io/vendors/terraform/infracost) docs for more details."
+  default     = false
+}
+
+variable "labels" {
+  type        = list(string)
+  description = "Set of labels to attach to each stack"
+  default     = []
+}
+
+variable "stack_context_name" {
+  type        = string
+  description = "Name of global stack context"
+  default     = "Stack context"
+}
+
+variable "stack_context_description" {
+  type        = string
+  description = "Description of global stack context"
+  default     = "Stack context description"
+}
+
+variable "stack_context_variables" {
+  type        = map(string)
+  description = "Map of variables to create a global context attached to each stack"
+  default     = {}
+}
