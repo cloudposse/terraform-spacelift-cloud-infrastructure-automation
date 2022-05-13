@@ -14,7 +14,7 @@ tracked_extensions := {".tf", ".tf.json", ".tfvars", ".yaml", ".yml", ".tpl", ".
 # Project root
 project_root := input.stack.project_root
 
-# Currently supported actions are: opened, reopened, merged, edited, synchronize, labeled, unlabeled
+# Currently supported actions are: opened, reopened, merged, edited, synchronize, labeled, unlabeled, draft
 # List of PR actions to trigger a proposed run
 proposed_run_pull_request_actions := {"opened", "reopened", "synchronize", "draft"}
 
