@@ -10,7 +10,7 @@ resource "spacelift_policy" "default" {
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
 module "spacelift_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
-  version = "0.22.0"
+  version = "0.22.2"
 
   stack_config_path_template = var.stack_config_path_template
 
