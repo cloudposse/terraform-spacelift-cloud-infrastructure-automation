@@ -59,7 +59,7 @@ module "stacks" {
   for_each = local.spacelift_stacks
 
   enabled                   = each.value.enabled
-  stack_name                = each.key
+  stack_name                = format("%v%v", var.stack_name_prefix, each.key)
   infrastructure_stack_name = each.value.stack
   component_name            = each.value.component
   component_vars            = each.value.vars

@@ -356,3 +356,9 @@ variable "stack_context_variables" {
   description = "Map of variables to create a global context attached to each stack"
   default     = {}
 }
+
+variable "stack_name_prefix" {
+  type        = string
+  description = "An optional prefix for every stack name created by this module"
+  default     = ""
+}
