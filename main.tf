@@ -98,7 +98,7 @@ module "stacks" {
   # Policies to attach to the stack (internally created + additional external provided by IDs + additional external created by this module from external Rego files)
   policy_ids = concat(
     [for i in try(each.value.settings.spacelift.policies_enabled, var.policies_enabled) : spacelift_policy.default[i].id],
-    [for i in try(each.value.settings.spacelift.policies_by_name_enabled, []) : spacelift_policy.custom[i].id],
+    [for i in try(each.value.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) : spacelift_policy.custom[i].id],
     try(each.value.settings.spacelift.policies_by_id_enabled, var.policies_by_id_enabled)
   )
 
