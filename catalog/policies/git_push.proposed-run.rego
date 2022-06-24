@@ -21,7 +21,7 @@ proposed_run_pull_request_actions := {"opened", "reopened", "synchronize", "draf
 # Ignore if any of the `ignore` rules evaluates to `true`
 # 1) Ignore if the PR has a label `spacelift-no-trigger`
 ignore  {
-    input.pull_request.labels[_] = "spacelift-no-trigger"
+  input.pull_request.labels[_] = "spacelift-no-trigger"
 }
 
 # Ignore draft PRs unless they explicitly have a `spacelift-trigger` label
@@ -31,22 +31,22 @@ has_spacelift_trigger_label {
 }
 
 ignore {
-   input.pull_request.draft
-   not has_spacelift_trigger_label
+  input.pull_request.draft
+  not has_spacelift_trigger_label
 }
 
 # Propose a run if component's files are affected and the pull request action is in the `proposed_run_pull_request_actions` array
 # https://docs.spacelift.io/concepts/run/proposed
 propose {
-    project_affected
-    proposed_run_pull_request_actions[_] = input.pull_request.action
+  project_affected
+  proposed_run_pull_request_actions[_] = input.pull_request.action
 }
 
 # Propose a run if component's stack config files are affected and the pull request action is in the `proposed_run_pull_request_actions` array
 # https://docs.spacelift.io/concepts/run/proposed
 propose {
-    stack_config_affected
-    proposed_run_pull_request_actions[_] = input.pull_request.action
+  stack_config_affected
+  proposed_run_pull_request_actions[_] = input.pull_request.action
 }
 
 # Check if any of the tracked extensions were modified in the project folder
@@ -54,9 +54,9 @@ propose {
 # https://www.openpolicyagent.org/docs/latest/policy-language/#variable-keys
 # https://www.openpolicyagent.org/docs/latest/policy-reference/#iteration
 project_affected {
-    some i, j
-    startswith(affected_files[i], project_root)
-    endswith(affected_files[i], tracked_extensions[j])
+  some i, j
+  startswith(affected_files[i], project_root)
+  endswith(affected_files[i], tracked_extensions[j])
 }
 
 # Split the stack name into a list
@@ -64,7 +64,7 @@ stack_name_parts := split(input.stack.name, "-")
 
 # Check if the environment has been modified
 stack_config_affected {
-    contains(affected_files[_], concat("-", [stack_name_parts[0], stack_name_parts[1]]))
+  contains(affected_files[_], concat("-", [stack_name_parts[0], stack_name_parts[1]]))
 }
 
 # Get labels
@@ -78,7 +78,7 @@ imports := [imp | startswith(labels[i], "import:"); imp := split(labels[i], ":")
 
 # Check if any of the imports have been modified
 stack_config_affected {
-    endswith(affected_files[_], imports[_])
+  endswith(affected_files[_], imports[_])
 }
 
 # Get all stack dependencies for the component from the provided `labels` (all stacks where the component is defined)
@@ -88,7 +88,7 @@ stack_deps := [stack_dep | startswith(labels[i], "stack:"); stack_dep := split(l
 
 # Check if any of the stack dependencies have been modified
 stack_config_affected {
-    endswith(affected_files[_], stack_deps[_])
+  endswith(affected_files[_], stack_deps[_])
 }
 
 # Get stack dependencies for the component from the provided `labels`
@@ -97,12 +97,12 @@ deps := [dep | startswith(labels[i], "deps:"); dep := split(labels[i], ":")[1]]
 
 # Check if any of the component stack dependencies have been modified
 stack_config_affected {
-    endswith(affected_files[_], deps[_])
+  endswith(affected_files[_], deps[_])
 }
 
 # Checking startswith allows `deps:*` to reference top level folders
 stack_config_affected {
-    startswith(affected_files[_], deps[_])
+  startswith(affected_files[_], deps[_])
 }
 
 # Cancel previous queued proposed runs if a new commit is pushed
