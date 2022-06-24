@@ -30,6 +30,11 @@ has_spacelift_trigger_label {
   input.pull_request.labels[_] == "spacelift-trigger"
 }
 
+# If pre-commit hooks make changes, they are not semantic changes and can and should be ignored
+ignore  {
+    input.push.message == "pre-commit fixes"
+}
+
 ignore {
    input.pull_request.draft
    not has_spacelift_trigger_label
