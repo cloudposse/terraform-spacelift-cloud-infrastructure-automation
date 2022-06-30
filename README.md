@@ -241,7 +241,7 @@ Available targets:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_spacelift_config"></a> [spacelift\_config](#module\_spacelift\_config) | cloudposse/stack-config/yaml//modules/spacelift | 0.22.3 |
+| <a name="module_spacelift_config"></a> [spacelift\_config](#module\_spacelift\_config) | cloudposse/stack-config/yaml//modules/spacelift | 0.22.4 |
 | <a name="module_stacks"></a> [stacks](#module\_stacks) | ./modules/stack | n/a |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.25.0 |
 
