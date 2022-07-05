@@ -356,3 +356,9 @@ variable "stack_context_variables" {
   description = "Map of variables to create a global context attached to each stack"
   default     = {}
 }
+
+variable "additional_mounted_files" {
+  type        = map(any)
+  description = "Add additional mounted files where the values of each key are `relative_path`, `content`, and optional `write_only` which defaults to `false`."
+  default     = {}
+}

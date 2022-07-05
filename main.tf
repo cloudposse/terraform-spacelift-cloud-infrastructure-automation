@@ -133,6 +133,8 @@ module "stacks" {
   # lookup and use the worker pool ID from the map.
   # Otherwise, use `var.worker_pool_id`.
   worker_pool_id = try(var.worker_pool_name_id_map[each.value.settings.spacelift.worker_pool_name], var.worker_pool_id)
+
+  additional_mounted_files = try(each.value.settings.spacelift.additional_mounted_files, null) != null ? each.value.settings.spacelift.additional_mounted_files : var.additional_mounted_files
 }
 
 # `administrative` policies are always attached to the `administrative` stack

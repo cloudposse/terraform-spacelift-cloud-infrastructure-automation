@@ -310,3 +310,9 @@ variable "description" {
   description = "Specify description of stack"
   default     = null
 }
+
+variable "additional_mounted_files" {
+  type        = map(any)
+  description = "Add additional mounted files where the values of each key are `relative_path`, `content`, and optional `write_only` which defaults to `false`."
+  default     = {}
+}

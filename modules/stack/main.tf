@@ -125,6 +125,15 @@ resource "spacelift_mounted_file" "stack_config" {
   write_only    = false
 }
 
+resource "spacelift_mounted_file" "additional" {
+  for_each = var.enabled ? var.additional_mounted_files : {}
+
+  stack_id      = spacelift_stack.default[0].id
+  relative_path = each.value.relative_path
+  content       = each.value.content
+  write_only    = lookup(each.value, "write_only", false)
+}
+
 resource "spacelift_environment_variable" "stack_name" {
   count = var.enabled ? 1 : 0
 
