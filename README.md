@@ -241,7 +241,7 @@ Available targets:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_spacelift_config"></a> [spacelift\_config](#module\_spacelift\_config) | cloudposse/stack-config/yaml//modules/spacelift | 0.22.3 |
+| <a name="module_spacelift_config"></a> [spacelift\_config](#module\_spacelift\_config) | cloudposse/stack-config/yaml//modules/spacelift | 1.0.0 |
 | <a name="module_stacks"></a> [stacks](#module\_stacks) | ./modules/stack | n/a |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.25.0 |
 
@@ -527,7 +527,7 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
-
+<!-- markdownlint-disable -->
   [logo]: https://cloudposse.com/logo-300x69.svg
   [docs]: https://cpco.io/docs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-spacelift-cloud-infrastructure-automation&utm_content=docs
   [website]: https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-spacelift-cloud-infrastructure-automation&utm_content=website
@@ -558,3 +558,4 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
   [share_googleplus]: https://plus.google.com/share?url=https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation
   [share_email]: mailto:?subject=terraform-spacelift-cloud-infrastructure-automation&body=https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation
   [beacon]: https://ga-beacon.cloudposse.com/UA-76589703-4/cloudposse/terraform-spacelift-cloud-infrastructure-automation?pixel&cs=github&cm=readme&an=terraform-spacelift-cloud-infrastructure-automation
+<!-- markdownlint-restore -->
