@@ -133,6 +133,12 @@ module "stacks" {
   # lookup and use the worker pool ID from the map.
   # Otherwise, use `var.worker_pool_id`.
   worker_pool_id = try(var.worker_pool_name_id_map[each.value.settings.spacelift.worker_pool_name], var.worker_pool_id)
+
+  depends_on = [
+    spacelift_policy.default,
+    spacelift_policy.custom,
+    spacelift_policy.trigger_administrative
+  ]
 }
 
 # `administrative` policies are always attached to the `administrative` stack
