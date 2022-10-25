@@ -173,7 +173,7 @@ examples: |-
             # NOTE: If set to 'false', you cannot reference this workspace via `triggers` in another workspace!
             workspace_enabled: true
             # Override the version of Terraform for this workspace (defaults to the latest in Spacelift)
-            terraform_version: 0.13.4
+            terraform_version: 1.3.3
             # Controls the `auto_apply` setting within this workspace
             auto_apply: true
             # Add extra 'Run Triggers' to this workspace, beyond the parent workspace, which is created by default
