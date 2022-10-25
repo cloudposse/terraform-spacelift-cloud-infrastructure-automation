@@ -34,7 +34,7 @@ locals {
     (lookup(var.context_filters, "environments", null) == null || contains(lookup(var.context_filters, "environments", [lookup(v.vars, "environment", "")]), lookup(v.vars, "environment", ""))) &&
     (lookup(var.context_filters, "stages", null) == null || contains(lookup(var.context_filters, "stages", [lookup(v.vars, "stage", "")]), lookup(v.vars, "stage", ""))) &&
     (
-      lookup(var.context_filters, "tags", null) == null || lookup(v.vars, tags, null) == null || contains([
+      lookup(var.context_filters, "tags", null) == null || lookup(v.vars, "tags", null) == null || contains([
         for k, v in lookup(var.context_filters, "tags", {}) :
         lookup(lookup(v.vars, "tags", {}), k, null) == v
       ], true)
