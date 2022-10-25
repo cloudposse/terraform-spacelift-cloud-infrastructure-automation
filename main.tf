@@ -29,7 +29,8 @@ locals {
     for k, v in module.spacelift_config.spacelift_stacks :
     k => v
     if
-    lookup(v.settings.spacelift, "admin_stack", null) != null ? v.settings.spacelift.admin_stack == data.spacelift_current_stack.administrative.id :
+    # NOTE: This logic is still being tested/developed.. I should have it finalized in this PR shortly.
+    lookup(v.settings.spacelift, "admin_stack", null) != null && ! var.external_execution ? v.settings.spacelift.admin_stack == data.spacelift_current_stack[0].administrative.id :
     (lookup(var.context_filters, "namespaces", null) == null || contains(lookup(var.context_filters, "namespaces", [lookup(v.vars, "namespace", "")]), lookup(v.vars, "namespace", ""))) &&
     (lookup(var.context_filters, "tenants", null) == null || contains(lookup(var.context_filters, "tenants", [lookup(v.vars, "tenant", "")]), lookup(v.vars, "tenant", ""))) &&
     (lookup(var.context_filters, "environments", null) == null || contains(lookup(var.context_filters, "environments", [lookup(v.vars, "environment", "")]), lookup(v.vars, "environment", ""))) &&
@@ -144,7 +145,9 @@ module "stacks" {
 
 # `administrative` policies are always attached to the `administrative` stack
 # `spacelift_current_stack` is the administrative stack that manages all other infrastructure stacks
-data "spacelift_current_stack" "administrative" {}
+data "spacelift_current_stack" "administrative" {
+  count = var.external_execution ? 0 : 1
+}
 
 # global administrative trigger policy that allows us to trigger a stack right after it gets created
 resource "spacelift_policy" "trigger_administrative" {
@@ -160,13 +163,13 @@ resource "spacelift_policy_attachment" "trigger_administrative" {
   count = var.external_execution || var.administrative_trigger_policy_enabled == false ? 0 : 1
 
   policy_id = join("", spacelift_policy.trigger_administrative.*.id)
-  stack_id  = data.spacelift_current_stack.administrative.id
+  stack_id  = data.spacelift_current_stack.administrative[0].id
 }
 
 resource "spacelift_drift_detection" "drift_detection_administrative" {
   count = var.external_execution || var.administrative_stack_drift_detection_enabled == false ? 0 : 1
 
-  stack_id  = data.spacelift_current_stack.administrative.id
+  stack_id  = data.spacelift_current_stack.administrative[0].id
   reconcile = var.administrative_stack_drift_detection_reconcile
   schedule  = var.administrative_stack_drift_detection_schedule
 }
