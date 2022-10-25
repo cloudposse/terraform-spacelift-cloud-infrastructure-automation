@@ -37,7 +37,7 @@ locals {
       lookup(var.context_filters, "tags", null) == null || lookup(v.vars, tags, null) == null || contains([
         for k, v in lookup(var.context_filters, "tags", {}):
         lookup(lookup(v.vars, "tags", {}), k, null) == v
-      ]), true)
+      ], true)
     )
   }
 
