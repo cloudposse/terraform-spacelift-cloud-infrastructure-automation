@@ -30,7 +30,7 @@ locals {
     k => v
     if
     # NOTE: This logic is still being tested/developed.. I should have it finalized in this PR shortly.
-    lookup(v.settings.spacelift, "admin_stack", null) != null && ! var.external_execution ? v.settings.spacelift.admin_stack == data.spacelift_current_stack[0].administrative.id :
+    lookup(v.settings.spacelift, "admin_stack", null) != null && ! var.external_execution ? v.settings.spacelift.admin_stack == data.spacelift_current_stack.administrative[0].id :
     (lookup(var.context_filters, "namespaces", null) == null || contains(lookup(var.context_filters, "namespaces", [lookup(v.vars, "namespace", "")]), lookup(v.vars, "namespace", ""))) &&
     (lookup(var.context_filters, "tenants", null) == null || contains(lookup(var.context_filters, "tenants", [lookup(v.vars, "tenant", "")]), lookup(v.vars, "tenant", ""))) &&
     (lookup(var.context_filters, "environments", null) == null || contains(lookup(var.context_filters, "environments", [lookup(v.vars, "environment", "")]), lookup(v.vars, "environment", ""))) &&
