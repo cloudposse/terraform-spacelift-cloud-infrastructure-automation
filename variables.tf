@@ -321,6 +321,12 @@ variable "context_filters" {
   default     = {}
 }
 
+variable "tag_filters" {
+  type        = map(string)
+  description = "A map of tags that will filter stack creation by the matching `tags` set in a component `vars` configuration."
+  default     = {}
+}
+
 variable "protect_from_deletion" {
   type        = bool
   description = "Flag to enable/disable deletion protection."
