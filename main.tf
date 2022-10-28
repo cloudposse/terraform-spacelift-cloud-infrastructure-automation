@@ -32,7 +32,13 @@ locals {
     (lookup(var.context_filters, "namespaces", null) == null || contains(lookup(var.context_filters, "namespaces", [lookup(v.vars, "namespace", "")]), lookup(v.vars, "namespace", ""))) &&
     (lookup(var.context_filters, "tenants", null) == null || contains(lookup(var.context_filters, "tenants", [lookup(v.vars, "tenant", "")]), lookup(v.vars, "tenant", ""))) &&
     (lookup(var.context_filters, "environments", null) == null || contains(lookup(var.context_filters, "environments", [lookup(v.vars, "environment", "")]), lookup(v.vars, "environment", ""))) &&
-    (lookup(var.context_filters, "stages", null) == null || contains(lookup(var.context_filters, "stages", [lookup(v.vars, "stage", "")]), lookup(v.vars, "stage", "")))
+    (lookup(var.context_filters, "stages", null) == null || contains(lookup(var.context_filters, "stages", [lookup(v.vars, "stage", "")]), lookup(v.vars, "stage", ""))) &&
+    (
+      var.tag_filters == null || length(var.tag_filters) == 0 || lookup(v.vars, "tags", null) == null || contains([
+        for i, j in var.tag_filters :
+        lookup(lookup(v.vars, "tags", {}), i, null) == j
+      ], true)
+    )
   }
 
   # Find Rego policies defined in YAML config in all stacks
