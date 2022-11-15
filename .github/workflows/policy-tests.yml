@@ -1,6 +1,8 @@
 name: Policy Tests
 
 on:
+  workflow_dispatch:
+
   pull_request:
     paths:
       - '.github/workflows/policy-tests.yml' ## self-trigger
