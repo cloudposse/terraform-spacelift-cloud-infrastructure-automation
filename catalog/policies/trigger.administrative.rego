@@ -1,10 +1,12 @@
+# https://www.openpolicyagent.org/docs/latest/policy-reference/#builtin-strings-stringsany_prefix_match
+
 package spacelift
 
 # Trigger the stack after it gets created in the `administrative` stack
 trigger[stack.id] {
   stack := input.stacks[_]
   # compare a plaintext string (stack.id) to a checksum
-  endswith(crypto.sha256(stack.id), id_shas_of_created_stacks[_])
+  strings.any_suffix_match(crypto.sha256(stack.id), id_shas_of_created_stacks)
 }
 
 id_shas_of_created_stacks[change.entity.data.values.id] {

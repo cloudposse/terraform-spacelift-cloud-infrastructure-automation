@@ -1,4 +1,5 @@
 # https://docs.spacelift.io/concepts/policy/git-push-policy
+# https://www.openpolicyagent.org/docs/latest/policy-reference/#builtin-strings-stringsany_prefix_match
 # GIT_PUSH policy that triggers tracked runs when component files or YAML config files are modified on commits to the default branch
 
 package spacelift
@@ -34,8 +35,8 @@ track {
 # https://www.openpolicyagent.org/docs/latest/policy-reference/#iteration
 project_affected {
     some i, j
-    startswith(affected_files[i], project_root)
-    endswith(affected_files[i], tracked_extensions[j])
+    strings.any_prefix_match(affected_files[i], project_root)
+    strings.any_suffix_match(affected_files[i], tracked_extensions[j])
 }
 
 # Split the stack name into a list
@@ -53,33 +54,33 @@ labels := input.stack.labels
 # NOTE: procesing of stack imports is disabled in the module (var.imports_processing_enabled = false),
 # and the below rules will not be evaluated by default
 # https://www.openpolicyagent.org/docs/latest/policy-language/#comprehensions
-imports := [imp | startswith(labels[i], "import:"); imp := split(labels[i], ":")[1]]
+imports := [imp | strings.any_prefix_match(labels[i], "import:"); imp := split(labels[i], ":")[1]]
 
 # Check if any of the imports have been modified
 stack_config_affected {
-    endswith(affected_files[_], imports[_])
+    strings.any_suffix_match(affected_files, imports)
 }
 
 # Get all stack dependencies for the component from the provided `labels` (all stacks where the component is defined)
 # NOTE: procesing of all stack dependencies is disabled in the module (var.stack_deps_processing_enabled = false),
 # and the below rules will not be evaluated by default
-stack_deps := [stack_dep | startswith(labels[i], "stack:"); stack_dep := split(labels[i], ":")[1]]
+stack_deps := [stack_dep | strings.any_prefix_match(labels[i], "stack:"); stack_dep := split(labels[i], ":")[1]]
 
 # Check if any of the stack dependencies have been modified
 stack_config_affected {
-    endswith(affected_files[_], stack_deps[_])
+    strings.any_suffix_match(affected_files, stack_deps)
 }
 
 # Get stack dependencies for the component from the provided `labels`
 # NOTE: procesing of component stack dependencies is controlled by var.component_deps_processing_enabled
-deps := [dep | startswith(labels[i], "deps:"); dep := split(labels[i], ":")[1]]
+deps := [dep | strings.any_prefix_match(labels[i], "deps:"); dep := split(labels[i], ":")[1]]
 
 # Check if any of the component stack dependencies have been modified
 stack_config_affected {
-    endswith(affected_files[_], deps[_])
+    strings.any_suffix_match(affected_files, deps)
 }
 
-# Checking startswith allows `deps:*` to reference top level folders
+# Checking strings.any_prefix_match allows `deps:*` to reference top level folders
 stack_config_affected {
-    startswith(affected_files[_], deps[_])
+    strings.any_prefix_match(affected_files, deps)
 }
