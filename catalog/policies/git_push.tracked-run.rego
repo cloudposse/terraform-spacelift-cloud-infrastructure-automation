@@ -1,4 +1,5 @@
 # https://docs.spacelift.io/concepts/policy/git-push-policy
+# https://www.openpolicyagent.org/docs/latest/policy-reference/#builtin-strings-stringsany_prefix_match
 # GIT_PUSH policy that triggers tracked runs when component files or YAML config files are modified on commits to the default branch
 
 package spacelift
@@ -57,7 +58,7 @@ imports := [imp | startswith(labels[i], "import:"); imp := split(labels[i], ":")
 
 # Check if any of the imports have been modified
 stack_config_affected {
-    endswith(affected_files[_], imports[_])
+    strings.any_suffix_match(affected_files, imports)
 }
 
 # Get all stack dependencies for the component from the provided `labels` (all stacks where the component is defined)
@@ -67,7 +68,7 @@ stack_deps := [stack_dep | startswith(labels[i], "stack:"); stack_dep := split(l
 
 # Check if any of the stack dependencies have been modified
 stack_config_affected {
-    endswith(affected_files[_], stack_deps[_])
+    strings.any_suffix_match(affected_files, stack_deps)
 }
 
 # Get stack dependencies for the component from the provided `labels`
@@ -76,10 +77,10 @@ deps := [dep | startswith(labels[i], "deps:"); dep := split(labels[i], ":")[1]]
 
 # Check if any of the component stack dependencies have been modified
 stack_config_affected {
-    endswith(affected_files[_], deps[_])
+    strings.any_suffix_match(affected_files, deps)
 }
 
-# Checking startswith allows `deps:*` to reference top level folders
+# Checking strings.any_prefix_match allows `deps:*` to reference top level folders
 stack_config_affected {
-    startswith(affected_files[_], deps[_])
+    strings.any_prefix_match(affected_files, deps)
 }
