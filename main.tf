@@ -200,6 +200,4 @@ resource "spacelift_environment_variable" "default" {
   name       = each.key
   value      = each.value
   write_only = false
-
-  space_id = var.use_spaces ? var.space_id : null
 }

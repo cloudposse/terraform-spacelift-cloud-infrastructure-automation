@@ -222,5 +222,5 @@ resource "spacelift_space" "default" {
   count = var.dedicated_space ? 1 : 0
 
   name            = var.component_name
-  parent_space_id = var.space_id
+  parent_space_id = "root""
 }
