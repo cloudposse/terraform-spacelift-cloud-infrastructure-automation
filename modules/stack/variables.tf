@@ -322,3 +322,9 @@ variable "parent_space_id" {
   description = "If creating a dedicated space for this stack, specify the ID of the parent space in Spacelift."
   default     = null
 }
+
+variable "space_inheritance" {
+  type        = bool
+  description = "If creating a dedicated space for this stack, specify whether or not to inherit entities."
+  default     = false
+}

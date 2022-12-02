@@ -223,4 +223,6 @@ resource "spacelift_space" "default" {
 
   name            = var.component_name
   parent_space_id = var.parent_space_id
+
+  inherit_entities = var.space_inheritance
 }

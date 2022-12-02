@@ -71,6 +71,7 @@ module "stacks" {
   enabled                   = each.value.enabled
   dedicated_space           = try(each.value.settings.spacelift.dedicated_space, false)
   parent_space_id           = try(each.value.settings.spacelift.parent_space_id, null)
+  space_inheritance         = try(each.value.settings.spacelift.space_inheritance, false)
   stack_name                = each.key
   infrastructure_stack_name = each.value.stack
   component_name            = each.value.component
