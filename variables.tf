@@ -363,14 +363,8 @@ variable "stack_context_variables" {
   default     = {}
 }
 
-variable "use_spaces" {
-  type        = bool
-  description = "If `true`, place the stack(s) in a Spacelift space (`root` by default)."
-  default     = false
-}
-
 variable "space_id" {
   type        = string
-  description = "If using spaces, place the stack(s) in the specified space_id."
-  default     = "root"
+  description = "Place the stack(s) in the specified space_id."
+  default     = "legacy"
 }
