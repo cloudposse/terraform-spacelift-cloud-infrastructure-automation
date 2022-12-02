@@ -362,3 +362,15 @@ variable "stack_context_variables" {
   description = "Map of variables to create a global context attached to each stack"
   default     = {}
 }
+
+variable "use_spaces" {
+  type        = bool
+  description = "If `true`, place the stack(s) in a Spacelift space (`root` by default)."
+  default     = false
+}
+
+variable "space_id" {
+  type        = string
+  description = "If using spaces, place the stack(s) in the specified space_id."
+  default     = "root"
+}

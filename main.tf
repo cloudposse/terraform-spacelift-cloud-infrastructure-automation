@@ -5,6 +5,8 @@ resource "spacelift_policy" "default" {
   type = upper(split(".", each.key)[0])
   name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
   body = file(format("%s/%s/%s.rego", path.module, var.policies_path, each.key))
+
+  space_id = var.use_spaces ? var.space_id : null
 }
 
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
@@ -57,6 +59,8 @@ resource "spacelift_policy" "custom" {
   type = upper(split(".", each.key)[0])
   name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
   body = file(format("%s/%s.rego", var.policies_by_name_path, each.key))
+
+  space_id = var.use_spaces ? var.space_id : null
 }
 
 module "stacks" {
@@ -65,6 +69,7 @@ module "stacks" {
   for_each = local.spacelift_stacks
 
   enabled                   = each.value.enabled
+  dedicated_space           = try(each.value.settings.spacelift.dedicated_space, false)
   stack_name                = each.key
   infrastructure_stack_name = each.value.stack
   component_name            = each.value.component
@@ -160,6 +165,8 @@ resource "spacelift_policy" "trigger_administrative" {
   type = "TRIGGER"
   name = "Global Administrative Trigger Policy"
   body = file(format("%s/%s/trigger.administrative.rego", path.module, var.policies_path))
+
+  space_id = var.use_spaces ? var.space_id : null
 }
 
 # Attach the global trigger policy to the current administrative stack
@@ -183,6 +190,8 @@ resource "spacelift_context" "default" {
 
   description = var.stack_context_description
   name        = var.stack_context_name
+
+  space_id = var.use_spaces ? var.space_id : null
 }
 
 resource "spacelift_environment_variable" "default" {
@@ -191,4 +200,6 @@ resource "spacelift_environment_variable" "default" {
   name       = each.key
   value      = each.value
   write_only = false
+
+  space_id = var.use_spaces ? var.space_id : null
 }
