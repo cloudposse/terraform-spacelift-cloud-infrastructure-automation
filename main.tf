@@ -206,10 +206,6 @@ resource "spacelift_environment_variable" "default" {
   write_only = false
 }
 
-data "spacelift_current_stack" "administrative" {
-  count = var.external_execution ? 0 : 1
-}
-
 data "spacelift_current_space" "administrative" {
   count = var.external_execution ? 0 : 1
 }
