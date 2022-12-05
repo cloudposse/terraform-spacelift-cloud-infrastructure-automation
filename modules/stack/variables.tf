@@ -328,3 +328,9 @@ variable "space_inheritance" {
   description = "If creating a dedicated space for this stack, specify whether or not to inherit entities."
   default     = false
 }
+
+variable "space_id" {
+  type        = string
+  description = "Place the stack in the specified space_id."
+  default     = "legacy"
+}
