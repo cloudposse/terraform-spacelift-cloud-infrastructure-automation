@@ -363,8 +363,8 @@ variable "stack_context_variables" {
   default     = {}
 }
 
-variable "space_id" {
+variable "attachment_space_id" {
   type        = string
-  description = "Place the stack(s) in the specified space_id."
+  description = "Specify the space ID for attachments (e.g. policies, contexts, etc.)"
   default     = "legacy"
 }
