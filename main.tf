@@ -68,7 +68,7 @@ module "stacks" {
 
   for_each = local.spacelift_stacks
 
-  space_id = try(data.spacelift_current_space.administrative[0].id, null)
+  space_id = try(var.stacks_space_id, data.spacelift_current_space.administrative[0].id, null)
 
   enabled                   = each.value.enabled
   dedicated_space           = try(each.value.settings.spacelift.dedicated_space, false)
