@@ -12,7 +12,7 @@ locals {
 resource "spacelift_stack" "default" {
   count = var.enabled ? 1 : 0
 
-  space_id = coalesce(try(spacelift_space.default[0].id, null), var.space_id)
+  space_id = try(spacelift_space.default[0].id, var.space_id)
 
   name                 = var.stack_name
   description          = var.description
