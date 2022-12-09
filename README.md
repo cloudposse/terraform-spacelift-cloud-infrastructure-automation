@@ -256,6 +256,7 @@ Available targets:
 | [spacelift_policy.default](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
 | [spacelift_policy.trigger_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
 | [spacelift_policy_attachment.trigger_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy_attachment) | resource |
+| [spacelift_current_space.administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/data-sources/current_space) | data source |
 | [spacelift_current_stack.administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/data-sources/current_stack) | data source |
 
 ## Inputs
@@ -273,6 +274,7 @@ Available targets:
 | <a name="input_after_init"></a> [after\_init](#input\_after\_init) | List of after-init scripts | `list(string)` | `[]` | no |
 | <a name="input_after_perform"></a> [after\_perform](#input\_after\_perform) | List of after-perform scripts | `list(string)` | `[]` | no |
 | <a name="input_after_plan"></a> [after\_plan](#input\_after\_plan) | List of after-plan scripts | `list(string)` | `[]` | no |
+| <a name="input_attachment_space_id"></a> [attachment\_space\_id](#input\_attachment\_space\_id) | Specify the space ID for attachments (e.g. policies, contexts, etc.) | `string` | `"legacy"` | no |
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | ID element. Additional attributes (e.g. `workers` or `cluster`) to add to `id`,<br>in the order they appear in the list. New attributes are appended to the<br>end of the list. The elements of the list are joined by the `delimiter`<br>and treated as a single ID element. | `list(string)` | `[]` | no |
 | <a name="input_autodeploy"></a> [autodeploy](#input\_autodeploy) | Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration) | `bool` | `false` | no |
 | <a name="input_aws_role_arn"></a> [aws\_role\_arn](#input\_aws\_role\_arn) | ARN of the AWS IAM role to assume and put its temporary credentials in the runtime environment | `string` | `null` | no |
@@ -328,6 +330,7 @@ Available targets:
 | <a name="input_stack_context_variables"></a> [stack\_context\_variables](#input\_stack\_context\_variables) | Map of variables to create a global context attached to each stack | `map(string)` | `{}` | no |
 | <a name="input_stack_deps_processing_enabled"></a> [stack\_deps\_processing\_enabled](#input\_stack\_deps\_processing\_enabled) | Boolean flag to enable/disable processing all stack dependencies in the provided stack | `bool` | `false` | no |
 | <a name="input_stack_destructor_enabled"></a> [stack\_destructor\_enabled](#input\_stack\_destructor\_enabled) | Flag to enable/disable the stack destructor to destroy the resources of a stack before deleting the stack itself | `bool` | `false` | no |
+| <a name="input_stacks_space_id"></a> [stacks\_space\_id](#input\_stacks\_space\_id) | Override the space ID for all stacks (unless the stack config has `dedicated_space` set to true). Otherwise, it will default to the admin stack's space. | `string` | `null` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | ID element. Usually used to indicate role, e.g. 'prod', 'staging', 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
 | <a name="input_tag_filters"></a> [tag\_filters](#input\_tag\_filters) | A map of tags that will filter stack creation by the matching `tags` set in a component `vars` configuration. | `map(string)` | `{}` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `{'BusinessUnit': 'XYZ'}`).<br>Neither the tag keys nor the tag values will be modified by this module. | `map(string)` | `{}` | no |
