@@ -221,8 +221,9 @@ resource "spacelift_context_attachment" "attachment" {
 resource "spacelift_space" "default" {
   count = var.dedicated_space ? 1 : 0
 
-  name            = var.component_name
-  parent_space_id = var.parent_space_id
-
+  name             = var.component_name
+  parent_space_id  = var.parent_space_id
   inherit_entities = var.space_inheritance
+  description      = var.description
+  labels           = var.labels
 }
