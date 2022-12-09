@@ -185,7 +185,7 @@ resource "spacelift_policy_attachment" "trigger_administrative" {
 resource "spacelift_policy" "push_administrative" {
   count = var.external_execution || var.administrative_push_policy_enabled == false ? 0 : 1
 
-  type = "PUSH"
+  type = "GIT_PUSH"
   name = "Global Administrative Push Policy"
   body = file(format("%s/%s/git_pushpush.administrative.rego", path.module, var.policies_path))
 }
