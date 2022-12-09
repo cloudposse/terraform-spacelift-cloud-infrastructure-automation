@@ -334,3 +334,9 @@ variable "space_id" {
   description = "Place the stack in the specified space_id."
   default     = "legacy"
 }
+
+variable "space_name" {
+  type        = string
+  description = "If using a dedicated space, override the name of the space (instead of using `component_name`)."
+  default     = null
+}
