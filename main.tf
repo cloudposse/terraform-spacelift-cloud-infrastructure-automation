@@ -187,7 +187,7 @@ resource "spacelift_policy" "push_administrative" {
 
   type = "GIT_PUSH"
   name = "Global Administrative Push Policy"
-  body = file(format("%s/%s/git_pushpush.administrative.rego", path.module, var.policies_path))
+  body = file(format("%s/%s/git_push.administrative.rego", path.module, var.policies_path))
 }
 
 # Attach the global git push policy to the current administrative stack
