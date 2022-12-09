@@ -310,3 +310,27 @@ variable "description" {
   description = "Specify description of stack"
   default     = null
 }
+
+variable "dedicated_space" {
+  type        = bool
+  description = "If enabled, create a new space for the admin stack in Spacelift. All child stacks will also be a member of the new space."
+  default     = false
+}
+
+variable "parent_space_id" {
+  type        = string
+  description = "If creating a dedicated space for this stack, specify the ID of the parent space in Spacelift."
+  default     = null
+}
+
+variable "space_inheritance" {
+  type        = bool
+  description = "If creating a dedicated space for this stack, specify whether or not to inherit entities."
+  default     = false
+}
+
+variable "space_id" {
+  type        = string
+  description = "Place the stack in the specified space_id."
+  default     = "legacy"
+}

@@ -12,6 +12,8 @@ locals {
 resource "spacelift_stack" "default" {
   count = var.enabled ? 1 : 0
 
+  space_id = coalesce(try(spacelift_space.default[0].id, null), var.space_id)
+
   name                 = var.stack_name
   description          = var.description
   administrative       = var.administrative
@@ -214,4 +216,13 @@ resource "spacelift_context_attachment" "attachment" {
   context_id = each.key
   stack_id   = spacelift_stack.default[0].id
   priority   = each.value
+}
+
+resource "spacelift_space" "default" {
+  count = var.dedicated_space ? 1 : 0
+
+  name            = var.component_name
+  parent_space_id = var.parent_space_id
+
+  inherit_entities = var.space_inheritance
 }

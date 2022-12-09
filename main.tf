@@ -5,6 +5,8 @@ resource "spacelift_policy" "default" {
   type = upper(split(".", each.key)[0])
   name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
   body = file(format("%s/%s/%s.rego", path.module, var.policies_path, each.key))
+
+  space_id = var.attachment_space_id
 }
 
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
@@ -57,6 +59,8 @@ resource "spacelift_policy" "custom" {
   type = upper(split(".", each.key)[0])
   name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
   body = file(format("%s/%s.rego", var.policies_by_name_path, each.key))
+
+  space_id = var.attachment_space_id
 }
 
 module "stacks" {
@@ -64,7 +68,12 @@ module "stacks" {
 
   for_each = local.spacelift_stacks
 
+  space_id = coalesce(var.stacks_space_id, try(data.spacelift_current_space.administrative[0].id, null), "legacy")
+
   enabled                   = each.value.enabled
+  dedicated_space           = try(each.value.settings.spacelift.dedicated_space, false)
+  parent_space_id           = try(each.value.settings.spacelift.parent_space_id, null)
+  space_inheritance         = try(each.value.settings.spacelift.space_inheritance, false)
   stack_name                = each.key
   infrastructure_stack_name = each.value.stack
   component_name            = each.value.component
@@ -160,6 +169,8 @@ resource "spacelift_policy" "trigger_administrative" {
   type = "TRIGGER"
   name = "Global Administrative Trigger Policy"
   body = file(format("%s/%s/trigger.administrative.rego", path.module, var.policies_path))
+
+  space_id = var.attachment_space_id
 }
 
 # Attach the global trigger policy to the current administrative stack
@@ -201,6 +212,8 @@ resource "spacelift_context" "default" {
 
   description = var.stack_context_description
   name        = var.stack_context_name
+
+  space_id = var.attachment_space_id
 }
 
 resource "spacelift_environment_variable" "default" {
@@ -209,4 +222,8 @@ resource "spacelift_environment_variable" "default" {
   name       = each.key
   value      = each.value
   write_only = false
+}
+
+data "spacelift_current_space" "administrative" {
+  count = var.external_execution ? 0 : 1
 }
