@@ -311,7 +311,7 @@ variable "description" {
   default     = null
 }
 
-variable "dedicated_space" {
+variable "dedicated_space_enabled" {
   type        = bool
   description = "If enabled, create a new space for the admin stack in Spacelift. All child stacks will also be members of the new space."
   default     = false
