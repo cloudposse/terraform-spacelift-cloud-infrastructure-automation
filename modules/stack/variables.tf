@@ -323,7 +323,7 @@ variable "parent_space_id" {
   default     = null
 }
 
-variable "space_inheritance" {
+variable "inherit_entities" {
   type        = bool
   description = "If creating a dedicated space for this stack, specify whether or not to inherit entities."
   default     = false
