@@ -219,7 +219,7 @@ resource "spacelift_context_attachment" "attachment" {
 }
 
 resource "spacelift_space" "default" {
-  count = var.dedicated_space ? 1 : 0
+  count = var.dedicated_space_enabled ? 1 : 0
 
   name             = coalesce(var.space_name, var.component_name)
   parent_space_id  = var.parent_space_id
