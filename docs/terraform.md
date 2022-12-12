@@ -29,7 +29,9 @@
 | [spacelift_environment_variable.default](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/environment_variable) | resource |
 | [spacelift_policy.custom](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
 | [spacelift_policy.default](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
+| [spacelift_policy.push_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
 | [spacelift_policy.trigger_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
+| [spacelift_policy_attachment.push_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy_attachment) | resource |
 | [spacelift_policy_attachment.trigger_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy_attachment) | resource |
 | [spacelift_current_space.administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/data-sources/current_space) | data source |
 | [spacelift_current_stack.administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/data-sources/current_stack) | data source |
@@ -40,6 +42,7 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_tag_map"></a> [additional\_tag\_map](#input\_additional\_tag\_map) | Additional key-value pairs to add to each map in `tags_as_list_of_maps`. Not added to `tags` or `id`.<br>This is for some rare cases where resources want additional configuration of tags<br>and therefore take a list of maps with tag key, value, and additional configuration. | `map(string)` | `{}` | no |
 | <a name="input_administrative"></a> [administrative](#input\_administrative) | Whether this stack can manage other stacks | `bool` | `false` | no |
+| <a name="input_administrative_push_policy_enabled"></a> [administrative\_push\_policy\_enabled](#input\_administrative\_push\_policy\_enabled) | Flag to enable/disable the global administrative push policy | `bool` | `true` | no |
 | <a name="input_administrative_stack_drift_detection_enabled"></a> [administrative\_stack\_drift\_detection\_enabled](#input\_administrative\_stack\_drift\_detection\_enabled) | Flag to enable/disable administrative stack drift detection | `bool` | `true` | no |
 | <a name="input_administrative_stack_drift_detection_reconcile"></a> [administrative\_stack\_drift\_detection\_reconcile](#input\_administrative\_stack\_drift\_detection\_reconcile) | Flag to enable/disable administrative stack drift automatic reconciliation. If drift is detected and `reconcile` is turned on, Spacelift will create a tracked run to correct the drift | `bool` | `true` | no |
 | <a name="input_administrative_stack_drift_detection_schedule"></a> [administrative\_stack\_drift\_detection\_schedule](#input\_administrative\_stack\_drift\_detection\_schedule) | List of cron expressions to schedule drift detection for the administrative stack | `list(string)` | <pre>[<br>  "0 4 * * *"<br>]</pre> | no |
