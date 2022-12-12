@@ -12,7 +12,7 @@ locals {
 resource "spacelift_stack" "default" {
   count = var.enabled ? 1 : 0
 
-  space_id = coalesce(try(spacelift_space.default[0].id, null), var.space_id)
+  space_id = try(spacelift_space.default[0].id, var.space_id)
 
   name                 = var.stack_name
   description          = var.description
@@ -219,10 +219,11 @@ resource "spacelift_context_attachment" "attachment" {
 }
 
 resource "spacelift_space" "default" {
-  count = var.dedicated_space ? 1 : 0
+  count = var.dedicated_space_enabled ? 1 : 0
 
-  name            = var.component_name
-  parent_space_id = var.parent_space_id
-
-  inherit_entities = var.space_inheritance
+  name             = coalesce(var.space_name, var.component_name)
+  parent_space_id  = var.parent_space_id
+  inherit_entities = var.inherit_entities
+  description      = var.description
+  labels           = var.labels
 }

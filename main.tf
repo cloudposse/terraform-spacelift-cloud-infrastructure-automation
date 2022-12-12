@@ -68,12 +68,13 @@ module "stacks" {
 
   for_each = local.spacelift_stacks
 
-  space_id = coalesce(var.stacks_space_id, try(data.spacelift_current_space.administrative[0].id, null), "legacy")
+  space_id = coalesce(var.stacks_space_id, try(data.spacelift_current_space.administrative[0].id, "legacy"))
 
   enabled                   = each.value.enabled
-  dedicated_space           = try(each.value.settings.spacelift.dedicated_space, false)
+  dedicated_space_enabled   = try(each.value.settings.spacelift.dedicated_space_enabled, false)
+  space_name                = try(each.value.settings.spacelift.space_name, null)
   parent_space_id           = try(each.value.settings.spacelift.parent_space_id, null)
-  space_inheritance         = try(each.value.settings.spacelift.space_inheritance, false)
+  inherit_entities          = try(each.value.settings.spacelift.inherit_entities, false)
   stack_name                = each.key
   infrastructure_stack_name = each.value.stack
   component_name            = each.value.component
