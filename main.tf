@@ -182,6 +182,24 @@ resource "spacelift_policy_attachment" "trigger_administrative" {
   stack_id  = data.spacelift_current_stack.administrative[0].id
 }
 
+# global administrative push policy that updates branch tracking in the admin stack
+resource "spacelift_policy" "push_administrative" {
+  count = var.external_execution || var.administrative_push_policy_enabled == false ? 0 : 1
+
+  type = "GIT_PUSH"
+  name = "Global Administrative Push Policy"
+  body = file(format("%s/%s/git_push.administrative.rego", path.module, var.policies_path))
+}
+
+# Attach the global git push policy to the current administrative stack
+resource "spacelift_policy_attachment" "push_administrative" {
+  count = var.external_execution || var.administrative_push_policy_enabled == false ? 0 : 1
+
+  policy_id = join("", spacelift_policy.push_administrative.*.id)
+  stack_id  = data.spacelift_current_stack.administrative[0].id
+}
+
+
 resource "spacelift_drift_detection" "drift_detection_administrative" {
   count = var.external_execution || var.administrative_stack_drift_detection_enabled == false ? 0 : 1
 

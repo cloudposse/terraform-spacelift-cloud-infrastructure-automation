@@ -129,6 +129,12 @@ variable "administrative_trigger_policy_enabled" {
   default     = true
 }
 
+variable "administrative_push_policy_enabled" {
+  type        = bool
+  description = "Flag to enable/disable the global administrative push policy"
+  default     = true
+}
+
 variable "policies_available" {
   type        = list(string)
   description = "List of available default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_enabled`)"
