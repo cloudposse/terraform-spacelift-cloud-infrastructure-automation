@@ -75,7 +75,7 @@ module "stacks" {
   space_name                = try(each.value.settings.spacelift.space_name, null)
   parent_space_id           = try(each.value.settings.spacelift.parent_space_id, null)
   inherit_entities          = try(each.value.settings.spacelift.inherit_entities, false)
-  stack_name                = each.key
+  stack_name                = try(each.value.settings.spacelift.stack_name, each.key)
   infrastructure_stack_name = each.value.stack
   component_name            = each.value.component
   component_vars            = each.value.vars
