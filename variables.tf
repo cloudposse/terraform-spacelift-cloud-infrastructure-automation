@@ -347,7 +347,19 @@ variable "infracost_enabled" {
 
 variable "labels" {
   type        = list(string)
-  description = "Set of labels to attach to each stack"
+  description = "A list of labels for all stacks"
+  default     = []
+}
+
+variable "admin_labels" {
+  type        = list(string)
+  description = "A list of labels for admin stacks"
+  default     = []
+}
+
+variable "non_admin_labels" {
+  type        = list(string)
+  description = "A list of labels for non-admin stacks"
   default     = []
 }
 

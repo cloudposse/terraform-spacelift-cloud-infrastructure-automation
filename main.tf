@@ -81,7 +81,18 @@ module "stacks" {
   component_vars            = each.value.vars
   component_env             = each.value.env
   terraform_workspace       = each.value.workspace
-  labels                    = concat(local.labels, try(each.value.labels, []))
+
+  labels = (
+    try(each.value.settings.spacelift.administrative, null) != null ? each.value.settings.spacelift.administrative : var.administrative
+    ) ? concat(
+    local.labels,
+    var.admin_labels,
+    try(each.value.labels, [])
+    ) : concat(
+    local.labels,
+    var.non_admin_labels,
+    try(each.value.labels, [])
+  )
 
   description           = try(each.value.settings.spacelift.description, null)
   context_attachments   = compact(concat([join("", spacelift_context.default.*.id)], coalesce(try(each.value.settings.spacelift.context_attachments, null), var.context_attachments)))
