@@ -68,7 +68,10 @@ module "stacks" {
 
   for_each = local.spacelift_stacks
 
-  space_id = coalesce(var.stacks_space_id, try(data.spacelift_current_space.administrative[0].id, "legacy"))
+  space_id = coalesce(
+    try(each.value.settings.spacelift.space_id, var.stacks_space_id),
+    try(data.spacelift_current_space.administrative[0].id, "legacy"),
+  )
 
   enabled                   = each.value.enabled
   dedicated_space_enabled   = try(each.value.settings.spacelift.dedicated_space_enabled, false)
