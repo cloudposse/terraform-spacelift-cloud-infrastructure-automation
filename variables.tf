@@ -392,3 +392,9 @@ variable "stacks_space_id" {
   description = "Override the space ID for all stacks (unless the stack config has `dedicated_space` set to true). Otherwise, it will default to the admin stack's space."
   default     = null
 }
+
+variable "use_depends_on_resource" {
+  type        = bool
+  description = "If enabled, use the `depends_on` label to create dependencies between stacks. This removes the 'depends_on' labels and will detach the trigger polices for dependencies."
+  default     = false
+}

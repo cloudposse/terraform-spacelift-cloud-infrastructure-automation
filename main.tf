@@ -60,7 +60,29 @@ resource "spacelift_policy" "custom" {
   name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
   body = file(format("%s/%s.rego", var.policies_by_name_path, each.key))
 
-  space_id = var.attachment_space_id
+  space_id          = var.attachment_space_id
+  excluded_policies = var.use_depends_on_resource ? ["trigger-dependencies"] : []
+  stack_policies = {
+    for k, v in local.spacelift_stacks :
+    k => concat(
+      [
+        for i in try(v.settings.spacelift.policies_enabled, var.policies_enabled) : (
+          spacelift_policy.default[i].id
+        ) if !contains(local.excluded_policies, i)
+      ],
+      [
+        for i in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) : (
+          spacelift_policy.custom[i].id
+        ) if !contains(local.excluded_policies, i)
+      ],
+      [
+        for i in try(v.settings.spacelift.policies_by_id_enabled, var.policies_by_id_enabled) : (
+          i
+        ) if !contains(local.excluded_policies, i)
+      ]
+    )
+  }
+
 }
 
 module "stacks" {
@@ -84,6 +106,7 @@ module "stacks" {
   component_vars            = each.value.vars
   component_env             = each.value.env
   terraform_workspace       = each.value.workspace
+  use_depends_on_resource   = var.use_depends_on_resource
 
   labels = (
     try(each.value.settings.spacelift.administrative, null) != null ? each.value.settings.spacelift.administrative : var.administrative
@@ -126,12 +149,7 @@ module "stacks" {
   webhook_secret   = var.webhook_secret
 
   # Policies to attach to the stack (internally created + additional external provided by IDs + additional external created by this module from external Rego files)
-  policy_ids = concat(
-    [for i in try(each.value.settings.spacelift.policies_enabled, var.policies_enabled) : spacelift_policy.default[i].id],
-    [for i in try(each.value.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) : spacelift_policy.custom[i].id],
-    try(each.value.settings.spacelift.policies_by_id_enabled, var.policies_by_id_enabled)
-  )
-
+  policy_ids                = local.stack_policies[each.key]
   drift_detection_enabled   = try(each.value.settings.spacelift.drift_detection_enabled, null) != null ? each.value.settings.spacelift.drift_detection_enabled : var.drift_detection_enabled
   drift_detection_reconcile = try(each.value.settings.spacelift.drift_detection_reconcile, null) != null ? each.value.settings.spacelift.drift_detection_reconcile : var.drift_detection_reconcile
   drift_detection_schedule  = try(each.value.settings.spacelift.drift_detection_schedule, null) != null ? each.value.settings.spacelift.drift_detection_schedule : var.drift_detection_schedule

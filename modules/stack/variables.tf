@@ -340,3 +340,9 @@ variable "space_name" {
   description = "If using a dedicated space, override the name of the space (instead of using `component_name`)."
   default     = null
 }
+
+variable "use_depends_on_resource" {
+  type        = bool
+  description = "If enabled, use the `depends_on` label to create dependencies between stacks. This removes the 'depends_on' labels."
+  default     = false
+}
