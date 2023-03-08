@@ -9,7 +9,7 @@ locals {
   ]
 }
 
-resource "spacelift_stack_dependency" "dependent_stacks" {
+resource "spacelift_stack_dependency" "default" {
   for_each            = var.enabled && var.use_depends_on_resource ? toset(local.depends_on_labels) : []
   stack_id            = spacelift_stack.default[0].id
   depends_on_stack_id = each.value
