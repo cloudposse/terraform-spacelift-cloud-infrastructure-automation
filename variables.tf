@@ -393,7 +393,7 @@ variable "stacks_space_id" {
   default     = null
 }
 
-variable "use_depends_on_resource" {
+variable "spacelift_stack_dependency_enabled" {
   type        = bool
   description = "If enabled, use the `depends_on` label to create dependencies between stacks. This removes the 'depends_on' labels and will detach the trigger polices for dependencies."
   default     = false

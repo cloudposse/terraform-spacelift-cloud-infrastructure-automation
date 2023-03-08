@@ -50,7 +50,7 @@ locals {
 
   # Concatenate labels with infracost if it's enabled
   labels = var.infracost_enabled ? concat(var.labels, ["infracost"]) : var.labels
-  excluded_policies = var.use_depends_on_resource ? ["trigger-dependencies"] : []
+  excluded_policies = var.spacelift_stack_dependency_enabled ? ["trigger-dependencies"] : []
   stack_policies = {
     for k, v in local.spacelift_stacks :
     k => concat(
@@ -106,7 +106,7 @@ module "stacks" {
   component_vars            = each.value.vars
   component_env             = each.value.env
   terraform_workspace       = each.value.workspace
-  use_depends_on_resource   = var.use_depends_on_resource
+  spacelift_stack_dependency_enabled   = var.spacelift_stack_dependency_enabled
 
   labels = (
     try(each.value.settings.spacelift.administrative, null) != null ? each.value.settings.spacelift.administrative : var.administrative
