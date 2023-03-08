@@ -50,17 +50,6 @@ locals {
 
   # Concatenate labels with infracost if it's enabled
   labels = var.infracost_enabled ? concat(var.labels, ["infracost"]) : var.labels
-}
-
-# Create custom policies (Rego defined externally in the caller code)
-resource "spacelift_policy" "custom" {
-  for_each = toset(local.distinct_policy_names)
-
-  type = upper(split(".", each.key)[0])
-  name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
-  body = file(format("%s/%s.rego", var.policies_by_name_path, each.key))
-
-  space_id          = var.attachment_space_id
   excluded_policies = var.use_depends_on_resource ? ["trigger-dependencies"] : []
   stack_policies = {
     for k, v in local.spacelift_stacks :
@@ -83,6 +72,17 @@ resource "spacelift_policy" "custom" {
     )
   }
 
+}
+
+# Create custom policies (Rego defined externally in the caller code)
+resource "spacelift_policy" "custom" {
+  for_each = toset(local.distinct_policy_names)
+
+  type = upper(split(".", each.key)[0])
+  name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
+  body = file(format("%s/%s.rego", var.policies_by_name_path, each.key))
+
+  space_id          = var.attachment_space_id
 }
 
 module "stacks" {
