@@ -229,13 +229,13 @@ Available targets:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
-| <a name="requirement_spacelift"></a> [spacelift](#requirement\_spacelift) | >= 0.1.7 |
+| <a name="requirement_spacelift"></a> [spacelift](#requirement\_spacelift) | >= 0.1.27 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | >= 0.1.7 |
+| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | >= 0.1.27 |
 
 ## Modules
 
@@ -329,6 +329,7 @@ Available targets:
 | <a name="input_repository"></a> [repository](#input\_repository) | The name of your infrastructure repo | `string` | n/a | yes |
 | <a name="input_runner_image"></a> [runner\_image](#input\_runner\_image) | The full image name and tag of the Docker image to use in Spacelift | `string` | `null` | no |
 | <a name="input_spacelift_run_enabled"></a> [spacelift\_run\_enabled](#input\_spacelift\_run\_enabled) | Enable/disable creation of the `spacelift_run` resource | `bool` | `false` | no |
+| <a name="input_spacelift_stack_dependency_enabled"></a> [spacelift\_stack\_dependency\_enabled](#input\_spacelift\_stack\_dependency\_enabled) | If enabled, use the `depends_on` label to create dependencies between stacks. This removes the 'depends\_on' labels and will detach the trigger polices for dependencies. | `bool` | `false` | no |
 | <a name="input_stack_config_path_template"></a> [stack\_config\_path\_template](#input\_stack\_config\_path\_template) | Stack config path template | `string` | `"stacks/%s.yaml"` | no |
 | <a name="input_stack_context_description"></a> [stack\_context\_description](#input\_stack\_context\_description) | Description of global stack context | `string` | `"Stack context description"` | no |
 | <a name="input_stack_context_name"></a> [stack\_context\_name](#input\_stack\_context\_name) | Name of global stack context | `string` | `"Stack context"` | no |

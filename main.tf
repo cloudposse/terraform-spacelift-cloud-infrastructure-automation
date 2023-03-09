@@ -53,24 +53,24 @@ locals {
   # Note, it appears that spacelift stacks can create the trigger.dependency policy with
   # and without a suffix of -policy. Since it can exist twice, we need to exclude
   # both variants.
-  excluded_policies = var.spacelift_stack_dependency_enabled ? ["trigger-dependencies","trigger-dependencies-policy"] : []
+  excluded_policies = var.spacelift_stack_dependency_enabled ? ["trigger-dependencies", "trigger-dependencies-policy"] : []
   stack_policies = {
     for k, v in local.spacelift_stacks :
     k => concat(
       [
         for i in try(v.settings.spacelift.policies_enabled, var.policies_enabled) : (
           spacelift_policy.default[i].id
-        ) if !contains(local.excluded_policies, i)
+        ) if ! contains(local.excluded_policies, i)
       ],
       [
         for i in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) : (
           spacelift_policy.custom[i].id
-        ) if !contains(local.excluded_policies, i)
+        ) if ! contains(local.excluded_policies, i)
       ],
       [
         for i in try(v.settings.spacelift.policies_by_id_enabled, var.policies_by_id_enabled) : (
           i
-        ) if !contains(local.excluded_policies, i)
+        ) if ! contains(local.excluded_policies, i)
       ]
     )
   }
@@ -85,7 +85,7 @@ resource "spacelift_policy" "custom" {
   name = format("%s %s Policy", upper(split(".", each.key)[0]), title(replace(split(".", each.key)[1], "-", " ")))
   body = file(format("%s/%s.rego", var.policies_by_name_path, each.key))
 
-  space_id          = var.attachment_space_id
+  space_id = var.attachment_space_id
 }
 
 module "stacks" {
@@ -98,18 +98,18 @@ module "stacks" {
     try(data.spacelift_current_space.administrative[0].id, "legacy"),
   )
 
-  enabled                   = each.value.enabled
-  dedicated_space_enabled   = try(each.value.settings.spacelift.dedicated_space_enabled, false)
-  space_name                = try(each.value.settings.spacelift.space_name, null)
-  parent_space_id           = try(each.value.settings.spacelift.parent_space_id, null)
-  inherit_entities          = try(each.value.settings.spacelift.inherit_entities, false)
-  stack_name                = try(each.value.settings.spacelift.ui_stack_name, try(each.value.settings.spacelift.stack_name, each.key))
-  infrastructure_stack_name = each.value.stack
-  component_name            = each.value.component
-  component_vars            = each.value.vars
-  component_env             = each.value.env
-  terraform_workspace       = each.value.workspace
-  spacelift_stack_dependency_enabled   = var.spacelift_stack_dependency_enabled
+  enabled                            = each.value.enabled
+  dedicated_space_enabled            = try(each.value.settings.spacelift.dedicated_space_enabled, false)
+  space_name                         = try(each.value.settings.spacelift.space_name, null)
+  parent_space_id                    = try(each.value.settings.spacelift.parent_space_id, null)
+  inherit_entities                   = try(each.value.settings.spacelift.inherit_entities, false)
+  stack_name                         = try(each.value.settings.spacelift.ui_stack_name, try(each.value.settings.spacelift.stack_name, each.key))
+  infrastructure_stack_name          = each.value.stack
+  component_name                     = each.value.component
+  component_vars                     = each.value.vars
+  component_env                      = each.value.env
+  terraform_workspace                = each.value.workspace
+  spacelift_stack_dependency_enabled = var.spacelift_stack_dependency_enabled
 
   labels = (
     try(each.value.settings.spacelift.administrative, null) != null ? each.value.settings.spacelift.administrative : var.administrative
