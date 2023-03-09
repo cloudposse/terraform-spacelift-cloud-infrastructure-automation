@@ -60,17 +60,17 @@ locals {
       [
         for i in try(v.settings.spacelift.policies_enabled, var.policies_enabled) : (
           spacelift_policy.default[i].id
-        ) if ! contains(local.excluded_policies, i)
+        ) if !contains(local.excluded_policies, i)
       ],
       [
         for i in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) : (
           spacelift_policy.custom[i].id
-        ) if ! contains(local.excluded_policies, i)
+        ) if !contains(local.excluded_policies, i)
       ],
       [
         for i in try(v.settings.spacelift.policies_by_id_enabled, var.policies_by_id_enabled) : (
           i
-        ) if ! contains(local.excluded_policies, i)
+        ) if !contains(local.excluded_policies, i)
       ]
     )
   }
@@ -109,6 +109,7 @@ module "stacks" {
   component_vars                     = each.value.vars
   component_env                      = each.value.env
   terraform_workspace                = each.value.workspace
+  terraform_smart_sanitization       = try(each.value.settings.spacelift.terraform_smart_sanitization, false)
   spacelift_stack_dependency_enabled = var.spacelift_stack_dependency_enabled
 
   labels = (

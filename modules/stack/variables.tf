@@ -341,6 +341,12 @@ variable "space_name" {
   default     = null
 }
 
+variable "terraform_smart_sanitization" {
+  type        = bool
+  description = "Whether or not to enable [Smart Sanitization](https://docs.spacelift.io/vendors/terraform/resource-sanitization) which will only sanitize values marked as sensitive."
+  default     = false
+}
+
 variable "spacelift_stack_dependency_enabled" {
   type        = bool
   description = "If enabled, use the `depends_on` label to create dependencies between stacks. This removes the 'depends_on' labels."
