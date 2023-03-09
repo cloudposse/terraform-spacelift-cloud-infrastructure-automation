@@ -7,6 +7,7 @@ locals {
     for idx, context_id in var.context_attachments :
     context_id => idx
   }
+
   labels = var.spacelift_stack_dependency_enabled ? local.non_depends_on_labels : var.labels
 }
 

@@ -50,7 +50,10 @@ locals {
 
   # Concatenate labels with infracost if it's enabled
   labels = var.infracost_enabled ? concat(var.labels, ["infracost"]) : var.labels
-  excluded_policies = var.spacelift_stack_dependency_enabled ? ["trigger-dependencies"] : []
+  # Note, it appears that spacelift stacks can create the trigger.dependency policy with
+  # and without a suffix of -policy. Since it can exist twice, we need to exclude
+  # both variants.
+  excluded_policies = var.spacelift_stack_dependency_enabled ? ["trigger-dependencies","trigger-dependencies-policy"] : []
   stack_policies = {
     for k, v in local.spacelift_stacks :
     k => concat(
