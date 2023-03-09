@@ -73,17 +73,18 @@ module "stacks" {
     try(data.spacelift_current_space.administrative[0].id, "legacy"),
   )
 
-  enabled                   = each.value.enabled
-  dedicated_space_enabled   = try(each.value.settings.spacelift.dedicated_space_enabled, false)
-  space_name                = try(each.value.settings.spacelift.space_name, null)
-  parent_space_id           = try(each.value.settings.spacelift.parent_space_id, null)
-  inherit_entities          = try(each.value.settings.spacelift.inherit_entities, false)
-  stack_name                = try(each.value.settings.spacelift.ui_stack_name, try(each.value.settings.spacelift.stack_name, each.key))
-  infrastructure_stack_name = each.value.stack
-  component_name            = each.value.component
-  component_vars            = each.value.vars
-  component_env             = each.value.env
-  terraform_workspace       = each.value.workspace
+  enabled                      = each.value.enabled
+  dedicated_space_enabled      = try(each.value.settings.spacelift.dedicated_space_enabled, false)
+  space_name                   = try(each.value.settings.spacelift.space_name, null)
+  parent_space_id              = try(each.value.settings.spacelift.parent_space_id, null)
+  inherit_entities             = try(each.value.settings.spacelift.inherit_entities, false)
+  stack_name                   = try(each.value.settings.spacelift.ui_stack_name, try(each.value.settings.spacelift.stack_name, each.key))
+  infrastructure_stack_name    = each.value.stack
+  component_name               = each.value.component
+  component_vars               = each.value.vars
+  component_env                = each.value.env
+  terraform_workspace          = each.value.workspace
+  terraform_smart_sanitization = try(each.value.settings.spacelift.terraform_smart_sanitization, false)
 
   labels = (
     try(each.value.settings.spacelift.administrative, null) != null ? each.value.settings.spacelift.administrative : var.administrative

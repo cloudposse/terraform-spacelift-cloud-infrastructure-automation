@@ -14,16 +14,17 @@ resource "spacelift_stack" "default" {
 
   space_id = try(spacelift_space.default[0].id, var.space_id)
 
-  name                 = var.stack_name
-  description          = var.description
-  administrative       = var.administrative
-  autodeploy           = var.autodeploy
-  repository           = var.repository
-  branch               = var.branch
-  project_root         = var.component_root
-  manage_state         = var.manage_state
-  labels               = var.labels
-  enable_local_preview = var.local_preview_enabled
+  name                         = var.stack_name
+  description                  = var.description
+  administrative               = var.administrative
+  autodeploy                   = var.autodeploy
+  repository                   = var.repository
+  branch                       = var.branch
+  project_root                 = var.component_root
+  manage_state                 = var.manage_state
+  labels                       = var.labels
+  enable_local_preview         = var.local_preview_enabled
+  terraform_smart_sanitization = var.terraform_smart_sanitization
 
   worker_pool_id      = var.worker_pool_id
   runner_image        = var.runner_image

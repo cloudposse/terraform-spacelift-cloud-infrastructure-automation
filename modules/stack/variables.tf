@@ -340,3 +340,9 @@ variable "space_name" {
   description = "If using a dedicated space, override the name of the space (instead of using `component_name`)."
   default     = null
 }
+
+variable "terraform_smart_sanitization" {
+  type        = bool
+  description = "Whether or not to enable [Smart Sanitization](https://docs.spacelift.io/vendors/terraform/resource-sanitization) which will only sanitize values marked as sensitive."
+  default     = false
+}
