@@ -395,6 +395,6 @@ variable "stacks_space_id" {
 
 variable "spacelift_stack_dependency_enabled" {
   type        = bool
-  description = "If enabled, the `spacelift_stack_dependency` Spacelift resource will be used to create dependencies between stacks instead of using the `depends-on` labels. The `depends-on` labels will be removed from the stacks and the trigger polices for dependencies will be detached"
+  description = "If enabled, the `spacelift_stack_dependency` Spacelift resource will be used to create dependencies between stacks instead of using the `depends-on` labels. The `depends-on` labels will be removed from the stacks and the trigger policies for dependencies will be detached"
   default     = false
 }
