@@ -7,6 +7,8 @@ locals {
     for idx, context_id in var.context_attachments :
     context_id => idx
   }
+
+  labels = var.spacelift_stack_dependency_enabled ? local.non_depends_on_labels : var.labels
 }
 
 resource "spacelift_stack" "default" {
@@ -22,7 +24,7 @@ resource "spacelift_stack" "default" {
   branch                       = var.branch
   project_root                 = var.component_root
   manage_state                 = var.manage_state
-  labels                       = var.labels
+  labels                       = local.labels
   enable_local_preview         = var.local_preview_enabled
   terraform_smart_sanitization = var.terraform_smart_sanitization
 

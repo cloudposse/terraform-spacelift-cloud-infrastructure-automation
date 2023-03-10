@@ -50,6 +50,31 @@ locals {
 
   # Concatenate labels with infracost if it's enabled
   labels = var.infracost_enabled ? concat(var.labels, ["infracost"]) : var.labels
+  # Note, it appears that spacelift stacks can create the trigger.dependency policy with
+  # and without a suffix of -policy. Since it can exist twice, we need to exclude
+  # both variants.
+  excluded_policies = var.spacelift_stack_dependency_enabled ? ["trigger-dependencies", "trigger-dependencies-policy"] : []
+  stack_policies = {
+    for k, v in local.spacelift_stacks :
+    k => concat(
+      [
+        for i in try(v.settings.spacelift.policies_enabled, var.policies_enabled) : (
+          spacelift_policy.default[i].id
+        ) if ! contains(local.excluded_policies, i)
+      ],
+      [
+        for i in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) : (
+          spacelift_policy.custom[i].id
+        ) if ! contains(local.excluded_policies, i)
+      ],
+      [
+        for i in try(v.settings.spacelift.policies_by_id_enabled, var.policies_by_id_enabled) : (
+          i
+        ) if ! contains(local.excluded_policies, i)
+      ]
+    )
+  }
+
 }
 
 # Create custom policies (Rego defined externally in the caller code)
@@ -73,18 +98,19 @@ module "stacks" {
     try(data.spacelift_current_space.administrative[0].id, "legacy"),
   )
 
-  enabled                      = each.value.enabled
-  dedicated_space_enabled      = try(each.value.settings.spacelift.dedicated_space_enabled, false)
-  space_name                   = try(each.value.settings.spacelift.space_name, null)
-  parent_space_id              = try(each.value.settings.spacelift.parent_space_id, null)
-  inherit_entities             = try(each.value.settings.spacelift.inherit_entities, false)
-  stack_name                   = try(each.value.settings.spacelift.ui_stack_name, try(each.value.settings.spacelift.stack_name, each.key))
-  infrastructure_stack_name    = each.value.stack
-  component_name               = each.value.component
-  component_vars               = each.value.vars
-  component_env                = each.value.env
-  terraform_workspace          = each.value.workspace
-  terraform_smart_sanitization = try(each.value.settings.spacelift.terraform_smart_sanitization, false)
+  enabled                            = each.value.enabled
+  dedicated_space_enabled            = try(each.value.settings.spacelift.dedicated_space_enabled, false)
+  space_name                         = try(each.value.settings.spacelift.space_name, null)
+  parent_space_id                    = try(each.value.settings.spacelift.parent_space_id, null)
+  inherit_entities                   = try(each.value.settings.spacelift.inherit_entities, false)
+  stack_name                         = try(each.value.settings.spacelift.ui_stack_name, try(each.value.settings.spacelift.stack_name, each.key))
+  infrastructure_stack_name          = each.value.stack
+  component_name                     = each.value.component
+  component_vars                     = each.value.vars
+  component_env                      = each.value.env
+  terraform_workspace                = each.value.workspace
+  terraform_smart_sanitization       = try(each.value.settings.spacelift.terraform_smart_sanitization, false)
+  spacelift_stack_dependency_enabled = var.spacelift_stack_dependency_enabled
 
   labels = (
     try(each.value.settings.spacelift.administrative, null) != null ? each.value.settings.spacelift.administrative : var.administrative
@@ -127,12 +153,7 @@ module "stacks" {
   webhook_secret   = var.webhook_secret
 
   # Policies to attach to the stack (internally created + additional external provided by IDs + additional external created by this module from external Rego files)
-  policy_ids = concat(
-    [for i in try(each.value.settings.spacelift.policies_enabled, var.policies_enabled) : spacelift_policy.default[i].id],
-    [for i in try(each.value.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) : spacelift_policy.custom[i].id],
-    try(each.value.settings.spacelift.policies_by_id_enabled, var.policies_by_id_enabled)
-  )
-
+  policy_ids                = local.stack_policies[each.key]
   drift_detection_enabled   = try(each.value.settings.spacelift.drift_detection_enabled, null) != null ? each.value.settings.spacelift.drift_detection_enabled : var.drift_detection_enabled
   drift_detection_reconcile = try(each.value.settings.spacelift.drift_detection_reconcile, null) != null ? each.value.settings.spacelift.drift_detection_reconcile : var.drift_detection_reconcile
   drift_detection_schedule  = try(each.value.settings.spacelift.drift_detection_schedule, null) != null ? each.value.settings.spacelift.drift_detection_schedule : var.drift_detection_schedule
