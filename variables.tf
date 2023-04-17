@@ -387,9 +387,21 @@ variable "attachment_space_id" {
   default     = "legacy"
 }
 
+variable "attachment_space_name" {
+  type        = string
+  description = "Specify the space name for attachments (e.g. policies, contexts, etc.)"
+  default     = "legacy"
+}
+
 variable "stacks_space_id" {
   type        = string
   description = "Override the space ID for all stacks (unless the stack config has `dedicated_space` set to true). Otherwise, it will default to the admin stack's space."
+  default     = null
+}
+
+variable "stacks_space_name" {
+  type        = string
+  description = "Override the space name for all stacks (unless the stack config has `dedicated_space` set to true). Otherwise, it will default to the admin stack's space."
   default     = null
 }
 
