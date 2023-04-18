@@ -14,6 +14,10 @@ locals {
 resource "spacelift_stack" "default" {
   count = var.enabled ? 1 : 0
 
+  # Please notice that is necesary that in order for this whole module to work, 
+  # the space created by spacelift_space resource should be prioritized over var.space_id
+  # or any other space that is created in the future.
+  # Otherwise the data.spacelift_stacks.filtered won't be able to find the right space to where the stacks should be moved.
   space_id = try(spacelift_space.default[0].id, var.space_id)
 
   name                         = var.stack_name
@@ -201,7 +205,7 @@ resource "spacelift_stack_destructor" "default" {
   count = var.enabled ? 1 : 0
 
   stack_id    = spacelift_stack.default[0].id
-  deactivated = ! var.stack_destructor_enabled
+  deactivated = !var.stack_destructor_enabled
 
   depends_on = [
     spacelift_mounted_file.stack_config,
