@@ -78,8 +78,7 @@ locals {
         for i, j in var.tag_filters :
         lookup(lookup(v.vars, "tags", {}), i, null) == j
       ], true)
-    ) &&
-    !contains(keys(root_stack_name), k)
+    )
   }
 
   # Find Rego policies defined in YAML config in all stacks
