@@ -36,15 +36,20 @@ locals {
 
   all_spacelift_stacks = {
     for k, v in module.spacelift_config.spacelift_stacks :
-    # this merge was required because at the moment there isn't a way to create custom function in terraform
-    # https://github.com/hashicorp/terraform/issues/28339
-    k => try(merge(v, { "${local.unique_identifier}" = {
-      labels = (
-        try(each.value.settings.spacelift.administrative, var.administrative) ?
-        concat(local.labels, var.admin_labels, try(each.value.labels, [])) :
-        concat(local.labels, var.non_admin_labels, try(each.value.labels, []))
-      )
-    } }), v)
+    k => try(
+      merge({
+        "${local.unique_identifier}" = {
+          # Defining labels and stack_name in a single place so `module.spacelift_stacks` and `module.stacks` get the same value.
+          labels = (
+            try(each.value.settings.spacelift.administrative, var.administrative) ?
+            concat(local.labels, var.admin_labels, try(each.value.labels, [])) :
+            concat(local.labels, var.non_admin_labels, try(each.value.labels, []))
+          )
+          stack_name = try(each.value.settings.spacelift.ui_stack_name, try(each.value.settings.spacelift.stack_name, each.key))
+        }
+      }, v),
+      v
+    )
     if
     (lookup(var.context_filters, "namespaces", null) == null || contains(lookup(var.context_filters, "namespaces", [lookup(v.vars, "namespace", "")]), lookup(v.vars, "namespace", ""))) &&
     (lookup(var.context_filters, "tenants", null) == null || contains(lookup(var.context_filters, "tenants", [lookup(v.vars, "tenant", "")]), lookup(v.vars, "tenant", ""))) &&
@@ -127,25 +132,11 @@ data "spacelift_stacks" "filtered" {
   for_each = local.parent_stacks
 
   name {
-    # Notice that this should be the same that was defined in the module.stacks.labels
-    any_of = [try(each.value.settings.spacelift.ui_stack_name, try(each.value.settings.spacelift.stack_name, each.key))]
+    any_of = [each.value[local.unique_identified].stack_name]
   }
 
   dynamic "labels" {
-    for_each = toset(
-      # Notice that this should be the same that was defined in the module.stacks.labels
-      (
-        try(each.value.settings.spacelift.administrative, null) != null ? each.value.settings.spacelift.administrative : var.administrative
-        ) ? concat(
-        local.labels,
-        var.admin_labels,
-        try(each.value.labels, [])
-        ) : concat(
-        local.labels,
-        var.non_admin_labels,
-        try(each.value.labels, [])
-      )
-    )
+    for_each = toset(each.value[local.unique_identified].spacelift_stack_dependency_enabled)
     iterator = label
 
     content {
@@ -158,19 +149,21 @@ data "spacelift_stacks" "filtered" {
     precondition {
       condition     = length(keys(local.parent_stacks)) <= 1
       error_message = <<EOF
-It is not allowed to have multiple `space-yaml-files` that have the same `tag_filters` and `context_filters` in the same path (${var.stack_config_path_template}).
-If multiple `space-yaml-files` have the same `tag_filters` and `context_filters`, stacks with matching `tag_filters` and `context_filters` will be moved
-back and forth between these spaces. This may result in unexpected behavior, such as stacks ending up in unintended spaces or be constantly moving from one space to other.
+        YAML files: ${join(",", keys(local.parent_stacks))} shouldn't have the same `stack_config_path_template`, `tag_filters`, and `context_filters`.
+        This may result in unexpected behavior, such as stacks ending up in unintended spaces or be constantly moved from one space to other.
+        Make sure that below yaml configuration is not getting repeated in your project:
 
-To prevent above issue check the `space-yaml-files`: ${join(",", keys(local.parent_stacks))}
-They have the same `tag_filters` and `context_filters`:
-* tag_filters: {
-    ${join(",\n", [for k, v in var.tag_filters : "${k}: ${v}"])}
-  }
-* context_filters: {
-    ${join(",\n", [for k, v in var.context_filters : "${k}: ${v}"])}
-  }
-EOF
+        # (...)
+        vars:
+          # (...)
+          stack_config_path_template: "${var.stack_config_path_template}"
+          tag_filters:
+            ${join(",\n", [for k, v in var.tag_filters : "${k}: ${v}"])}
+          context_filters:
+            ${join(",\n", [for k, v in var.context_filters : "${k}: ${v}"])}
+          # (...)
+        # (...)
+      EOF
     }
   }
 }
@@ -197,7 +190,7 @@ module "stacks" {
   space_name                         = try(each.value.settings.spacelift.space_name, null)
   parent_space_id                    = try(each.value.settings.spacelift.parent_space_id, null)
   inherit_entities                   = try(each.value.settings.spacelift.inherit_entities, false)
-  stack_name                         = try(each.value.settings.spacelift.ui_stack_name, try(each.value.settings.spacelift.stack_name, each.key))
+  stack_name                         = each.value[local.unique_identified].stack_name
   infrastructure_stack_name          = each.value.stack
   component_name                     = each.value.component
   component_vars                     = each.value.vars
