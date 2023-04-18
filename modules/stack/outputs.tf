@@ -15,9 +15,3 @@ output "config" {
     stack_destructor_id          = join("", spacelift_stack_destructor.default.*.id)
   }, "disabled")
 }
-
-output "space_id" {
-  description = "The stack's space_id"
-
-  value = try(resource.spacelift_stack.default.space_id, null)
-}
