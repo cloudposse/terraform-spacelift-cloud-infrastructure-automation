@@ -238,7 +238,7 @@ resource "spacelift_space" "default" {
   labels           = var.labels
 }
 
-resource "spacelift_context" "space_info" {
+resource "spacelift_context" "managed_space" {
   count = var.dedicated_space_enabled ? 1 : 0
 
   name        = "${spacelift_space.default[0].name} space's stack manager"
