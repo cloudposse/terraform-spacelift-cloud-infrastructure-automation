@@ -14,7 +14,14 @@ locals {
 resource "spacelift_stack" "default" {
   count = var.enabled ? 1 : 0
 
-  space_id = try(spacelift_space.default[0].id, var.space_id)
+  space_id = (
+    # An administractive stack doesn't have permissions to manage spaces or policies if it is not in the root space.
+    alltrue([var.administrative, var.dedicated_space_enabled]) ? "root" :
+    coalesce(
+      try(spacelift_space.default[0].id, null),
+      var.space_id,
+    )
+  )
 
   name                         = var.stack_name
   description                  = var.description
@@ -229,4 +236,15 @@ resource "spacelift_space" "default" {
   inherit_entities = var.inherit_entities
   description      = var.description
   labels           = var.labels
+}
+
+resource "spacelift_context" "space_info" {
+  count = var.dedicated_space_enabled ? 1 : 0
+
+  name        = "${spacelift_space.default[0].name} space's stack manager"
+  description = "This context is used to find which admin stack in the root space is managing this space."
+  space_id    = spacelift_space.default[0].id
+  labels = [
+    "manager_admin_stack_id:${spacelift_stack.default[0].id}"
+  ]
 }
