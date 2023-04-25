@@ -17,10 +17,7 @@ resource "spacelift_stack" "default" {
   space_id = (
     # An administractive stack doesn't have permissions to manage spaces or policies if it is not in the root space.
     alltrue([var.administrative, var.dedicated_space_enabled]) ? "root" :
-    coalesce(
-      try(spacelift_space.default[0].id, null),
-      var.space_id,
-    )
+    try(spacelift_space.default[0].id, var.space_id)
   )
 
   name                         = var.stack_name
