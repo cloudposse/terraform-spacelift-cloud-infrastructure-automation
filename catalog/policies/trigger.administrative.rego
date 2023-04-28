@@ -15,3 +15,5 @@ id_shas_of_created_stacks[change.entity.data.values.id] {
   change.entity.type == "spacelift_stack"
   change.phase == "apply" # The change has actually been applied, not just planned
 }
+
+sample { true }
