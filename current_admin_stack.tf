@@ -113,7 +113,7 @@ locals {
       data.spacelift_current_space.administrative[0].id,
       try(data.spacelift_stacks.administrative[0].stacks[0].space_id, null),
     )
-    managed_space_id = try(data.spacelift_contexts.managed_space.contexts[0].space_id, null)
+    managed_space_id = try(data.spacelift_contexts.managed_space.contexts[0].space_id, "root")
     ##
   })
 }
