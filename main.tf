@@ -12,7 +12,7 @@ resource "spacelift_policy" "default" {
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
 module "spacelift_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
-  version = "0.22.3"
+  version = "1.4.2"
 
   stack_config_path_template = var.stack_config_path_template
 
@@ -60,17 +60,17 @@ locals {
       [
         for i in try(v.settings.spacelift.policies_enabled, var.policies_enabled) : (
           spacelift_policy.default[i].id
-        ) if ! contains(local.excluded_policies, i)
+        ) if !contains(local.excluded_policies, i)
       ],
       [
         for i in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) : (
           spacelift_policy.custom[i].id
-        ) if ! contains(local.excluded_policies, i)
+        ) if !contains(local.excluded_policies, i)
       ],
       [
         for i in try(v.settings.spacelift.policies_by_id_enabled, var.policies_by_id_enabled) : (
           i
-        ) if ! contains(local.excluded_policies, i)
+        ) if !contains(local.excluded_policies, i)
       ]
     )
   }

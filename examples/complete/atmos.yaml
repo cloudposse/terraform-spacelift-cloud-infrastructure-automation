@@ -46,5 +46,6 @@ stacks:
   name_pattern: "{tenant}-{environment}-{stage}"
 
 logs:
-  verbose: false
-  colors: true
+  file: "/dev/stdout"
+  # Supported log levels: Trace, Debug, Info, Warning, Off
+  level: Info

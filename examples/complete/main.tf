@@ -1,5 +1,3 @@
-provider "spacelift" {}
-
 module "example" {
   source = "../.."
 
