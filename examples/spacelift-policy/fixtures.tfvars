@@ -1,5 +1,3 @@
-
-inline_policy_name   = "Test Inline Policy"
 inline_policy_type   = "PLAN"
 inline_policy_body   = <<EOF
   package spacelift
@@ -11,7 +9,6 @@ inline_policy_body   = <<EOF
 EOF
 inline_policy_labels = ["test", "terraform", "spacelift", "inline"]
 
-catalog_policy_name             = "Test Catalog Policy"
 catalog_policy_type             = "GIT_PUSH"
 catalog_policy_body_url         = "https://raw.githubusercontent.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/%s/catalog/policies/git_push.default.rego"
 catalog_policy_body_url_version = "master"
