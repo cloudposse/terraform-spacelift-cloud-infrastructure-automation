@@ -1,13 +1,14 @@
 #provider "spacelift" {}
 
 locals {
-  is_body_from_url = module.this.enabled && var.body_url != null
+  enabled          = module.this.enabled
+  is_body_from_url = local.enabled && var.body_url != null
   body_url         = local.is_body_from_url ? format(var.body_url, var.body_url_version) : null
   body             = local.is_body_from_url ? data.http.this[0].response_body : var.body
 }
 
 resource "spacelift_policy" "this" {
-  count = module.this.enabled ? 1 : 0
+  count = local.enabled ? 1 : 0
 
   name     = var.policy_name
   body     = local.body
