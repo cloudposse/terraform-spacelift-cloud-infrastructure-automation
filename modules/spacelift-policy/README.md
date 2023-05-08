@@ -28,7 +28,7 @@
 
 -->
 
-Terraform module to provisiona a [Spacelift](https://docs.spacelift.io/concepts/spacelift-policy/) policy.
+Terraform module to provision a [Spacelift](https://docs.spacelift.io/concepts/spacelift-policy/) policy.
 
 ---
 
