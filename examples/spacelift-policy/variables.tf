@@ -9,6 +9,7 @@ variable "inline_policy_type" {
 variable "inline_policy_body" {
   type = string
 }
+
 variable "inline_policy_labels" {
   type    = set(string)
   default = []
