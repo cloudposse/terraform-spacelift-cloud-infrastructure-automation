@@ -1,4 +1,4 @@
-# provider "spacelift" {}
+provider "spacelift" {}
 
 module "inline_policy" {
   source = "../../modules/spacelift-policy"
