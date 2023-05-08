@@ -70,7 +70,7 @@ references:
     url: "https://www.openpolicyagent.org/docs/latest/"
   - name: "Rego - OPA’s query and policy language"
     description: "Rego focuses on providing powerful support for referencing nested documents and ensuring that queries are correct and unambiguous"
-    url: "https://www.openpolicyagent.org/docs/latest/spacelift-policy-language/"
+    url: "https://www.openpolicyagent.org/docs/latest/policy-language/"
   - name: "Example of using Rego policy language"
     description: "Mutating Admissions Controllers with Open Policy Agent and Rego"
     url: "https://blog.gripdev.xyz/2020/01/13/mutating-admissions-controllers-with-open-policy-agent-and-rego/"

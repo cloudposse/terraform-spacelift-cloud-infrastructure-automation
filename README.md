@@ -384,7 +384,7 @@ For additional context, refer to some of these links.
 - [Spacelift Documentation](https://docs.spacelift.io/) - Official documentation site for Spacelift
 - [Open Policy Agent](https://www.openpolicyagent.org/) - Policy-based control for cloud-native environments
 - [OPA Documentation](https://www.openpolicyagent.org/docs/latest/) - Open Policy Agent Documentation
-- [Rego - OPA’s query and policy language](https://www.openpolicyagent.org/docs/latest/spacelift-policy-language/) - Rego focuses on providing powerful support for referencing nested documents and ensuring that queries are correct and unambiguous
+- [Rego - OPA’s query and policy language](https://www.openpolicyagent.org/docs/latest/policy-language/) - Rego focuses on providing powerful support for referencing nested documents and ensuring that queries are correct and unambiguous
 - [Example of using Rego policy language](https://blog.gripdev.xyz/2020/01/13/mutating-admissions-controllers-with-open-policy-agent-and-rego/) - Mutating Admissions Controllers with Open Policy Agent and Rego
 
 
