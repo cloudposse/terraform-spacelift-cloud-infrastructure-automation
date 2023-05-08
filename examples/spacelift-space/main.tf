@@ -1,3 +1,5 @@
+provider "spacelift" {}
+
 module "space" {
   source = "../../modules/spacelift-space"
 

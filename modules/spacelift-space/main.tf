@@ -1,4 +1,10 @@
+locals {
+  enabled = module.this.enabled
+}
+
 resource "spacelift_space" "this" {
+  count = local.enabled ? 1 : 0
+
   name = var.space_name
 
   # Every account has a root space that serves as the root for the space tree.
