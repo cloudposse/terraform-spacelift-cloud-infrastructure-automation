@@ -63,7 +63,7 @@ references:
     description: "Official documentation site for Spacelift"
     url: "https://docs.spacelift.io/"
   - name: "Open Policy Agent"
-    description: "Policy-based control for cloud native environments"
+    description: "Policy-based control for cloud-native environments"
     url: "https://www.openpolicyagent.org/"
   - name: "OPA Documentation"
     description: "Open Policy Agent Documentation"
