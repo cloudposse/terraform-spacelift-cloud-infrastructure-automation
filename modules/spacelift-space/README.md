@@ -116,7 +116,6 @@ module "space" {
 
 Here is an example of using this module:
 - [`../../examples/spacelift-space`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/tree/master/examples/spacelift-space) - complete example of using this module
-```
 
 
 
