@@ -100,8 +100,8 @@ examples: |-
 
 # Other files to include in this README from the project folder
 include:
-  - "modules/spacelift-space/docs/targets.md"
-  - "modules/spacelift-space/docs/terraform.md"
+  - "docs/targets.md"
+  - "docs/terraform.md"
 
 # Contributors to this project
 contributors:

@@ -9,10 +9,21 @@ export README_DEPS ?= docs/targets.md docs/terraform.md
 lint:
 	$(SELF) terraform/install terraform/get-modules terraform/get-plugins terraform/lint terraform/validate
 
-readme: readme/build readme/spacelift-policy readme/spacelift-space
 
-readme/spacelift-policy:
-	README_FILE="$(CURDIR)/modules/spacelift-policy/README.md" README_YAML="$(CURDIR)/modules/spacelift-policy/README.yaml" $(MAKE) readme/build
+.PHONY: readme
+readme:
+	$(MAKE) -C modules/spacelift-policy $@
+	$(MAKE) -C modules/spacelift-space $@
+	$(MAKE) -f .build-harness $@
 
-readme/spacelift-space:
-	README_FILE="$(CURDIR)/modules/spacelift-space/README.md" README_YAML="$(CURDIR)/modules/spacelift-space/README.yaml" $(MAKE) readme/build
+.PHONY: docs/targets.md
+docs/targets.md:
+	$(MAKE) -C modules/spacelift-policy $@
+	$(MAKE) -C modules/spacelift-space $@
+	$(MAKE) -f .build-harness $@
+
+.PHONY: docs/terraform.md
+docs/terraform.md:
+	$(MAKE) -C modules/spacelift-policy $@
+	$(MAKE) -C modules/spacelift-space $@
+	$(MAKE) -f .build-harness $@

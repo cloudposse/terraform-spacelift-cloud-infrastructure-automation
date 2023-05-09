@@ -115,8 +115,8 @@ examples: |-
 
 # Other files to include in this README from the project folder
 include:
-  - "modules/spacelift-policy/docs/targets.md"
-  - "modules/spacelift-policy/docs/terraform.md"
+  - "docs/targets.md"
+  - "docs/terraform.md"
 
 # Contributors to this project
 contributors:
