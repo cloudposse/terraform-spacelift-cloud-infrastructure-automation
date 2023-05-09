@@ -23,6 +23,6 @@ variable "inherit_entities_from_parent" {
 
 variable "labels" {
   type        = set(string)
-  description = "List of labels to add to the policy."
+  description = "List of labels to add to the space."
   default     = []
 }
