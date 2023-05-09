@@ -1,5 +1,5 @@
 output "space" {
-  description = "Value of the space"
+  description = "Spacelift space"
   value       = module.space.space
 }
 
