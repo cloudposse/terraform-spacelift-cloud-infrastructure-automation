@@ -17,7 +17,7 @@ variable "parent_space_id" {
 
 variable "inherit_entities_from_parent" {
   type        = bool
-  description = "Flag to indicate whether access to this space inherits read access to entities from the parent space."
+  description = "Flag to indicate whether this space inherits read access to entities from the parent space."
   default     = false
 }
 
