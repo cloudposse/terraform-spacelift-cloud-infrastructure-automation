@@ -5,7 +5,7 @@
 #
 
 # Name of this project
-name: spacelift-policy
+name: spacelift-space
 
 # Logo for this project
 #logo: docs/logo.png
@@ -66,8 +66,7 @@ references:
 
 # Short description of this project
 description: |-
-  Terraform module to provision a [Spacelift](https://docs.spacelift.io/concepts/spacelift-policy/) policy.
-
+  Terraform module to provisions a [Spacelift](https://docs.spacelift.io/concepts/spaces/index.html) space.
 # Introduction to the project
 #introduction: |-
 #  This is an introduction.
@@ -75,39 +74,25 @@ description: |-
 # How to use this module. Should be an easy example to copy and paste.
 
 usage: |-
-
   Here's how to invoke this module in your project:
-
   ```hcl
   provider "spacelift" {}
 
-  module "inline_policy" {
-    source  = "cloudposse/cloud-infrastructure-automation/spacelift//modules/spacelift-policy"
+  module "space" {
+    source  = "cloudposse/cloud-infrastructure-automation/spacelift//modules/spacelift-space"
     # Cloud Posse recommends pinning every module to a specific version
     # version     = "x.x.x"
 
-    policy_name = "Test Inline Policy"
-    policy_type = "PLAN"
-    body = <<EOF
-    package spacelift
-
-    deny["you shall not pass"] {
-      true # true means "match everything"
-    }
-
-    warn["hey, you look suspicious"] {
-      true
-    }
-    EOF
-
+    space_name                   = "test"
+    description                  = "A space for our test infrasturcture"
+    parent_space_id              = "root"
+    inherit_entities_from_parent = false
+    labels                       = ["test", "space"]
   ```
-
 # Example usage
 examples: |-
   Here is an example of using this module:
-  - [`../../examples/spacelift-policy`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/tree/master/examples/spacelift-policy) - complete example of using this module
-  ```
-
+  - [`../../examples/spacelift-space`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/tree/master/examples/spacelift-space) - complete example of using this module
 
 # How to get started quickly
 #quickstart: |-
@@ -122,4 +107,3 @@ include:
 contributors:
   - name: "Matt Calhoun"
     github: "mcalhoun"
-
