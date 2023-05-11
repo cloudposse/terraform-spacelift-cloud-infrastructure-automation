@@ -139,7 +139,7 @@ Available targets:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | >= 0.1.27 |
+| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | 1.1.5 |
 
 ## Modules
 
