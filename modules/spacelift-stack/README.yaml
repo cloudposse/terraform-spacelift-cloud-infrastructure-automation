@@ -71,8 +71,6 @@ description: |-
 #introduction: |-
 #  This is an introduction.
 
-# How to use this module. Should be an easy example to copy and paste.
-
 usage: |-
   Here's how to invoke this module in your project:
   ```hcl
@@ -83,7 +81,14 @@ usage: |-
     # Cloud Posse recommends pinning every module to a specific version
     # version     = "x.x.x"
 
-    TODO: Update this
+    atmos_stack_name  = "plat-ue1-prod-test-component"
+    stack_name        = "plat-ue1-prod-test-component"
+    component_name    = "test-component"
+    component_root    = "examples/test-component"
+    repository        = "spacelift-demo"
+    branch            = "main"
+    autodeploy        = true
+    terraform_version = "1.4.6"
   ```
 # Example usage
 examples: |-

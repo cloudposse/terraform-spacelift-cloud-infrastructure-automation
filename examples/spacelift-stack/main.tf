@@ -1,5 +1,4 @@
-# TODO: uncomment this before merging
-#  provider "spacelift" {}
+provider "spacelift" {}
 
 module "stack" {
   source = "../../modules/spacelift-stack"
