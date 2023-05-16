@@ -45,6 +45,12 @@ variable "autodeploy" {
   default     = false
 }
 
+variable "autoretry" {
+  type        = bool
+  description = "Controls the Spacelift 'autoretry' option for a stack"
+  default     = false
+}
+
 variable "aws_role_arn" {
   type        = string
   description = "ARN of the AWS IAM role to assume and put its temporary credentials in the runtime environment"
