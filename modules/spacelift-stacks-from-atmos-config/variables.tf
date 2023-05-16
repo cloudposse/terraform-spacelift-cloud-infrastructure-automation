@@ -29,7 +29,7 @@ variable "context_filters" {
     tenants        = optional(list(string), [])
     stages         = optional(list(string), [])
     tags           = optional(map(string), {})
-    administrative = optional(bool, false)
+    administrative = optional(bool)
   })
   description = "Context filters to output stacks matching specific criteria."
 }

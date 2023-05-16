@@ -21,7 +21,11 @@ locals {
     (length(var.context_filters.environments) == 0 || contains(var.context_filters.environments, lookup(v.vars, "environment", ""))) &&
     (length(var.context_filters.tenants) == 0 || contains(var.context_filters.tenants, lookup(v.vars, "tenant", ""))) &&
     (length(var.context_filters.stages) == 0 || contains(var.context_filters.stages, lookup(v.vars, "stage", ""))) &&
-    (var.context_filters.administrative == false || lookup(v.settings.spacelift, "administrative", false) == true) &&
+    (
+      (try(var.context_filters.administrative, null) == null) ||                                                         # If not set return all stacks
+      (var.context_filters.administrative == false && lookup(v.settings.spacelift, "administrative", false) == false) || # if set to false return only non-administrative stacks
+      (var.context_filters.administrative == true && lookup(v.settings.spacelift, "administrative", false) == true)      # if set to true return only administrative stacks
+    ) &&
     (
       length(var.context_filters.tags) == 0 || (
         lookup(v.vars, "tags", null) != null &&
