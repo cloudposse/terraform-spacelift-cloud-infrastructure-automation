@@ -201,7 +201,7 @@ resource "spacelift_stack_destructor" "default" {
   count = var.enabled ? 1 : 0
 
   stack_id    = spacelift_stack.default[0].id
-  deactivated = !var.stack_destructor_enabled
+  deactivated = ! var.stack_destructor_enabled
 
   depends_on = [
     spacelift_mounted_file.stack_config,
