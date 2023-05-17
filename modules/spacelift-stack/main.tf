@@ -10,7 +10,7 @@ locals {
   }
   depends_on_labels = try(local.map_of_labels_array["depends-on"], [])
   non_depends_on_labels = [
-    for label in var.labels : label if !startswith(label, "depends-on:")
+    for label in var.labels : label if ! startswith(label, "depends-on:")
   ]
   labels = var.spacelift_stack_dependency_enabled ? local.non_depends_on_labels : var.labels
 }
@@ -122,7 +122,7 @@ resource "spacelift_stack_destructor" "this" {
   count = local.enabled ? 1 : 0
 
   stack_id    = spacelift_stack.this[0].id
-  deactivated = !var.stack_destructor_enabled
+  deactivated = ! var.stack_destructor_enabled
 
   depends_on = [
     spacelift_mounted_file.stack_config,
