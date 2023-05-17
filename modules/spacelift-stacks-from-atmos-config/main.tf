@@ -29,7 +29,7 @@ locals {
     (
       (try(var.context_filters.root_administrative, null) == null) ||                                                              # If not set return all stacks
       (var.context_filters.root_administrative == false && lookup(v.settings.spacelift, "root_administrative", false) == false) || # if set to false return only non-root admin stacks
-      (var.context_filters.root_administrative == true && lookup(v.settings.spacelift, "root_administrative", false) == true)      # if set to true return only non-root admin stacks
+      (var.context_filters.root_administrative == true && lookup(v.settings.spacelift, "root_administrative", false) == true)      # if set to true return only root admin stacks
     ) &&
     (
       length(var.context_filters.tags) == 0 || (
