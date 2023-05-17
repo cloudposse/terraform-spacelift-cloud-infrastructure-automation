@@ -9,6 +9,7 @@ resource "spacelift_policy" "default" {
   space_id = var.attachment_space_id
 }
 
+
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
 module "spacelift_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
