@@ -60,17 +60,17 @@ locals {
       [
         for i in try(v.settings.spacelift.policies_enabled, var.policies_enabled) : (
           spacelift_policy.default[i].id
-        ) if ! contains(local.excluded_policies, i)
+        ) if !contains(local.excluded_policies, i)
       ],
       [
         for i in try(v.settings.spacelift.policies_by_name_enabled, var.policies_by_name_enabled) : (
           spacelift_policy.custom[i].id
-        ) if ! contains(local.excluded_policies, i)
+        ) if !contains(local.excluded_policies, i)
       ],
       [
         for i in try(v.settings.spacelift.policies_by_id_enabled, var.policies_by_id_enabled) : (
           i
-        ) if ! contains(local.excluded_policies, i)
+        ) if !contains(local.excluded_policies, i)
       ]
     )
   }

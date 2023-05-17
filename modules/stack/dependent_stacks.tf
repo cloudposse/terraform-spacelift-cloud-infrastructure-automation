@@ -5,7 +5,7 @@ locals {
   }
   depends_on_labels = try(local.map_of_labels_array["depends-on"], [])
   non_depends_on_labels = [
-    for label in var.labels : label if ! startswith(label, "depends-on:")
+    for label in var.labels : label if !startswith(label, "depends-on:")
   ]
 }
 
