@@ -22,14 +22,14 @@ locals {
     (length(var.context_filters.tenants) == 0 || contains(var.context_filters.tenants, lookup(v.vars, "tenant", ""))) &&
     (length(var.context_filters.stages) == 0 || contains(var.context_filters.stages, lookup(v.vars, "stage", ""))) &&
     (
-      (try(var.context_filters.administrative, null) == null) ||                                                         # If not set return all stacks
-      (var.context_filters.administrative == false && lookup(v.settings.spacelift, "administrative", false) == false) || # if set to false return only non-administrative stacks
-      (var.context_filters.administrative == true && lookup(v.settings.spacelift, "administrative", false) == true)      # if set to true return only administrative stacks
+      (try(var.context_filters.administrative, null) == null) ||                                                   # If not set return all stacks
+      (var.context_filters.administrative == false && try(v.settings.spacelift.administrative, false) == false) || # if set to false return only non-administrative stacks
+      (var.context_filters.administrative == true && try(v.settings.spacelift.administrative, false) == true)      # if set to true return only administrative stacks
     ) &&
     (
-      (try(var.context_filters.root_administrative, null) == null) ||                                                              # If not set return all stacks
-      (var.context_filters.root_administrative == false && lookup(v.settings.spacelift, "root_administrative", false) == false) || # if set to false return only non-root admin stacks
-      (var.context_filters.root_administrative == true && lookup(v.settings.spacelift, "root_administrative", false) == true)      # if set to true return only root admin stacks
+      (try(var.context_filters.root_administrative, null) == null) ||                                                        # If not set return all stacks
+      (var.context_filters.root_administrative == false && try(v.settings.spacelift.root_administrative, false) == false) || # if set to false return only non-root admin stacks
+      (var.context_filters.root_administrative == true && try(v.settings.spacelift.root_administrative, false) == true)      # if set to true return only root admin stacks
     ) &&
     (
       length(var.context_filters.tags) == 0 || (
