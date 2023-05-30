@@ -223,12 +223,6 @@ variable "manage_state" {
   default     = true
 }
 
-variable "parent_space_id" {
-  type        = string
-  description = "If creating a dedicated space for this stack, specify the ID of the parent space in Spacelift."
-  default     = null
-}
-
 variable "policy_ids" {
   type        = set(string)
   default     = []
