@@ -148,7 +148,7 @@ resource "spacelift_drift_detection" "this" {
   stack_id  = spacelift_stack.this[0].id
   reconcile = var.drift_detection_reconcile
   schedule  = var.drift_detection_schedule
-  timezone  = var.drift_detection_timezone ? var.drift_detection_timezone : null
+  timezone  = var.drift_detection_timezone
 }
 
 resource "spacelift_webhook" "this" {

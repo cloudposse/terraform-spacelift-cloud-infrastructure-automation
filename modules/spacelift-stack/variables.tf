@@ -196,7 +196,7 @@ variable "drift_detection_schedule" {
 variable "drift_detection_timezone" {
   type        = string
   description = "Timezone in which the schedule is expressed. Defaults to UTC."
-  default     = null
+  default     = "UTC"
 }
 
 variable "github_enterprise" {
