@@ -129,11 +129,11 @@ resource "spacelift_stack_destructor" "this" {
     spacelift_environment_variable.stack_name,
     spacelift_environment_variable.component_name,
     spacelift_environment_variable.component_env_vars,
-    spacelift_aws_role.default
+    spacelift_aws_role.this
   ]
 }
 
-resource "spacelift_aws_role" "default" {
+resource "spacelift_aws_role" "this" {
   count = local.aws_role_enabled ? 1 : 0
 
   stack_id                       = spacelift_stack.this[0].id
@@ -142,7 +142,7 @@ resource "spacelift_aws_role" "default" {
   generate_credentials_in_worker = var.aws_role_generate_credentials_in_worker
 }
 
-resource "spacelift_drift_detection" "default" {
+resource "spacelift_drift_detection" "this" {
   count = local.drift_detection_enabled ? 1 : 0
 
   stack_id  = spacelift_stack.this[0].id
@@ -151,7 +151,7 @@ resource "spacelift_drift_detection" "default" {
   timezone  = var.drift_detection_timezone ? var.drift_detection_timezone : null
 }
 
-resource "spacelift_webhook" "default" {
+resource "spacelift_webhook" "this" {
   count = local.webhook_enabled ? 1 : 0
 
   stack_id = spacelift_stack.this[0].id
@@ -159,8 +159,8 @@ resource "spacelift_webhook" "default" {
   secret   = var.webhook_secret
 }
 
-resource "spacelift_run" "default" {
-  count = var.enabled && var.spacelift_run_enabled ? 1 : 0
+resource "spacelift_run" "this" {
+  count = local.enabled && var.spacelift_run_enabled ? 1 : 0
 
   stack_id   = spacelift_stack.this[0].id
   commit_sha = var.commit_sha
