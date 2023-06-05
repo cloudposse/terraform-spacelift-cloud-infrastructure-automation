@@ -148,6 +148,7 @@ resource "spacelift_drift_detection" "default" {
   stack_id  = spacelift_stack.this[0].id
   reconcile = var.drift_detection_reconcile
   schedule  = var.drift_detection_schedule
+  timezone  = var.drift_detection_timezone ? var.drift_detection_timezone : null
 }
 
 resource "spacelift_webhook" "default" {
@@ -161,13 +162,13 @@ resource "spacelift_webhook" "default" {
 resource "spacelift_run" "default" {
   count = var.enabled && var.spacelift_run_enabled ? 1 : 0
 
-  stack_id   = spacelift_stack.default[0].id
+  stack_id   = spacelift_stack.this[0].id
   commit_sha = var.commit_sha
 
   depends_on = [
     spacelift_mounted_file.stack_config[0],
     spacelift_environment_variable.stack_name[0],
     spacelift_environment_variable.component_name[0],
-    spacelift_policy_attachment.default[0]
+    spacelift_policy_attachment.this[0]
   ]
 }

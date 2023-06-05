@@ -193,6 +193,12 @@ variable "drift_detection_schedule" {
   default     = ["0 4 * * *"]
 }
 
+variable "drift_detection_timezone" {
+  type        = string
+  description = "Timezone in which the schedule is expressed. Defaults to UTC."
+  default     = null
+}
+
 variable "github_enterprise" {
   type        = map(any)
   description = "GitHub Enterprise (self-hosted) VCS settings"
