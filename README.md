@@ -85,31 +85,6 @@ Available targets:
 
 ```
 <!-- markdownlint-restore -->
-<!-- markdownlint-disable -->
-## Requirements
-
-No requirements.
-
-## Providers
-
-No providers.
-
-## Modules
-
-No modules.
-
-## Resources
-
-No resources.
-
-## Inputs
-
-No inputs.
-
-## Outputs
-
-No outputs.
-<!-- markdownlint-restore -->
 
 
 
@@ -215,7 +190,7 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
 ## Copyrights
 
-Copyright © 2023-2023 [Cloud Posse, LLC](https://cloudposse.com)
+Copyright © 2021-2023 [Cloud Posse, LLC](https://cloudposse.com)
 
 
 
