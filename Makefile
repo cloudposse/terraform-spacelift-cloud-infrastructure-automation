@@ -15,6 +15,7 @@ readme:
 	$(MAKE) -C modules/spacelift-policy $@
 	$(MAKE) -C modules/spacelift-space $@
 	$(MAKE) -C modules/spacelift-stack $@
+	$(MAKE) -C modules/spacelift-stacks-from-atmos-config $@
 	$(MAKE) -f .build-harness $@
 
 .PHONY: docs/targets.md
@@ -22,6 +23,7 @@ docs/targets.md:
 	$(MAKE) -C modules/spacelift-policy $@
 	$(MAKE) -C modules/spacelift-space $@
 	$(MAKE) -C modules/spacelift-stack $@
+	$(MAKE) -C modules/spacelift-stacks-from-atmos-config $@
 	$(MAKE) -f .build-harness $@
 
 .PHONY: docs/terraform.md
@@ -29,4 +31,5 @@ docs/terraform.md:
 	$(MAKE) -C modules/spacelift-policy $@
 	$(MAKE) -C modules/spacelift-space $@
 	$(MAKE) -C modules/spacelift-stack $@
+	$(MAKE) -C modules/spacelift-stacks-from-atmos-config $@
 	$(MAKE) -f .build-harness $@
