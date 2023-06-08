@@ -117,7 +117,6 @@ module "inline_policy" {
     true
   }
   EOF
-
 ```
 
 
@@ -127,7 +126,6 @@ module "inline_policy" {
 
 Here is an example of using this module:
 - [`../../examples/spacelift-policy`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/tree/master/examples/spacelift-policy) - complete example of using this module
-```
 
 
 
