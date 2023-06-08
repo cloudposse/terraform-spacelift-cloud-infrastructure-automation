@@ -21,3 +21,16 @@ variable "stack_config_path_template" {
   description = "Stack config path template"
   default     = "stacks/%s.yaml"
 }
+
+variable "context_filters" {
+  type = object({
+    namespaces          = optional(list(string), [])
+    environments        = optional(list(string), [])
+    tenants             = optional(list(string), [])
+    stages              = optional(list(string), [])
+    tags                = optional(map(string), {})
+    administrative      = optional(bool)
+    root_administrative = optional(bool)
+  })
+  description = "Context filters to output stacks matching specific criteria."
+}
