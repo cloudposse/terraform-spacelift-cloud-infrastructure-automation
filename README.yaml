@@ -17,7 +17,7 @@ license: "APACHE2"
 copyrights:
   - name: "Cloud Posse, LLC"
     url: "https://cloudposse.com"
-    year: "2021"
+    year: "2023"
 
 # Canonical GitHub repo
 github_repo: cloudposse/terraform-spacelift-cloud-infrastructure-automation
@@ -77,7 +77,12 @@ references:
 
 # Short description of this project
 description: |-
-  Terraform module to provision [Spacelift](https://spacelift.io/) resources for cloud infrastructure automation.
+  This repo contains a set of Terraform modules for implementing a CI/CD pipeline for Terraform infrastructure using Spacelift.
+
+  - [spacelift-policy](./modules/spacelift-policy) - Terraform module for creating Spacelift policies.
+  - [spacelift-space](./modules/spacelift-space) - Terraform module for creating Spacelift spaces.
+  - [spacelift-stack](./modules/spacelift-stack) - Terraform module for creating Spacelift stacks.
+  - [spacelift-stacks-from-atmos-config](./modules/spacelift-stacks-from-atmos-config) - Terraform module for extracting Spacelift stack config from Atmos config.
 
 # Introduction to the project
 #introduction: |-
@@ -85,121 +90,10 @@ description: |-
 
 # How to use this module. Should be an easy example to copy and paste.
 
-usage: |-
-
-  The first step is to create a new infrastructure repository in GitHub and link it in Spacelift. You will want the `Project root`
-  of the infrastructure repository to point to the `top-level` project that contains the reference to this module. Beyond that,
-  you will also want to enable the `Administrative` and `Autodeploy` options in the configuration.
-
-  The `Administrative` option allows the top-level project and this module to create all other required configurations, such as stacks,
-  policies, and contexts.
-
-  Once you have the top-level project configured and ready, simply trigger it manually, or by pushing an update to the infrastructure
-  to Git.
-
-  Here's how to invoke this module in your project:
-
-  ```hcl
-  provider "spacelift" {}
-
-  module "spacelift" {
-    source  = "cloudposse/cloud-infrastructure-automation/spacelift"
-    # Cloud Posse recommends pinning every module to a specific version
-    # version     = "x.x.x"
-
-    stack_config_path_template = var.stack_config_path_template
-    components_path            = var.spacelift_component_path
-
-    branch                = "main"
-    repository            = var.git_repository
-    commit_sha            = var.git_commit_sha
-    spacelift_run_enabled = false
-    runner_image          = var.runner_image
-    worker_pool_id        = var.worker_pool_id
-    autodeploy            = var.autodeploy
-    manage_state          = false
-
-    terraform_version     = var.terraform_version
-    terraform_version_map = var.terraform_version_map
-
-    imports_processing_enabled        = false
-    stack_deps_processing_enabled     = false
-    component_deps_processing_enabled = true
-
-    policies_available     = var.policies_available
-    policies_enabled       = var.policies_enabled
-    policies_by_id_enabled = []
-    policies_by_name_path  = format("%s/rego-policies", path.module)
-
-    administrative_stack_drift_detection_enabled   = true
-    administrative_stack_drift_detection_reconcile = true
-    administrative_stack_drift_detection_schedule  = ["0 4 * * *"]
-
-    drift_detection_enabled   = true
-    drift_detection_reconcile = true
-    drift_detection_schedule  = ["0 4 * * *"]
-
-    aws_role_enabled                        = false
-    aws_role_arn                            = null
-    aws_role_external_id                    = null
-    aws_role_generate_credentials_in_worker = false
-
-    stack_destructor_enabled = false
-  }
-  ```
-
-  **IMPORTANT:** Be sure to set the `manage_state` value from the start, otherwise changing this value after deploying a stack may cause resources to be orphaned!
+# usage: |-
 
 # Example usage
-examples: |-
-  Here is an example of using this module:
-  - [`examples/complete`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/) - complete example of using this module
-
-  We use YAML for the configuration files in order to separate configuration settings from business logic. It's also a portable format that can be used across multiple tools. Our convention is to name files by `$env-$stage.yaml` (e.g. `ue2-testing.yaml`), so for example an `$env` could be `ue2` (for `us-east-2`) and the `$stage` might be `testing`. Workspace names are derived from the `$env-$stage-$component`, which looks like  `ue2-testing-eks`.
-
-  ```yaml
-  # Components are all the top-level root modules
-  components:
-    # Globals are exported as TF_VAR_... environment variables in every workspace
-    globals:
-      # Used to determine the name of the workspace (e.g. the 'testing' in 'ue2-testing')
-      stage: testing
-      # Used to determine the name of the workspace (e.g. the 'ue2' in 'ue2-testing')
-      environment: ue2
-    # The configuration file format is designed to be used across multiple tools.
-    # All terraform components should be listed under this section.
-    terraform:
-      # List one or more Terraform components here
-      first-component:
-        # Controls whether or not this workspace should be created
-        # NOTE: If set to 'false', you cannot reference this workspace via `triggers` in another workspace!
-        workspace_enabled: true
-        # Override the version of Terraform for this workspace (defaults to the latest in Spacelift)
-        terraform_version: 0.13.4
-        # Controls the `auto_apply` setting within this workspace
-        auto_apply: true
-        # Add extra 'Run Triggers' to this workspace, beyond the parent workspace, which is created by default
-        # These triggers mean this component workspace will be automatically planned if any of these workspaces are applied.
-        triggers:
-          - uw2-testing-example2
-          - gbl-root-example1
-        # Set the Terraform input variable values for this component. Complex types like maps and lists are supported.
-        vars:
-          my_input_var: "Hello world! This is a value that needs to be passed to my `first-component` Terraform component."
-      # Every component should be uniquely named and correspond to a folder in the `components/` directory
-      second-component:
-        workspace_enabled: true
-        # Specify a custom component folder (defalts to the component name if not specified)
-        custom_component_folder: my-custom-component-folder
-        vars:
-          my_input_var: "Hello world! This is another example!"
-  ```
-
-  Additionally, you must have a `globals.yaml` present in the `config` folder, which contains environment variables that will be applied to all stacks.
-
-# How to get started quickly
-#quickstart: |-
-#  Here's how to get started...
+# examples: |-
 
 # Other files to include in this README from the project folder
 include:
@@ -218,4 +112,6 @@ contributors:
     github: "nitrocode"
   - name: "Yonatan Koren"
     github: "korenyoni"
+  - name: "Matt Calhoun"
+    github: "mcalhoun"
 
