@@ -96,9 +96,9 @@ description: |-
 # examples: |-
 
 # Other files to include in this README from the project folder
-include:
-  - "docs/targets.md"
-  # - "docs/terraform.md"
+#include:
+#  - "docs/targets.md"
+#  - "docs/terraform.md"
 
 # Contributors to this project
 contributors:
