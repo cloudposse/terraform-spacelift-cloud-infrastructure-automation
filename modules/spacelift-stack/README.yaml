@@ -5,7 +5,7 @@
 #
 
 # Name of this project
-name: terraform-spacelift-cloud-infrastructure-automation
+name: spacelift-stack
 
 # Logo for this project
 #logo: docs/logo.png
@@ -17,7 +17,7 @@ license: "APACHE2"
 copyrights:
   - name: "Cloud Posse, LLC"
     url: "https://cloudposse.com"
-    year: "2021"
+    year: "2023"
 
 # Canonical GitHub repo
 github_repo: cloudposse/terraform-spacelift-cloud-infrastructure-automation
@@ -40,17 +40,6 @@ badges:
 #     description:
 #     url:
 
-related:
-  - name: "terraform-provider-utils"
-    description: "The Cloud Posse Terraform Provider for various utilities."
-    url: "https://github.com/cloudposse/terraform-provider-utils"
-  - name: "terraform-yaml-stack-config"
-    description: "Terraform module that loads an opinionated stack configuration from local or remote YAML sources. It supports deep-merged variables, settings, ENV variables, backend config, and remote state outputs for Terraform and helmfile components."
-    url: "https://github.com/cloudposse/terraform-yaml-stack-config"
-  - name: "terraform-yaml-config"
-    description: "Terraform module to convert local and remote YAML configuration templates into Terraform lists and maps."
-    url: "https://github.com/cloudposse/terraform-yaml-config"
-
 # List any resources helpful for someone to get started. For example, link to the hashicorp documentation or AWS documentation.
 references:
   - name: "Terraform Version Pinning"
@@ -63,7 +52,7 @@ references:
     description: "Official documentation site for Spacelift"
     url: "https://docs.spacelift.io/"
   - name: "Open Policy Agent"
-    description: "Policy-based control for cloud-native environments"
+    description: "Policy-based control for cloud native environments"
     url: "https://www.openpolicyagent.org/"
   - name: "OPA Documentation"
     description: "Open Policy Agent Documentation"
@@ -77,41 +66,45 @@ references:
 
 # Short description of this project
 description: |-
-  This repo contains a set of Terraform modules for implementing a CI/CD pipeline for Terraform infrastructure using Spacelift.
-
-  - [spacelift-policy](./modules/spacelift-policy) - Terraform module for creating Spacelift policies.
-  - [spacelift-space](./modules/spacelift-space) - Terraform module for creating Spacelift spaces.
-  - [spacelift-stack](./modules/spacelift-stack) - Terraform module for creating Spacelift stacks.
-  - [spacelift-stacks-from-atmos-config](./modules/spacelift-stacks-from-atmos-config) - Terraform module for extracting Spacelift stack config from Atmos config.
-
+  Terraform module to provisions a [Spacelift](https://docs.spacelift.io/concepts/spaces/index.html) space.
 # Introduction to the project
 #introduction: |-
 #  This is an introduction.
 
-# How to use this module. Should be an easy example to copy and paste.
+usage: |-
+  Here's how to invoke this module in your project:
+  ```hcl
+  provider "spacelift" {}
 
-# usage: |-
+  module "stack" {
+    source  = "cloudposse/cloud-infrastructure-automation/spacelift//modules/spacelift-space"
+    # Cloud Posse recommends pinning every module to a specific version
+    # version     = "x.x.x"
 
+    atmos_stack_name  = "plat-ue1-prod-test-component"
+    stack_name        = "plat-ue1-prod-test-component"
+    component_name    = "test-component"
+    component_root    = "examples/test-component"
+    repository        = "spacelift-demo"
+    branch            = "main"
+    autodeploy        = true
+    terraform_version = "1.4.6"
+  ```
 # Example usage
-# examples: |-
+examples: |-
+  Here is an example of using this module:
+  - [`../../examples/spacelift-stack`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/tree/master/examples/spacelift-stack) - complete example of using this module
+
+# How to get started quickly
+#quickstart: |-
+#  Here's how to get started...
 
 # Other files to include in this README from the project folder
-#include:
-#  - "docs/targets.md"
-#  - "docs/terraform.md"
+include:
+  - "docs/targets.md"
+  - "docs/terraform.md"
 
 # Contributors to this project
 contributors:
-  - name: "Erik Osterman"
-    github: "osterman"
-  - name: "Dan Meyers"
-    github: "danjbh"
-  - name: "Andriy Knysh"
-    github: "aknysh"
-  - name: "RB"
-    github: "nitrocode"
-  - name: "Yonatan Koren"
-    github: "korenyoni"
   - name: "Matt Calhoun"
     github: "mcalhoun"
-

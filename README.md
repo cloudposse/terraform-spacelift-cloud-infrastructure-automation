@@ -30,7 +30,12 @@
 
 -->
 
-Terraform module to provision [Spacelift](https://spacelift.io/) resources for cloud infrastructure automation.
+This repo contains a set of Terraform modules for implementing a CI/CD pipeline for Terraform infrastructure using Spacelift.
+
+- [spacelift-policy](./modules/spacelift-policy) - Terraform module for creating Spacelift policies.
+- [spacelift-space](./modules/spacelift-space) - Terraform module for creating Spacelift spaces.
+- [spacelift-stack](./modules/spacelift-stack) - Terraform module for creating Spacelift stacks.
+- [spacelift-stacks-from-atmos-config](./modules/spacelift-stacks-from-atmos-config) - Terraform module for extracting Spacelift stack config from Atmos config.
 
 ---
 
@@ -43,8 +48,6 @@ This project is part of our comprehensive ["SweetOps"](https://cpco.io/sweetops)
 [<img align="right" title="Share on Twitter" src="https://docs.cloudposse.com/images/ionicons/social-twitter-outline-2.0.1-16x16-999999.svg" />][share_twitter]
 
 
-[![Terraform Open Source Modules](https://docs.cloudposse.com/images/terraform-open-source-modules.svg)][terraform_modules]
-
 
 
 It's 100% Open Source and licensed under the [APACHE2](LICENSE).
@@ -55,306 +58,20 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 
 
 
-We literally have [*hundreds of terraform modules*][terraform_modules] that are Open Source and well-maintained. Check them out!
 
 
 
 
 
 
-## Security & Compliance [<img src="https://cloudposse.com/wp-content/uploads/2020/11/bridgecrew.svg" width="250" align="right" />](https://bridgecrew.io/)
-
-Security scanning is graciously provided by Bridgecrew. Bridgecrew is the leading fully hosted, cloud-native solution providing continuous Terraform security and compliance.
-
-| Benchmark | Description |
-|--------|---------------|
-| [![Infrastructure Security](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=INFRASTRUCTURE+SECURITY) | Infrastructure Security Compliance |
-| [![CIS KUBERNETES](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/cis_kubernetes)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=CIS+KUBERNETES+V1.5) | Center for Internet Security, KUBERNETES Compliance |
-| [![CIS AWS](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/cis_aws)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=CIS+AWS+V1.2) | Center for Internet Security, AWS Compliance |
-| [![CIS AZURE](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/cis_azure)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=CIS+AZURE+V1.1) | Center for Internet Security, AZURE Compliance |
-| [![PCI-DSS](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/pci)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=PCI-DSS+V3.2) | Payment Card Industry Data Security Standards Compliance |
-| [![NIST-800-53](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/nist)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=NIST-800-53) | National Institute of Standards and Technology Compliance |
-| [![ISO27001](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/iso)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=ISO27001) | Information Security Management System, ISO/IEC 27001 Compliance |
-| [![SOC2](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/soc2)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=SOC2)| Service Organization Control 2 Compliance |
-| [![CIS GCP](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/cis_gcp)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=CIS+GCP+V1.1) | Center for Internet Security, GCP Compliance |
-| [![HIPAA](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/hipaa)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=HIPAA) | Health Insurance Portability and Accountability Compliance |
-
-
-
-## Usage
-
-
-**IMPORTANT:** We do not pin modules to versions in our examples because of the
-difficulty of keeping the versions in the documentation in sync with the latest released versions.
-We highly recommend that in your code you pin the version to the exact version you are
-using so that your infrastructure remains stable, and update versions in a
-systematic way so that they do not catch you by surprise.
-
-Also, because of a bug in the Terraform registry ([hashicorp/terraform#21417](https://github.com/hashicorp/terraform/issues/21417)),
-the registry shows many of our inputs as required when in fact they are optional.
-The table below correctly indicates which inputs are required.
-
-
-
-The first step is to create a new infrastructure repository in GitHub and link it in Spacelift. You will want the `Project root`
-of the infrastructure repository to point to the `top-level` project that contains the reference to this module. Beyond that,
-you will also want to enable the `Administrative` and `Autodeploy` options in the configuration.
-
-The `Administrative` option allows the top-level project and this module to create all other required configurations, such as stacks,
-policies, and contexts.
-
-Once you have the top-level project configured and ready, simply trigger it manually, or by pushing an update to the infrastructure
-to Git.
-
-Here's how to invoke this module in your project:
-
-```hcl
-provider "spacelift" {}
-
-module "spacelift" {
-  source  = "cloudposse/cloud-infrastructure-automation/spacelift"
-  # Cloud Posse recommends pinning every module to a specific version
-  # version     = "x.x.x"
-
-  stack_config_path_template = var.stack_config_path_template
-  components_path            = var.spacelift_component_path
-
-  branch                = "main"
-  repository            = var.git_repository
-  commit_sha            = var.git_commit_sha
-  spacelift_run_enabled = false
-  runner_image          = var.runner_image
-  worker_pool_id        = var.worker_pool_id
-  autodeploy            = var.autodeploy
-  manage_state          = false
-
-  terraform_version     = var.terraform_version
-  terraform_version_map = var.terraform_version_map
-
-  imports_processing_enabled        = false
-  stack_deps_processing_enabled     = false
-  component_deps_processing_enabled = true
-
-  policies_available     = var.policies_available
-  policies_enabled       = var.policies_enabled
-  policies_by_id_enabled = []
-  policies_by_name_path  = format("%s/rego-policies", path.module)
-
-  administrative_stack_drift_detection_enabled   = true
-  administrative_stack_drift_detection_reconcile = true
-  administrative_stack_drift_detection_schedule  = ["0 4 * * *"]
-
-  drift_detection_enabled   = true
-  drift_detection_reconcile = true
-  drift_detection_schedule  = ["0 4 * * *"]
-
-  aws_role_enabled                        = false
-  aws_role_arn                            = null
-  aws_role_external_id                    = null
-  aws_role_generate_credentials_in_worker = false
-
-  stack_destructor_enabled = false
-}
-```
-
-**IMPORTANT:** Be sure to set the `manage_state` value from the start, otherwise changing this value after deploying a stack may cause resources to be orphaned!
 
 
 
 
-## Examples
-
-Here is an example of using this module:
-- [`examples/complete`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/) - complete example of using this module
-
-We use YAML for the configuration files in order to separate configuration settings from business logic. It's also a portable format that can be used across multiple tools. Our convention is to name files by `$env-$stage.yaml` (e.g. `ue2-testing.yaml`), so for example an `$env` could be `ue2` (for `us-east-2`) and the `$stage` might be `testing`. Workspace names are derived from the `$env-$stage-$component`, which looks like  `ue2-testing-eks`.
-
-```yaml
-# Components are all the top-level root modules
-components:
-  # Globals are exported as TF_VAR_... environment variables in every workspace
-  globals:
-    # Used to determine the name of the workspace (e.g. the 'testing' in 'ue2-testing')
-    stage: testing
-    # Used to determine the name of the workspace (e.g. the 'ue2' in 'ue2-testing')
-    environment: ue2
-  # The configuration file format is designed to be used across multiple tools.
-  # All terraform components should be listed under this section.
-  terraform:
-    # List one or more Terraform components here
-    first-component:
-      # Controls whether or not this workspace should be created
-      # NOTE: If set to 'false', you cannot reference this workspace via `triggers` in another workspace!
-      workspace_enabled: true
-      # Override the version of Terraform for this workspace (defaults to the latest in Spacelift)
-      terraform_version: 0.13.4
-      # Controls the `auto_apply` setting within this workspace
-      auto_apply: true
-      # Add extra 'Run Triggers' to this workspace, beyond the parent workspace, which is created by default
-      # These triggers mean this component workspace will be automatically planned if any of these workspaces are applied.
-      triggers:
-        - uw2-testing-example2
-        - gbl-root-example1
-      # Set the Terraform input variable values for this component. Complex types like maps and lists are supported.
-      vars:
-        my_input_var: "Hello world! This is a value that needs to be passed to my `first-component` Terraform component."
-    # Every component should be uniquely named and correspond to a folder in the `components/` directory
-    second-component:
-      workspace_enabled: true
-      # Specify a custom component folder (defalts to the component name if not specified)
-      custom_component_folder: my-custom-component-folder
-      vars:
-        my_input_var: "Hello world! This is another example!"
-```
-
-Additionally, you must have a `globals.yaml` present in the `config` folder, which contains environment variables that will be applied to all stacks.
 
 
 
-<!-- markdownlint-disable -->
-## Makefile Targets
-```text
-Available targets:
 
-  help                                Help screen
-  help/all                            Display help for all targets
-  help/short                          This help short screen
-  lint                                Lint terraform code
-
-```
-<!-- markdownlint-restore -->
-<!-- markdownlint-disable -->
-## Requirements
-
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
-| <a name="requirement_spacelift"></a> [spacelift](#requirement\_spacelift) | >= 0.1.27 |
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | >= 0.1.27 |
-
-## Modules
-
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_spacelift_config"></a> [spacelift\_config](#module\_spacelift\_config) | cloudposse/stack-config/yaml//modules/spacelift | 0.22.3 |
-| <a name="module_stacks"></a> [stacks](#module\_stacks) | ./modules/stack | n/a |
-| <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.25.0 |
-
-## Resources
-
-| Name | Type |
-|------|------|
-| [spacelift_context.default](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/context) | resource |
-| [spacelift_drift_detection.drift_detection_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/drift_detection) | resource |
-| [spacelift_environment_variable.default](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/environment_variable) | resource |
-| [spacelift_policy.custom](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
-| [spacelift_policy.default](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
-| [spacelift_policy.push_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
-| [spacelift_policy.trigger_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
-| [spacelift_policy_attachment.push_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy_attachment) | resource |
-| [spacelift_policy_attachment.trigger_administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy_attachment) | resource |
-| [spacelift_current_space.administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/data-sources/current_space) | data source |
-| [spacelift_current_stack.administrative](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/data-sources/current_stack) | data source |
-
-## Inputs
-
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_additional_tag_map"></a> [additional\_tag\_map](#input\_additional\_tag\_map) | Additional key-value pairs to add to each map in `tags_as_list_of_maps`. Not added to `tags` or `id`.<br>This is for some rare cases where resources want additional configuration of tags<br>and therefore take a list of maps with tag key, value, and additional configuration. | `map(string)` | `{}` | no |
-| <a name="input_admin_labels"></a> [admin\_labels](#input\_admin\_labels) | A list of labels for admin stacks | `list(string)` | `[]` | no |
-| <a name="input_administrative"></a> [administrative](#input\_administrative) | Whether this stack can manage other stacks | `bool` | `false` | no |
-| <a name="input_administrative_push_policy_enabled"></a> [administrative\_push\_policy\_enabled](#input\_administrative\_push\_policy\_enabled) | Flag to enable/disable the global administrative push policy | `bool` | `true` | no |
-| <a name="input_administrative_stack_drift_detection_enabled"></a> [administrative\_stack\_drift\_detection\_enabled](#input\_administrative\_stack\_drift\_detection\_enabled) | Flag to enable/disable administrative stack drift detection | `bool` | `true` | no |
-| <a name="input_administrative_stack_drift_detection_reconcile"></a> [administrative\_stack\_drift\_detection\_reconcile](#input\_administrative\_stack\_drift\_detection\_reconcile) | Flag to enable/disable administrative stack drift automatic reconciliation. If drift is detected and `reconcile` is turned on, Spacelift will create a tracked run to correct the drift | `bool` | `true` | no |
-| <a name="input_administrative_stack_drift_detection_schedule"></a> [administrative\_stack\_drift\_detection\_schedule](#input\_administrative\_stack\_drift\_detection\_schedule) | List of cron expressions to schedule drift detection for the administrative stack | `list(string)` | <pre>[<br>  "0 4 * * *"<br>]</pre> | no |
-| <a name="input_administrative_trigger_policy_enabled"></a> [administrative\_trigger\_policy\_enabled](#input\_administrative\_trigger\_policy\_enabled) | Flag to enable/disable the global administrative trigger policy | `bool` | `true` | no |
-| <a name="input_after_apply"></a> [after\_apply](#input\_after\_apply) | List of after-apply scripts | `list(string)` | `[]` | no |
-| <a name="input_after_destroy"></a> [after\_destroy](#input\_after\_destroy) | List of after-destroy scripts | `list(string)` | `[]` | no |
-| <a name="input_after_init"></a> [after\_init](#input\_after\_init) | List of after-init scripts | `list(string)` | `[]` | no |
-| <a name="input_after_perform"></a> [after\_perform](#input\_after\_perform) | List of after-perform scripts | `list(string)` | `[]` | no |
-| <a name="input_after_plan"></a> [after\_plan](#input\_after\_plan) | List of after-plan scripts | `list(string)` | `[]` | no |
-| <a name="input_attachment_space_id"></a> [attachment\_space\_id](#input\_attachment\_space\_id) | Specify the space ID for attachments (e.g. policies, contexts, etc.) | `string` | `"legacy"` | no |
-| <a name="input_attributes"></a> [attributes](#input\_attributes) | ID element. Additional attributes (e.g. `workers` or `cluster`) to add to `id`,<br>in the order they appear in the list. New attributes are appended to the<br>end of the list. The elements of the list are joined by the `delimiter`<br>and treated as a single ID element. | `list(string)` | `[]` | no |
-| <a name="input_autodeploy"></a> [autodeploy](#input\_autodeploy) | Autodeploy global setting for Spacelift stacks. This setting can be overidden in stack-level configuration) | `bool` | `false` | no |
-| <a name="input_aws_role_arn"></a> [aws\_role\_arn](#input\_aws\_role\_arn) | ARN of the AWS IAM role to assume and put its temporary credentials in the runtime environment | `string` | `null` | no |
-| <a name="input_aws_role_enabled"></a> [aws\_role\_enabled](#input\_aws\_role\_enabled) | Flag to enable/disable Spacelift to use AWS STS to assume the supplied IAM role and put its temporary credentials in the runtime environment | `bool` | `false` | no |
-| <a name="input_aws_role_external_id"></a> [aws\_role\_external\_id](#input\_aws\_role\_external\_id) | Custom external ID (works only for private workers). See https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html for more details | `string` | `null` | no |
-| <a name="input_aws_role_generate_credentials_in_worker"></a> [aws\_role\_generate\_credentials\_in\_worker](#input\_aws\_role\_generate\_credentials\_in\_worker) | Flag to enable/disable generating AWS credentials in the private worker after assuming the supplied IAM role | `bool` | `true` | no |
-| <a name="input_before_apply"></a> [before\_apply](#input\_before\_apply) | List of before-apply scripts | `list(string)` | `[]` | no |
-| <a name="input_before_destroy"></a> [before\_destroy](#input\_before\_destroy) | List of before-destroy scripts | `list(string)` | `[]` | no |
-| <a name="input_before_init"></a> [before\_init](#input\_before\_init) | List of before-init scripts | `list(string)` | `[]` | no |
-| <a name="input_before_perform"></a> [before\_perform](#input\_before\_perform) | List of before-perform scripts | `list(string)` | `[]` | no |
-| <a name="input_before_plan"></a> [before\_plan](#input\_before\_plan) | List of before-plan scripts | `list(string)` | `[]` | no |
-| <a name="input_branch"></a> [branch](#input\_branch) | Specify which branch to use within your infrastructure repo | `string` | `"main"` | no |
-| <a name="input_commit_sha"></a> [commit\_sha](#input\_commit\_sha) | The commit SHA for which to trigger a run. Requires `var.spacelift_run_enabled` to be set to `true` | `string` | `null` | no |
-| <a name="input_component_deps_processing_enabled"></a> [component\_deps\_processing\_enabled](#input\_component\_deps\_processing\_enabled) | Boolean flag to enable/disable processing stack config dependencies for the components in the provided stack | `bool` | `true` | no |
-| <a name="input_components_path"></a> [components\_path](#input\_components\_path) | The relative pathname for where all components reside | `string` | `"components"` | no |
-| <a name="input_context"></a> [context](#input\_context) | Single object for setting entire context at once.<br>See description of individual variables for details.<br>Leave string and numeric variables as `null` to use default value.<br>Individual variable settings (non-null) override settings in context object,<br>except for attributes, tags, and additional\_tag\_map, which are merged. | `any` | <pre>{<br>  "additional_tag_map": {},<br>  "attributes": [],<br>  "delimiter": null,<br>  "descriptor_formats": {},<br>  "enabled": true,<br>  "environment": null,<br>  "id_length_limit": null,<br>  "label_key_case": null,<br>  "label_order": [],<br>  "label_value_case": null,<br>  "labels_as_tags": [<br>    "unset"<br>  ],<br>  "name": null,<br>  "namespace": null,<br>  "regex_replace_chars": null,<br>  "stage": null,<br>  "tags": {},<br>  "tenant": null<br>}</pre> | no |
-| <a name="input_context_attachments"></a> [context\_attachments](#input\_context\_attachments) | A list of context IDs to attach to all stacks administered by this module | `list(string)` | `[]` | no |
-| <a name="input_context_filters"></a> [context\_filters](#input\_context\_filters) | Context filters to create stacks for specific context information. Valid lists are for `namespaces`, `environments`, `tenants`, `stages` and a valid map is for `tags`. | `any` | `{}` | no |
-| <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between ID elements.<br>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
-| <a name="input_descriptor_formats"></a> [descriptor\_formats](#input\_descriptor\_formats) | Describe additional descriptors to be output in the `descriptors` output map.<br>Map of maps. Keys are names of descriptors. Values are maps of the form<br>`{<br>   format = string<br>   labels = list(string)<br>}`<br>(Type is `any` so the map values can later be enhanced to provide additional options.)<br>`format` is a Terraform format string to be passed to the `format()` function.<br>`labels` is a list of labels, in order, to pass to `format()` function.<br>Label values will be normalized before being passed to `format()` so they will be<br>identical to how they appear in `id`.<br>Default is `{}` (`descriptors` output will be empty). | `any` | `{}` | no |
-| <a name="input_drift_detection_enabled"></a> [drift\_detection\_enabled](#input\_drift\_detection\_enabled) | Flag to enable/disable drift detection on the infrastructure stacks | `bool` | `false` | no |
-| <a name="input_drift_detection_reconcile"></a> [drift\_detection\_reconcile](#input\_drift\_detection\_reconcile) | Flag to enable/disable infrastructure stacks drift automatic reconciliation. If drift is detected and `reconcile` is turned on, Spacelift will create a tracked run to correct the drift | `bool` | `false` | no |
-| <a name="input_drift_detection_schedule"></a> [drift\_detection\_schedule](#input\_drift\_detection\_schedule) | List of cron expressions to schedule drift detection for the infrastructure stacks | `list(string)` | <pre>[<br>  "0 4 * * *"<br>]</pre> | no |
-| <a name="input_enabled"></a> [enabled](#input\_enabled) | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
-| <a name="input_external_execution"></a> [external\_execution](#input\_external\_execution) | Set this to true if you're calling this module from outside of a Spacelift stack (e.g. the `complete` example) | `bool` | `false` | no |
-| <a name="input_id_length_limit"></a> [id\_length\_limit](#input\_id\_length\_limit) | Limit `id` to this many characters (minimum 6).<br>Set to `0` for unlimited length.<br>Set to `null` for keep the existing setting, which defaults to `0`.<br>Does not affect `id_full`. | `number` | `null` | no |
-| <a name="input_imports_processing_enabled"></a> [imports\_processing\_enabled](#input\_imports\_processing\_enabled) | Enable/disable processing stack imports | `bool` | `false` | no |
-| <a name="input_infracost_enabled"></a> [infracost\_enabled](#input\_infracost\_enabled) | Flag to enable/disable infracost. If this is enabled, it will add infracost label to each stack. See [spacelift infracost](https://docs.spacelift.io/vendors/terraform/infracost) docs for more details. | `bool` | `false` | no |
-| <a name="input_label_key_case"></a> [label\_key\_case](#input\_label\_key\_case) | Controls the letter case of the `tags` keys (label names) for tags generated by this module.<br>Does not affect keys of tags passed in via the `tags` input.<br>Possible values: `lower`, `title`, `upper`.<br>Default value: `title`. | `string` | `null` | no |
-| <a name="input_label_order"></a> [label\_order](#input\_label\_order) | The order in which the labels (ID elements) appear in the `id`.<br>Defaults to ["namespace", "environment", "stage", "name", "attributes"].<br>You can omit any of the 6 labels ("tenant" is the 6th), but at least one must be present. | `list(string)` | `null` | no |
-| <a name="input_label_value_case"></a> [label\_value\_case](#input\_label\_value\_case) | Controls the letter case of ID elements (labels) as included in `id`,<br>set as tag values, and output by this module individually.<br>Does not affect values of tags passed in via the `tags` input.<br>Possible values: `lower`, `title`, `upper` and `none` (no transformation).<br>Set this to `title` and set `delimiter` to `""` to yield Pascal Case IDs.<br>Default value: `lower`. | `string` | `null` | no |
-| <a name="input_labels"></a> [labels](#input\_labels) | A list of labels for all stacks | `list(string)` | `[]` | no |
-| <a name="input_labels_as_tags"></a> [labels\_as\_tags](#input\_labels\_as\_tags) | Set of labels (ID elements) to include as tags in the `tags` output.<br>Default is to include all labels.<br>Tags with empty values will not be included in the `tags` output.<br>Set to `[]` to suppress all generated tags.<br>**Notes:**<br>  The value of the `name` tag, if included, will be the `id`, not the `name`.<br>  Unlike other `null-label` inputs, the initial setting of `labels_as_tags` cannot be<br>  changed in later chained modules. Attempts to change it will be silently ignored. | `set(string)` | <pre>[<br>  "default"<br>]</pre> | no |
-| <a name="input_local_preview_enabled"></a> [local\_preview\_enabled](#input\_local\_preview\_enabled) | Indicates whether local preview runs can be triggered on this Stack | `bool` | `false` | no |
-| <a name="input_manage_state"></a> [manage\_state](#input\_manage\_state) | Global flag to enable/disable manage\_state settings for all project stacks | `bool` | `true` | no |
-| <a name="input_name"></a> [name](#input\_name) | ID element. Usually the component or solution name, e.g. 'app' or 'jenkins'.<br>This is the only ID element not also included as a `tag`.<br>The "name" tag is set to the full `id` string. There is no tag with the value of the `name` input. | `string` | `null` | no |
-| <a name="input_namespace"></a> [namespace](#input\_namespace) | ID element. Usually an abbreviation of your organization name, e.g. 'eg' or 'cp', to help ensure generated IDs are globally unique | `string` | `null` | no |
-| <a name="input_non_admin_labels"></a> [non\_admin\_labels](#input\_non\_admin\_labels) | A list of labels for non-admin stacks | `list(string)` | `[]` | no |
-| <a name="input_policies_available"></a> [policies\_available](#input\_policies\_available) | List of available default policies to create in Spacelift (these policies will not be attached to Spacelift stacks by default, use `var.policies_enabled`) | `list(string)` | <pre>[<br>  "access.default",<br>  "git_push.proposed-run",<br>  "git_push.tracked-run",<br>  "plan.default",<br>  "trigger.dependencies",<br>  "trigger.retries"<br>]</pre> | no |
-| <a name="input_policies_by_id_enabled"></a> [policies\_by\_id\_enabled](#input\_policies\_by\_id\_enabled) | List of existing policy IDs to attach to all Spacelift stacks. These policies must be created outside of this module | `list(string)` | `[]` | no |
-| <a name="input_policies_by_name_enabled"></a> [policies\_by\_name\_enabled](#input\_policies\_by\_name\_enabled) | List of existing policy names to attach to all Spacelift stacks. These policies must be created outside of this module | `list(string)` | `[]` | no |
-| <a name="input_policies_by_name_path"></a> [policies\_by\_name\_path](#input\_policies\_by\_name\_path) | Path to the catalog of external Rego policies. The Rego files must exist in the caller's code at the path. The module will create Spacelift policies from the external Rego definitions | `string` | `""` | no |
-| <a name="input_policies_enabled"></a> [policies\_enabled](#input\_policies\_enabled) | List of default policies to attach to all Spacelift stacks | `list(string)` | <pre>[<br>  "git_push.proposed-run",<br>  "git_push.tracked-run",<br>  "plan.default",<br>  "trigger.dependencies"<br>]</pre> | no |
-| <a name="input_policies_path"></a> [policies\_path](#input\_policies\_path) | Path to the catalog of default policies | `string` | `"catalog/policies"` | no |
-| <a name="input_protect_from_deletion"></a> [protect\_from\_deletion](#input\_protect\_from\_deletion) | Flag to enable/disable deletion protection. | `bool` | `false` | no |
-| <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Terraform regular expression (regex) string.<br>Characters matching the regex will be removed from the ID elements.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
-| <a name="input_repository"></a> [repository](#input\_repository) | The name of your infrastructure repo | `string` | n/a | yes |
-| <a name="input_runner_image"></a> [runner\_image](#input\_runner\_image) | The full image name and tag of the Docker image to use in Spacelift | `string` | `null` | no |
-| <a name="input_spacelift_run_enabled"></a> [spacelift\_run\_enabled](#input\_spacelift\_run\_enabled) | Enable/disable creation of the `spacelift_run` resource | `bool` | `false` | no |
-| <a name="input_spacelift_stack_dependency_enabled"></a> [spacelift\_stack\_dependency\_enabled](#input\_spacelift\_stack\_dependency\_enabled) | If enabled, the `spacelift_stack_dependency` Spacelift resource will be used to create dependencies between stacks instead of using the `depends-on` labels. The `depends-on` labels will be removed from the stacks and the trigger policies for dependencies will be detached | `bool` | `false` | no |
-| <a name="input_stack_config_path_template"></a> [stack\_config\_path\_template](#input\_stack\_config\_path\_template) | Stack config path template | `string` | `"stacks/%s.yaml"` | no |
-| <a name="input_stack_context_description"></a> [stack\_context\_description](#input\_stack\_context\_description) | Description of global stack context | `string` | `"Stack context description"` | no |
-| <a name="input_stack_context_name"></a> [stack\_context\_name](#input\_stack\_context\_name) | Name of global stack context | `string` | `"Stack context"` | no |
-| <a name="input_stack_context_variables"></a> [stack\_context\_variables](#input\_stack\_context\_variables) | Map of variables to create a global context attached to each stack | `map(string)` | `{}` | no |
-| <a name="input_stack_deps_processing_enabled"></a> [stack\_deps\_processing\_enabled](#input\_stack\_deps\_processing\_enabled) | Boolean flag to enable/disable processing all stack dependencies in the provided stack | `bool` | `false` | no |
-| <a name="input_stack_destructor_enabled"></a> [stack\_destructor\_enabled](#input\_stack\_destructor\_enabled) | Flag to enable/disable the stack destructor to destroy the resources of a stack before deleting the stack itself | `bool` | `false` | no |
-| <a name="input_stacks_space_id"></a> [stacks\_space\_id](#input\_stacks\_space\_id) | Override the space ID for all stacks (unless the stack config has `dedicated_space` set to true). Otherwise, it will default to the admin stack's space. | `string` | `null` | no |
-| <a name="input_stage"></a> [stage](#input\_stage) | ID element. Usually used to indicate role, e.g. 'prod', 'staging', 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
-| <a name="input_tag_filters"></a> [tag\_filters](#input\_tag\_filters) | A map of tags that will filter stack creation by the matching `tags` set in a component `vars` configuration. | `map(string)` | `{}` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `{'BusinessUnit': 'XYZ'}`).<br>Neither the tag keys nor the tag values will be modified by this module. | `map(string)` | `{}` | no |
-| <a name="input_tenant"></a> [tenant](#input\_tenant) | ID element \_(Rarely used, not included by default)\_. A customer identifier, indicating who this instance of a resource is for | `string` | `null` | no |
-| <a name="input_terraform_version"></a> [terraform\_version](#input\_terraform\_version) | Specify the version of Terraform to use for the stack | `string` | `null` | no |
-| <a name="input_terraform_version_map"></a> [terraform\_version\_map](#input\_terraform\_version\_map) | A map to determine which Terraform patch version to use for each minor version | `map(string)` | `{}` | no |
-| <a name="input_webhook_enabled"></a> [webhook\_enabled](#input\_webhook\_enabled) | Flag to enable/disable the webhook endpoint to which Spacelift sends the POST requests about run state changes | `bool` | `false` | no |
-| <a name="input_webhook_endpoint"></a> [webhook\_endpoint](#input\_webhook\_endpoint) | Webhook endpoint to which Spacelift sends the POST requests about run state changes | `string` | `null` | no |
-| <a name="input_webhook_secret"></a> [webhook\_secret](#input\_webhook\_secret) | Webhook secret used to sign each POST request so you're able to verify that the requests come from Spacelift | `string` | `null` | no |
-| <a name="input_worker_pool_id"></a> [worker\_pool\_id](#input\_worker\_pool\_id) | The immutable ID (slug) of the default worker pool | `string` | `null` | no |
-| <a name="input_worker_pool_name_id_map"></a> [worker\_pool\_name\_id\_map](#input\_worker\_pool\_name\_id\_map) | Map of worker pool names to worker pool IDs. If this map is not provided or a worker pool name is not specified for a stack in YAML config, `var.worker_pool_id` will be used to assign a worker pool to the stack | `map(string)` | `{}` | no |
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| <a name="output_stacks"></a> [stacks](#output\_stacks) | Generated stacks |
-<!-- markdownlint-restore -->
 
 
 
@@ -382,7 +99,7 @@ For additional context, refer to some of these links.
 - [Terraform Version Pinning](https://www.terraform.io/docs/configuration/terraform.html#specifying-a-required-terraform-version) - The required_version setting can be used to constrain which versions of the Terraform CLI can be used with your configuration
 - [Spacelift](https://spacelift.io/) - The most flexible CI/CD for Terraform
 - [Spacelift Documentation](https://docs.spacelift.io/) - Official documentation site for Spacelift
-- [Open Policy Agent](https://www.openpolicyagent.org/) - Policy-based control for cloud native environments
+- [Open Policy Agent](https://www.openpolicyagent.org/) - Policy-based control for cloud-native environments
 - [OPA Documentation](https://www.openpolicyagent.org/docs/latest/) - Open Policy Agent Documentation
 - [Rego - OPA’s query and policy language](https://www.openpolicyagent.org/docs/latest/policy-language/) - Rego focuses on providing powerful support for referencing nested documents and ensuring that queries are correct and unambiguous
 - [Example of using Rego policy language](https://blog.gripdev.xyz/2020/01/13/mutating-admissions-controllers-with-open-policy-agent-and-rego/) - Mutating Admissions Controllers with Open Policy Agent and Rego
@@ -520,8 +237,8 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 ### Contributors
 
 <!-- markdownlint-disable -->
-|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] | [![Dan Meyers][danjbh_avatar]][danjbh_homepage]<br/>[Dan Meyers][danjbh_homepage] | [![Andriy Knysh][aknysh_avatar]][aknysh_homepage]<br/>[Andriy Knysh][aknysh_homepage] | [![RB][nitrocode_avatar]][nitrocode_homepage]<br/>[RB][nitrocode_homepage] | [![Yonatan Koren][korenyoni_avatar]][korenyoni_homepage]<br/>[Yonatan Koren][korenyoni_homepage] |
-|---|---|---|---|---|
+|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] | [![Dan Meyers][danjbh_avatar]][danjbh_homepage]<br/>[Dan Meyers][danjbh_homepage] | [![Andriy Knysh][aknysh_avatar]][aknysh_homepage]<br/>[Andriy Knysh][aknysh_homepage] | [![RB][nitrocode_avatar]][nitrocode_homepage]<br/>[RB][nitrocode_homepage] | [![Yonatan Koren][korenyoni_avatar]][korenyoni_homepage]<br/>[Yonatan Koren][korenyoni_homepage] | [![Matt Calhoun][mcalhoun_avatar]][mcalhoun_homepage]<br/>[Matt Calhoun][mcalhoun_homepage] |
+|---|---|---|---|---|---|
 <!-- markdownlint-restore -->
 
   [osterman_homepage]: https://github.com/osterman
@@ -534,6 +251,8 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
   [nitrocode_avatar]: https://img.cloudposse.com/150x150/https://github.com/nitrocode.png
   [korenyoni_homepage]: https://github.com/korenyoni
   [korenyoni_avatar]: https://img.cloudposse.com/150x150/https://github.com/korenyoni.png
+  [mcalhoun_homepage]: https://github.com/mcalhoun
+  [mcalhoun_avatar]: https://img.cloudposse.com/150x150/https://github.com/mcalhoun.png
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
