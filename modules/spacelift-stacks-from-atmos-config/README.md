@@ -116,7 +116,7 @@ module "spacelift_stacks" {
 ## Examples
 
 Here is an example of using this module:
-- [`../../examples/spacelift-space`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/tree/master/examples/spacelift-space) - complete example of using this module
+- [`../../examples/spacelift-config-from-atmos-config`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/tree/master/examples/spacelift-config-from-atmos-config) - complete example of using this module
 
 
 

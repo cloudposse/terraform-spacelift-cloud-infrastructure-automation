@@ -83,7 +83,7 @@ usage: |-
     source  = "cloudposse/cloud-infrastructure-automation/spacelift//modules/spacelift-stacks-from-atmos-config"
     # Cloud Posse recommends pinning every module to a specific version
     # version     = "x.x.x"
-  
+
     space_name                   = "test"
     description                  = "A space for our test infrasturcture"
     parent_space_id              = "root"
@@ -93,7 +93,7 @@ usage: |-
 # Example usage
 examples: |-
   Here is an example of using this module:
-  - [`../../examples/spacelift-space`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/tree/master/examples/spacelift-space) - complete example of using this module
+  - [`../../examples/spacelift-config-from-atmos-config`](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/tree/master/examples/spacelift-config-from-atmos-config) - complete example of using this module
 
 # How to get started quickly
 #quickstart: |-
