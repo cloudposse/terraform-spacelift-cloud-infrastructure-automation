@@ -13,12 +13,12 @@ package spacelift
 
 track {
 	commented
-	contains(input.pull_request.comment, concat(" ", ["/spacelift", "deploy", input.stack.id]))
+	contains(input.pull_request.comment, concat(" ", ["/spacelift", input.stack.id, "deploy"]))
 }
 
 propose {
 	commented
-	contains(input.pull_request.comment, concat(" ", ["/spacelift", "preview", input.stack.id]))
+	contains(input.pull_request.comment, concat(" ", ["/spacelift", input.stack.id, "preview"]))
 }
 
 # Ignore if the event is not a comment
@@ -54,6 +54,6 @@ cancel[run.id] {
 
 # This is a random sample of 10% of the runs
 sample {
-  millis := round(input.request.timestamp_ns / 1e6)
-  millis % 100 <= 10
+	millis := round(input.request.timestamp_ns / 1e6)
+	millis % 100 <= 10
 }
