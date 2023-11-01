@@ -38,6 +38,18 @@ locals {
           for filter_tag, filter_tag_val in var.context_filters.tags :
           lookup(lookup(v.vars, "tags", {}), filter_tag, null) == filter_tag_val
       ], true))
+    ) &&
+    (length(var.excluded_context_filters.namespaces) == 0 || !contains(var.excluded_context_filters.namespaces, lookup(v.vars, "namespace", ""))) &&
+    (length(var.excluded_context_filters.environments) == 0 || !contains(var.excluded_context_filters.environments, lookup(v.vars, "environment", ""))) &&
+    (length(var.excluded_context_filters.tenants) == 0 || !contains(var.excluded_context_filters.tenants, lookup(v.vars, "tenant", ""))) &&
+    (length(var.excluded_context_filters.stages) == 0 || !contains(var.excluded_context_filters.stages, lookup(v.vars, "stage", ""))) &&
+    (
+      length(var.excluded_context_filters.tags) == 0 || (
+        lookup(v.vars, "tags", null) != null &&
+        !contains([
+          for filter_tag, filter_tag_val in var.excluded_context_filters.tags :
+          lookup(lookup(v.vars, "tags", {}), filter_tag, null) == filter_tag_val
+      ], true))
     )
   }
 }
