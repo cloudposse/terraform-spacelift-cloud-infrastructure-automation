@@ -2,7 +2,7 @@
 <!-- markdownlint-disable -->
 # terraform-spacelift-cloud-infrastructure-automation
 
- [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-spacelift-cloud-infrastructure-automation.svg)](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com) [![Discourse Forum](https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg)](https://ask.sweetops.com/)
+ [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-spacelift-cloud-infrastructure-automation.svg)](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
 <!-- markdownlint-restore -->
 
 [![README Header][readme_header_img]][readme_header_link]
