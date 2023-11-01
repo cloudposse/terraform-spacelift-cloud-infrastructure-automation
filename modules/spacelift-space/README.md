@@ -126,14 +126,15 @@ Available targets:
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.30.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_http"></a> [http](#requirement\_http) | >= 3.0 |
+| <a name="requirement_spacelift"></a> [spacelift](#requirement\_spacelift) | >= 0.1.31 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | n/a |
+| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | >= 0.1.31 |
 
 ## Modules
 
@@ -145,7 +146,7 @@ Available targets:
 
 | Name | Type |
 |------|------|
-| [spacelift_space.this](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/space) | resource |
+| [spacelift_space.this](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/space) | resource |
 
 ## Inputs
 
