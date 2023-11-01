@@ -23,3 +23,15 @@ components:
     "infra/vpc":
       vars:
         cidr_block: 10.10.0.0/18
+
+    "infra/vpc/excluded":
+      vars:
+        cidr_block: 10.10.0.0/18
+        tags:
+          example: excluded
+
+    "infra/vpc/included":
+      vars:
+        cidr_block: 10.10.0.0/18
+        tags:
+          example: included

@@ -9,3 +9,9 @@ terraform_version = "1.4.6"
 context_filters = {
   stages = ["dev"]
 }
+
+excluded_context_filters = {
+  tags = {
+    example = "excluded"
+  }
+}

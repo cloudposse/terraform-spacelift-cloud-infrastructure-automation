@@ -65,7 +65,7 @@ func TestExamplesSpaceliftConfigFromAtmosConfig(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	expectedStackNames := []string{"tenant1-ue2-dev-infra-vpc2", "tenant1-ue2-dev-test-test-component", "tenant1-ue2-dev-test-test-component-override", "tenant1-ue2-dev-top-level-component1"}
+	expectedStackNames := []string{"tenant1-ue2-dev-infra-vpc", "tenant1-ue2-dev-infra-vpc-included", "tenant1-ue2-dev-test-test-component", "tenant1-ue2-dev-test-test-component-override", "tenant1-ue2-dev-top-level-component1"}
 
 	// Verify we're getting back the outputs we expect
 	assert.Contains(t, keys, expectedStackNames)
