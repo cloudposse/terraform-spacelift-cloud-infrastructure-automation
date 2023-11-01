@@ -130,13 +130,13 @@ Available targets:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
-| <a name="requirement_spacelift"></a> [spacelift](#requirement\_spacelift) | >= 0.1.31 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.30.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | >= 0.1.31 |
+| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | n/a |
 
 ## Modules
 
@@ -148,19 +148,19 @@ Available targets:
 
 | Name | Type |
 |------|------|
-| [spacelift_aws_role.this](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/aws_role) | resource |
-| [spacelift_context_attachment.this](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/context_attachment) | resource |
-| [spacelift_drift_detection.this](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/drift_detection) | resource |
-| [spacelift_environment_variable.component_env_vars](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/environment_variable) | resource |
-| [spacelift_environment_variable.component_name](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/environment_variable) | resource |
-| [spacelift_environment_variable.stack_name](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/environment_variable) | resource |
-| [spacelift_mounted_file.stack_config](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/mounted_file) | resource |
-| [spacelift_policy_attachment.this](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy_attachment) | resource |
-| [spacelift_run.this](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/run) | resource |
-| [spacelift_stack.this](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack) | resource |
-| [spacelift_stack_dependency.default](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack_dependency) | resource |
-| [spacelift_stack_destructor.this](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack_destructor) | resource |
-| [spacelift_webhook.this](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/webhook) | resource |
+| [spacelift_aws_role.this](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/aws_role) | resource |
+| [spacelift_context_attachment.this](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/context_attachment) | resource |
+| [spacelift_drift_detection.this](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/drift_detection) | resource |
+| [spacelift_environment_variable.component_env_vars](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/environment_variable) | resource |
+| [spacelift_environment_variable.component_name](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/environment_variable) | resource |
+| [spacelift_environment_variable.stack_name](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/environment_variable) | resource |
+| [spacelift_mounted_file.stack_config](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/mounted_file) | resource |
+| [spacelift_policy_attachment.this](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/policy_attachment) | resource |
+| [spacelift_run.this](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/run) | resource |
+| [spacelift_stack.this](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/stack) | resource |
+| [spacelift_stack_dependency.default](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/stack_dependency) | resource |
+| [spacelift_stack_destructor.this](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/stack_destructor) | resource |
+| [spacelift_webhook.this](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/webhook) | resource |
 
 ## Inputs
 

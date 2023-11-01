@@ -136,16 +136,15 @@ Available targets:
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_http"></a> [http](#requirement\_http) | >= 3.0 |
-| <a name="requirement_spacelift"></a> [spacelift](#requirement\_spacelift) | >= 0.1.31 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.30.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_http"></a> [http](#provider\_http) | >= 3.0 |
-| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | >= 0.1.31 |
+| <a name="provider_http"></a> [http](#provider\_http) | n/a |
+| <a name="provider_spacelift"></a> [spacelift](#provider\_spacelift) | n/a |
 
 ## Modules
 
@@ -157,7 +156,7 @@ Available targets:
 
 | Name | Type |
 |------|------|
-| [spacelift_policy.this](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/policy) | resource |
+| [spacelift_policy.this](https://registry.terraform.io/providers/hashicorp/spacelift/latest/docs/resources/policy) | resource |
 | [http_http.this](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) | data source |
 
 ## Inputs
