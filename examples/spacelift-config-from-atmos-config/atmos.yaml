@@ -33,14 +33,14 @@ components:
 stacks:
   # Can also be set using `ATMOS_STACKS_BASE_PATH` ENV var, or `--config-dir` and `--stacks-dir` command-line arguments
   # Supports both absolute and relative paths
-  base_path: "./stacks"
+  base_path: "stacks"
   # Can also be set using `ATMOS_STACKS_INCLUDED_PATHS` ENV var (comma-separated values string)
   included_paths:
-    - "**/*"
+    - "tenant1/**/*"
+    - "tenant2/**/*"
+    - "tenant3/**/*"
   # Can also be set using `ATMOS_STACKS_EXCLUDED_PATHS` ENV var (comma-separated values string)
   excluded_paths:
-    - "globals/**/*"
-    - "catalog/**/*"
     - "**/*globals*"
   # Can also be set using `ATMOS_STACKS_NAME_PATTERN` ENV var
   name_pattern: "{tenant}-{environment}-{stage}"

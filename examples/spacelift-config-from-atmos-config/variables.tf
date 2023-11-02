@@ -44,4 +44,5 @@ variable "excluded_context_filters" {
     tags         = optional(map(string), {})
   })
   description = "Context filters to exclude from stacks matching specific criteria of `var.context_filters`."
+  default     = {}
 }

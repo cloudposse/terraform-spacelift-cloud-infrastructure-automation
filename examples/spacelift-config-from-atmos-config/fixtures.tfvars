@@ -11,6 +11,7 @@ context_filters = {
 }
 
 excluded_context_filters = {
+  tenants = ["tenant3"]
   tags = {
     example = "excluded"
   }

@@ -1,0 +1,19 @@
+import:
+  - globals/tenant3-globals
+  - globals/ue2-globals
+  - catalog/terraform/vpc
+
+vars:
+  stage: dev
+
+terraform:
+  vars: {}
+
+helmfile:
+  vars: {}
+
+components:
+  terraform:
+    "infra/vpc":
+      vars:
+        cidr_block: 10.10.0.0/18

@@ -1,7 +1,7 @@
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
 module "spacelift_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
-  version = "0.22.3"
+  version = "1.5.0"
 
   stack_config_path_template = var.stack_config_path_template
 
@@ -44,12 +44,11 @@ locals {
     (length(var.excluded_context_filters.tenants) == 0 || !contains(var.excluded_context_filters.tenants, lookup(v.vars, "tenant", ""))) &&
     (length(var.excluded_context_filters.stages) == 0 || !contains(var.excluded_context_filters.stages, lookup(v.vars, "stage", ""))) &&
     (
-      length(var.excluded_context_filters.tags) == 0 || (
-        lookup(v.vars, "tags", null) != null &&
-        !contains([
-          for filter_tag, filter_tag_val in var.excluded_context_filters.tags :
-          lookup(lookup(v.vars, "tags", {}), filter_tag, null) == filter_tag_val
-      ], true))
+      length(var.excluded_context_filters.tags) == 0 || lookup(v.vars, "tags", null) == null ||
+      !contains([
+        for filter_tag, filter_tag_val in var.excluded_context_filters.tags :
+        lookup(lookup(v.vars, "tags", {}), filter_tag, null) == filter_tag_val
+      ], true)
     )
   }
 }
