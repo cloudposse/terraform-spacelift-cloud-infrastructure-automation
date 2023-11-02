@@ -27,6 +27,10 @@ terraform:
       acl: "bucket-owner-full-control"
       region: "us-east-2"
 
+  settings:
+    spacelift:
+      workspace_enabled: true # enable spacelift by default
+
 helmfile:
   vars: {}
 

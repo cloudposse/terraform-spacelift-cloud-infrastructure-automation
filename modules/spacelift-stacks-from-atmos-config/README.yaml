@@ -30,9 +30,6 @@ badges:
   - name: "Slack Community"
     image: "https://slack.cloudposse.com/badge.svg"
     url: "https://slack.cloudposse.com"
-  - name: "Discourse Forum"
-    image: "https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg"
-    url: "https://ask.sweetops.com/"
 
 # List any related terraform modules that this module may be used with or that this module depends on.
 # related:
@@ -105,6 +102,4 @@ include:
   - "docs/terraform.md"
 
 # Contributors to this project
-contributors:
-  - name: "Matt Calhoun"
-    github: "mcalhoun"
+contributors: []

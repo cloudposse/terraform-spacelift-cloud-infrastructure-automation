@@ -6,4 +6,5 @@ module "example" {
   component_deps_processing_enabled = var.component_deps_processing_enabled
   stack_config_path_template        = var.stack_config_path_template
   context_filters                   = var.context_filters
+  excluded_context_filters          = var.excluded_context_filters
 }

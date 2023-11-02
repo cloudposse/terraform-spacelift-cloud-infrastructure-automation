@@ -9,3 +9,10 @@ terraform_version = "1.4.6"
 context_filters = {
   stages = ["dev"]
 }
+
+excluded_context_filters = {
+  tenants = ["tenant3"]
+  tags = {
+    example = "excluded"
+  }
+}

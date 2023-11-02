@@ -3,7 +3,6 @@ components:
     spacelift:
       settings:
         spacelift:
-          workspace_enabled: true
           administrative: true
           autodeploy: true
       vars:

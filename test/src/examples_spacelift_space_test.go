@@ -12,6 +12,8 @@ import (
 
 // Test the Terraform module in examples/complete using Terratest.
 func TestExamplesSpaceliftSpace(t *testing.T) {
+  t.Skip() // Skipping these tests since we dont have a Spacelift provider available for testing
+
 	t.Parallel()
 
 	randId := strconv.Itoa(rand.Intn(100000))

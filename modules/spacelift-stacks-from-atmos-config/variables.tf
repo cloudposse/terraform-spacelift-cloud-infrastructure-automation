@@ -34,3 +34,14 @@ variable "context_filters" {
   })
   description = "Context filters to output stacks matching specific criteria."
 }
+
+variable "excluded_context_filters" {
+  type = object({
+    namespaces   = optional(list(string), [])
+    environments = optional(list(string), [])
+    tenants      = optional(list(string), [])
+    stages       = optional(list(string), [])
+    tags         = optional(map(string), {})
+  })
+  description = "Context filters to exclude from stacks matching specific criteria of `var.context_filters`."
+}
