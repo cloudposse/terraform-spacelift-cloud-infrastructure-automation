@@ -33,10 +33,7 @@ Terraform module to provisions a [Spacelift](https://docs.spacelift.io/concepts/
 ---
 
 This project is part of our comprehensive ["SweetOps"](https://cpco.io/sweetops) approach towards DevOps.
-
-
-[![Terraform Open Source Modules](https://docs.cloudposse.com/images/terraform-open-source-modules.svg)][terraform_modules]
-
+<a href="https://cpco.io/terraform-modules"><img src="https://docs.cloudposse.com/images/terraform-open-source-modules.svg" align="right" /></a>
 
 
 It's 100% Open Source and licensed under the [APACHE2](LICENSE).
@@ -54,33 +51,18 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 
 
 
-## Security & Compliance [<img src="https://cloudposse.com/wp-content/uploads/2020/11/bridgecrew.svg" width="250" align="right" />](https://bridgecrew.io/)
-
-Security scanning is graciously provided by Bridgecrew. Bridgecrew is the leading fully hosted, cloud-native solution providing continuous Terraform security and compliance.
-
-| Benchmark | Description |
-|--------|---------------|
-| [![Infrastructure Security](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=INFRASTRUCTURE+SECURITY) | Infrastructure Security Compliance |
-| [![CIS KUBERNETES](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/cis_kubernetes)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=CIS+KUBERNETES+V1.5) | Center for Internet Security, KUBERNETES Compliance |
-| [![CIS AWS](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/cis_aws)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=CIS+AWS+V1.2) | Center for Internet Security, AWS Compliance |
-| [![CIS AZURE](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/cis_azure)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=CIS+AZURE+V1.1) | Center for Internet Security, AZURE Compliance |
-| [![PCI-DSS](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/pci)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=PCI-DSS+V3.2) | Payment Card Industry Data Security Standards Compliance |
-| [![NIST-800-53](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/nist)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=NIST-800-53) | National Institute of Standards and Technology Compliance |
-| [![ISO27001](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/iso)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=ISO27001) | Information Security Management System, ISO/IEC 27001 Compliance |
-| [![SOC2](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/soc2)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=SOC2)| Service Organization Control 2 Compliance |
-| [![CIS GCP](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/cis_gcp)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=CIS+GCP+V1.1) | Center for Internet Security, GCP Compliance |
-| [![HIPAA](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-spacelift-cloud-infrastructure-automation/hipaa)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-spacelift-cloud-infrastructure-automation&benchmark=HIPAA) | Health Insurance Portability and Accountability Compliance |
-
-
 
 ## Usage
 
 
-**IMPORTANT:** We do not pin modules to versions in our examples because of the
-difficulty of keeping the versions in the documentation in sync with the latest released versions.
-We highly recommend that in your code you pin the version to the exact version you are
-using so that your infrastructure remains stable, and update versions in a
-systematic way so that they do not catch you by surprise.
+
+> **Important**
+> We do not pin modules to versions in our examples because of the
+> difficulty of keeping the versions in the documentation in sync with the latest released versions.
+> We highly recommend that in your code you pin the version to the exact version you are
+> using so that your infrastructure remains stable, and update versions in a
+> systematic way so that they do not catch you by surprise.
+
 
 
 Here's how to invoke this module in your project:
@@ -197,7 +179,7 @@ Available targets:
 | <a name="input_component_root"></a> [component\_root](#input\_component\_root) | The path, relative to the root of the repository, where the component can be found | `string` | n/a | yes |
 | <a name="input_component_vars"></a> [component\_vars](#input\_component\_vars) | All Terraform values to be applied to the stack via a mounted file | `any` | `{}` | no |
 | <a name="input_context"></a> [context](#input\_context) | Single object for setting entire context at once.<br>See description of individual variables for details.<br>Leave string and numeric variables as `null` to use default value.<br>Individual variable settings (non-null) override settings in context object,<br>except for attributes, tags, and additional\_tag\_map, which are merged. | `any` | <pre>{<br>  "additional_tag_map": {},<br>  "attributes": [],<br>  "delimiter": null,<br>  "descriptor_formats": {},<br>  "enabled": true,<br>  "environment": null,<br>  "id_length_limit": null,<br>  "label_key_case": null,<br>  "label_order": [],<br>  "label_value_case": null,<br>  "labels_as_tags": [<br>    "unset"<br>  ],<br>  "name": null,<br>  "namespace": null,<br>  "regex_replace_chars": null,<br>  "stage": null,<br>  "tags": {},<br>  "tenant": null<br>}</pre> | no |
-| <a name="input_context_attachments"></a> [context\_attachments](#input\_context\_attachments) | A list of context IDs to attach to this stack | `set(string)` | `[]` | no |
+| <a name="input_context_attachments"></a> [context\_attachments](#input\_context\_attachments) | A list of context IDs to attach to this stack | `list(string)` | `[]` | no |
 | <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between ID elements.<br>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
 | <a name="input_description"></a> [description](#input\_description) | Specify description of stack | `string` | `null` | no |
 | <a name="input_descriptor_formats"></a> [descriptor\_formats](#input\_descriptor\_formats) | Describe additional descriptors to be output in the `descriptors` output map.<br>Map of maps. Keys are names of descriptors. Values are maps of the form<br>`{<br>   format = string<br>   labels = list(string)<br>}`<br>(Type is `any` so the map values can later be enhanced to provide additional options.)<br>`format` is a Terraform format string to be passed to the `format()` function.<br>`labels` is a list of labels, in order, to pass to `format()` function.<br>Label values will be normalized before being passed to `format()` so they will be<br>identical to how they appear in `id`.<br>Default is `{}` (`descriptors` output will be empty). | `any` | `{}` | no |
@@ -219,7 +201,7 @@ Available targets:
 | <a name="input_manage_state"></a> [manage\_state](#input\_manage\_state) | Flag to enable/disable manage\_state setting in stack | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | ID element. Usually the component or solution name, e.g. 'app' or 'jenkins'.<br>This is the only ID element not also included as a `tag`.<br>The "name" tag is set to the full `id` string. There is no tag with the value of the `name` input. | `string` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | ID element. Usually an abbreviation of your organization name, e.g. 'eg' or 'cp', to help ensure generated IDs are globally unique | `string` | `null` | no |
-| <a name="input_policy_ids"></a> [policy\_ids](#input\_policy\_ids) | Set of Rego policy IDs to attach to this stack | `set(string)` | `[]` | no |
+| <a name="input_policy_ids"></a> [policy\_ids](#input\_policy\_ids) | List of Rego policy IDs to attach to this stack | `list(string)` | `[]` | no |
 | <a name="input_protect_from_deletion"></a> [protect\_from\_deletion](#input\_protect\_from\_deletion) | Flag to enable/disable deletion protection. | `bool` | `false` | no |
 | <a name="input_pulumi"></a> [pulumi](#input\_pulumi) | Pulumi-specific configuration. Presence means this Stack is a Pulumi Stack. | `map(any)` | `null` | no |
 | <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Terraform regular expression (regex) string.<br>Characters matching the regex will be removed from the ID elements.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
@@ -253,7 +235,6 @@ Available targets:
 
 
 
-
 ## References
 
 For additional context, refer to some of these links.
@@ -267,16 +248,49 @@ For additional context, refer to some of these links.
 - [Example of using Rego policy language](https://blog.gripdev.xyz/2020/01/13/mutating-admissions-controllers-with-open-policy-agent-and-rego/) - Mutating Admissions Controllers with Open Policy Agent and Rego
 
 
-## Help
+## ✨ Contributing
 
-**Got a question?** We got answers.
+This project is under active development, and we encourage contributions from our community. 
+Many thanks to our outstanding contributors:
 
-File a GitHub [issue](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/issues), send us an [email][email] or join our [Slack Community][slack].
+<a href="https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=cloudposse/terraform-spacelift-cloud-infrastructure-automation&max=24" />
+</a>
 
-[![README Commercial Support][readme_commercial_support_img]][readme_commercial_support_link]
+### 🐛 Bug Reports & Feature Requests
 
-## DevOps Accelerator for Startups
+Please use the [issue tracker](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/issues) to report any bugs or file feature requests.
 
+### 💻 Developing
+
+If you are interested in being a contributor and want to get involved in developing this project or [help out](https://cpco.io/help-out) with our other projects, we would love to hear from you! Shoot us an [email][email].
+
+In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
+
+ 1. **Fork** the repo on GitHub
+ 2. **Clone** the project to your own machine
+ 3. **Commit** changes to your own branch
+ 4. **Push** your work back up to your fork
+ 5. Submit a **Pull Request** so that we can review your changes
+
+**NOTE:** Be sure to merge the latest changes from "upstream" before making a pull request!
+
+### 🌎 Slack Community
+
+Join our [Open Source Community][slack] on Slack. It's **FREE** for everyone! Our "SweetOps" community is where you get to talk with others who share a similar vision for how to rollout and manage infrastructure. This is the best place to talk shop, ask questions, solicit feedback, and work together as a community to build totally *sweet* infrastructure.
+
+### 📰 Newsletter
+
+Sign up for [our newsletter][newsletter] that covers everything on our technology radar.  Receive updates on what we're up to on GitHub as well as awesome new projects we discover.
+
+### 📆 Office Hours <img src="https://img.cloudposse.com/fit-in/200x200/https://cloudposse.com/wp-content/uploads/2019/08/Powered-by-Zoom.png" align="right" />
+
+[Join us every Wednesday via Zoom][office_hours] for our weekly "Lunch & Learn" sessions. It's **FREE** for everyone!
+
+## About 
+
+This project is maintained and funded by [Cloud Posse, LLC][website]. 
+<a href="https://cpco.io/homepage"><img src="https://cloudposse.com/logo-300x69.svg" align="right" /></a>
 
 We are a [**DevOps Accelerator**][commercial_support]. We'll help you build your cloud infrastructure from the ground up so you can own it. Then we'll show you how to operate it and stick around for as long as you need us.
 
@@ -297,61 +311,7 @@ We deliver 10x the value for a fraction of the cost of a full-time engineer. Our
 - **Code Reviews.** You'll receive constructive feedback on Pull Requests.
 - **Bug Fixes.** We'll rapidly work with you to fix any bugs in our projects.
 
-## Slack Community
-
-Join our [Open Source Community][slack] on Slack. It's **FREE** for everyone! Our "SweetOps" community is where you get to talk with others who share a similar vision for how to rollout and manage infrastructure. This is the best place to talk shop, ask questions, solicit feedback, and work together as a community to build totally *sweet* infrastructure.
-
-## Newsletter
-
-Sign up for [our newsletter][newsletter] that covers everything on our technology radar.  Receive updates on what we're up to on GitHub as well as awesome new projects we discover.
-
-## Office Hours
-
-[Join us every Wednesday via Zoom][office_hours] for our weekly "Lunch & Learn" sessions. It's **FREE** for everyone!
-
-[![zoom](https://img.cloudposse.com/fit-in/200x200/https://cloudposse.com/wp-content/uploads/2019/08/Powered-by-Zoom.png")][office_hours]
-
-## ✨ Contributing
-
-
-
-This project is under active development, and we encourage contributions from our community. 
-Many thanks to our outstanding contributors:
-
-<a href="https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=cloudposse/terraform-spacelift-cloud-infrastructure-automation&max=24" />
-</a>
-
-
-
-### Bug Reports & Feature Requests
-
-Please use the [issue tracker](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/issues) to report any bugs or file feature requests.
-
-### Developing
-
-If you are interested in being a contributor and want to get involved in developing this project or [help out](https://cpco.io/help-out) with our other projects, we would love to hear from you! Shoot us an [email][email].
-
-In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
-
- 1. **Fork** the repo on GitHub
- 2. **Clone** the project to your own machine
- 3. **Commit** changes to your own branch
- 4. **Push** your work back up to your fork
- 5. Submit a **Pull Request** so that we can review your changes
-
-**NOTE:** Be sure to merge the latest changes from "upstream" before making a pull request!
-
-
-
-## Copyrights
-
-Copyright © 2023-2023 [Cloud Posse, LLC](https://cloudposse.com)
-
-
-
-
-
+[![README Commercial Support][readme_commercial_support_img]][readme_commercial_support_link]
 ## License
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -377,29 +337,14 @@ specific language governing permissions and limitations
 under the License.
 ```
 
-
-
-
-
-
-
-
-
 ## Trademarks
 
 All other trademarks referenced herein are the property of their respective owners.
+## Copyrights
 
-## About
+Copyright © 2023-2023 [Cloud Posse, LLC](https://cloudposse.com)
 
-This project is maintained and funded by [Cloud Posse, LLC][website]. Like it? Please let us know by [leaving a testimonial][testimonial]!
-
-[![Cloud Posse][logo]][website]
-
-We're a [DevOps Professional Services][hire] company based in Los Angeles, CA. We ❤️  [Open Source Software][we_love_open_source].
-
-We offer [paid support][commercial_support] on all of our projects.
-
-Check out [our other projects][github], [follow us on twitter][twitter], [apply for a job][jobs], or [hire us][hire] to help with your cloud strategy and implementation.[![README Footer][readme_footer_img]][readme_footer_link]
+[![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
 <!-- markdownlint-disable -->
   [logo]: https://cloudposse.com/logo-300x69.svg
@@ -410,7 +355,6 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
   [hire]: https://cpco.io/hire?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-spacelift-cloud-infrastructure-automation&utm_content=hire
   [slack]: https://cpco.io/slack?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-spacelift-cloud-infrastructure-automation&utm_content=slack
   [twitter]: https://cpco.io/twitter?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-spacelift-cloud-infrastructure-automation&utm_content=twitter
-  [testimonial]: https://cpco.io/leave-testimonial?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-spacelift-cloud-infrastructure-automation&utm_content=testimonial
   [office_hours]: https://cloudposse.com/office-hours?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-spacelift-cloud-infrastructure-automation&utm_content=office_hours
   [newsletter]: https://cpco.io/newsletter?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-spacelift-cloud-infrastructure-automation&utm_content=newsletter
   [email]: https://cpco.io/email?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-spacelift-cloud-infrastructure-automation&utm_content=email
