@@ -164,7 +164,7 @@ variable "component_vars" {
 }
 
 variable "context_attachments" {
-  type        = set(string)
+  type        = list(string)
   description = "A list of context IDs to attach to this stack"
   default     = []
 }
@@ -230,9 +230,9 @@ variable "manage_state" {
 }
 
 variable "policy_ids" {
-  type        = set(string)
+  type        = list(string)
   default     = []
-  description = "Set of Rego policy IDs to attach to this stack"
+  description = "List of Rego policy IDs to attach to this stack"
 }
 
 variable "protect_from_deletion" {
