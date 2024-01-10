@@ -1,13 +1,10 @@
 
 <!-- markdownlint-disable -->
-# terraform-spacelift-cloud-infrastructure-automation
+# terraform-spacelift-cloud-infrastructure-automation<a href="https://cpco.io/homepage"><img align="right" src="https://cloudposse.com/logo-300x69.svg" width="150" /></a>
 
  [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-spacelift-cloud-infrastructure-automation.svg)](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
 <!-- markdownlint-restore -->
 
-[![README Header][readme_header_img]][readme_header_link]
-
-[![Cloud Posse][logo]](https://cpco.io/homepage)
 
 <!--
 
@@ -38,18 +35,13 @@ This repo contains a set of Terraform modules for implementing a CI/CD pipeline 
 - [spacelift-stacks-from-atmos-config](./modules/spacelift-stacks-from-atmos-config) - Terraform module for extracting Spacelift stack config from Atmos config.
 
 ---
+> [!NOTE]
+> This project is part of Cloud Posse's comprehensive ["SweetOps"](https://cpco.io/sweetops) approach towards DevOps.
+>
+> It's 100% Open Source and licensed under the [APACHE2](LICENSE).
+>
 
-This project is part of our comprehensive ["SweetOps"](https://cpco.io/sweetops) approach towards DevOps.
-
-
-It's 100% Open Source and licensed under the [APACHE2](LICENSE).
-
-
-
-
-
-
-
+[![README Header][readme_header_img]][readme_header_link]
 
 
 
@@ -101,7 +93,7 @@ Please use the [issue tracker](https://github.com/cloudposse/terraform-spacelift
 
 ### 💻 Developing
 
-If you are interested in being a contributor and want to get involved in developing this project or [help out](https://cpco.io/help-out) with our other projects, we would love to hear from you! Shoot us an [email][email].
+If you are interested in being a contributor and want to get involved in developing this project or [help out](https://cpco.io/help-out) with Cloud Posse's other projects, we would love to hear from you! Shoot us an [email][email].
 
 In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
@@ -180,7 +172,7 @@ under the License.
 All other trademarks referenced herein are the property of their respective owners.
 ## Copyrights
 
-Copyright © 2021-2023 [Cloud Posse, LLC](https://cloudposse.com)
+Copyright © 2021-2024 [Cloud Posse, LLC](https://cloudposse.com)
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]

@@ -1,11 +1,8 @@
 
 <!-- markdownlint-disable -->
-# spacelift-space [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-spacelift-cloud-infrastructure-automation.svg)](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com) [![Discourse Forum](https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg)](https://ask.sweetops.com/)
+# spacelift-space<a href="https://cpco.io/homepage"><img align="right" src="https://cloudposse.com/logo-300x69.svg" width="150" /></a> [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-spacelift-cloud-infrastructure-automation.svg)](https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com) [![Discourse Forum](https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg)](https://ask.sweetops.com/)
 <!-- markdownlint-restore -->
 
-[![README Header][readme_header_img]][readme_header_link]
-
-[![Cloud Posse][logo]](https://cpco.io/homepage)
 
 <!--
 
@@ -31,20 +28,15 @@
 Terraform module to provisions a [Spacelift](https://docs.spacelift.io/concepts/spaces/index.html) space.
 
 ---
+> [!NOTE]
+> This project is part of Cloud Posse's comprehensive ["SweetOps"](https://cpco.io/sweetops) approach towards DevOps.
+> <a href="https://cpco.io/terraform-modules"><img src="https://docs.cloudposse.com/images/terraform-open-source-modules.svg" align="right" /></a>
+>
+> It's 100% Open Source and licensed under the [APACHE2](LICENSE).
+>
+> We literally have [*hundreds of terraform modules*][terraform_modules] that are Open Source and well-maintained. Check them out!
 
-This project is part of our comprehensive ["SweetOps"](https://cpco.io/sweetops) approach towards DevOps.
-<a href="https://cpco.io/terraform-modules"><img src="https://docs.cloudposse.com/images/terraform-open-source-modules.svg" align="right" /></a>
-
-
-It's 100% Open Source and licensed under the [APACHE2](LICENSE).
-
-
-
-
-
-
-
-We literally have [*hundreds of terraform modules*][terraform_modules] that are Open Source and well-maintained. Check them out!
+[![README Header][readme_header_img]][readme_header_link]
 
 
 
@@ -57,7 +49,7 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 
 
 > **Important**
-> We do not pin modules to versions in our examples because of the
+> We do not pin modules to versions in Cloud Posse's examples because of the
 > difficulty of keeping the versions in the documentation in sync with the latest released versions.
 > We highly recommend that in your code you pin the version to the exact version you are
 > using so that your infrastructure remains stable, and update versions in a
@@ -197,7 +189,7 @@ Please use the [issue tracker](https://github.com/cloudposse/terraform-spacelift
 
 ### 💻 Developing
 
-If you are interested in being a contributor and want to get involved in developing this project or [help out](https://cpco.io/help-out) with our other projects, we would love to hear from you! Shoot us an [email][email].
+If you are interested in being a contributor and want to get involved in developing this project or [help out](https://cpco.io/help-out) with Cloud Posse's other projects, we would love to hear from you! Shoot us an [email][email].
 
 In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
@@ -276,7 +268,7 @@ under the License.
 All other trademarks referenced herein are the property of their respective owners.
 ## Copyrights
 
-Copyright © 2023-2023 [Cloud Posse, LLC](https://cloudposse.com)
+Copyright © 2023-2024 [Cloud Posse, LLC](https://cloudposse.com)
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
