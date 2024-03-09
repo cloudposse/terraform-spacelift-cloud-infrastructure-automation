@@ -32,4 +32,11 @@ resource "spacelift_policy" "this" {
 data "http" "this" {
   count = local.is_body_from_url ? 1 : 0
   url   = local.body_url
+
+  lifecycle {
+    postcondition {
+      condition     = self.status_code >= 200 && self.status_code < 300
+      error_message = "There was an error fetching policy: '${local.body_url}'"
+    }
+  }
 }
