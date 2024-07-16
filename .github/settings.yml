@@ -5,3 +5,4 @@ repository:
   description: Terraform module to provision Spacelift resources for cloud infrastructure automation
   homepage: https://cloudposse.com/accelerate
   topics: ""
+
