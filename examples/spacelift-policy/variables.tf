@@ -38,18 +38,18 @@ variable "catalog_policy_labels" {
 }
 
 variable "file_policy_name" {
-  type        = string
+  type = string
 }
 
 variable "file_policy_type" {
-  type        = string
+  type = string
 }
 
 variable "file_policy_body_path" {
-  type        = string
+  type = string
 }
 
 variable "file_policy_labels" {
   type    = set(string)
-  default     = []
+  default = []
 }
