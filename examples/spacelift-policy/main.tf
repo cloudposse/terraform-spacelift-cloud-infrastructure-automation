@@ -20,3 +20,13 @@ module "catalog_policy" {
   labels           = var.catalog_policy_labels
   space_id         = "root"
 }
+
+module "file_policy" {
+  source = "../../modules/spacelift-policy"
+
+  policy_name    = var.file_policy_name
+  type           = var.file_policy_type
+  body_file_path = var.file_policy_body_path
+  labels         = var.file_policy_labels
+  space_id       = "root"
+}

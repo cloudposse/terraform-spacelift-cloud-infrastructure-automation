@@ -22,3 +22,11 @@ catalog_policy_body_url = "https://raw.githubusercontent.com/cloudposse/terrafor
 catalog_policy_body_url_version = "master"
 
 catalog_policy_labels = ["test", "terraform", "spacelift", "catalog"]
+
+file_policy_name = "Test Filepath Policy"
+
+file_policy_type = "TRIGGER"
+
+file_policy_body_path = "../../catalog/policies/trigger.dependencies.rego"
+
+file_policy_labels = ["test", "terraform", "spacelift", "file", "path", "policy"]

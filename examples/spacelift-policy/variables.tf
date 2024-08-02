@@ -36,3 +36,20 @@ variable "catalog_policy_labels" {
   type    = set(string)
   default = []
 }
+
+variable "file_policy_name" {
+  type        = string
+}
+
+variable "file_policy_type" {
+  type        = string
+}
+
+variable "file_policy_body_path" {
+  type        = string
+}
+
+variable "file_policy_labels" {
+  type    = set(string)
+  default     = []
+}

@@ -21,6 +21,12 @@ variable "body_url_version" {
   default     = "master"
 }
 
+variable "body_file_path" {
+  description = "Path to the file containing the policy body"
+  type        = string
+  default     = null
+}
+
 variable "type" {
   type        = string
   description = "The type of the policy to create."
