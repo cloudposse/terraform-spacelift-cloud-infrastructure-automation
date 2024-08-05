@@ -1,3 +1,8 @@
+output "space" {
+  description = "Spacelift space"
+  value       = module.space.space
+}
+
 output "inline_policy" {
   value       = module.inline_policy.policy
   description = "The inline policy that was created"

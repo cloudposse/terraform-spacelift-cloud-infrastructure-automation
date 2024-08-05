@@ -22,6 +22,7 @@ func TestExamplesSpaceliftPolicy(t *testing.T) {
 	// name is here more as an example rather than as a useful test input
 	inline_policy_name := fmt.Sprintf("Test Inline Policy %s", randId)
 	catalog_policy_name := fmt.Sprintf("Test Catalog Policy %s", randId)
+	file_policy_name := fmt.Sprintf("Test File Policy %s", randId)
 
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
@@ -36,6 +37,7 @@ func TestExamplesSpaceliftPolicy(t *testing.T) {
 			"attributes":          attributes,
 			"inline_policy_name":  inline_policy_name,
 			"catalog_policy_name": catalog_policy_name,
+			"file_policy_name":    file_policy_name,
 		},
 		SetVarsAfterVarFiles: true,
 	}
@@ -49,6 +51,7 @@ func TestExamplesSpaceliftPolicy(t *testing.T) {
 	// Run `terraform output` to get the value of an output variable
 	var inlineOutput interface{}
 	var catalogOutput interface{}
+	var fileOutput interface{}
 
 	terraform.OutputStruct(t, terraformOptions, "inline_policy", &inlineOutput)
 	inline_policy_output := inlineOutput.(map[string]interface{})
@@ -56,10 +59,15 @@ func TestExamplesSpaceliftPolicy(t *testing.T) {
 	terraform.OutputStruct(t, terraformOptions, "catalog_policy", &catalogOutput)
 	catalog_policy_output := catalogOutput.(map[string]interface{})
 
+	terraform.OutputStruct(t, terraformOptions, "file_policy", &fileOutput)
+	file_policy_output := fileOutput.(map[string]interface{})
+
 	// Verify we're getting back the outputs we expect
 	assert.Equal(t, "PLAN", inline_policy_output["type"])
 	assert.Equal(t, "GIT_PUSH", catalog_policy_output["type"])
+	assert.Equal(t, "TRIGGER", file_policy_output["type"])
 
 	assert.Equal(t, inline_policy_name, inline_policy_output["name"])
 	assert.Equal(t, catalog_policy_name, catalog_policy_output["name"])
+	assert.Equal(t, file_policy_name, file_policy_output["name"])
 }

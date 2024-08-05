@@ -1,3 +1,10 @@
+space_name = "Test Space"
+
+description = "A test space"
+
+labels = ["test", "space"]
+
+# Policies
 inline_policy_name = "Test Inline Policy"
 
 inline_policy_type = "PLAN"
