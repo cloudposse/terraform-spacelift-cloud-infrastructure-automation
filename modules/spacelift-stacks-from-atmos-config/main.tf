@@ -1,7 +1,7 @@
 # Convert infrastructure stacks from YAML configs into Spacelift stacks
 module "spacelift_config" {
   source  = "cloudposse/stack-config/yaml//modules/spacelift"
-  version = "1.6.0"
+  version = "1.8.0"
 
   stack_config_path_template = var.stack_config_path_template
 
