@@ -3,7 +3,7 @@
 <!-- markdownlint-disable -->
 <a href="https://cpco.io/homepage"><img src="https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/blob/main/.github/banner.png?raw=true" alt="Project Banner"/></a><br/>
     <p align="right">
-<a href="https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/terraform-spacelift-cloud-infrastructure-automation.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/commits"><img src="https://img.shields.io/github/last-commit/cloudposse/terraform-spacelift-cloud-infrastructure-automation.svg?style=for-the-badge" alt="Last Updated"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a></p>
+<a href="https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/terraform-spacelift-cloud-infrastructure-automation.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/commits"><img src="https://img.shields.io/github/last-commit/cloudposse/terraform-spacelift-cloud-infrastructure-automation.svg?style=for-the-badge" alt="Last Updated"/></a><a href="https://cloudposse.com/slack"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a></p>
 <!-- markdownlint-restore -->
 
 <!--
@@ -49,6 +49,37 @@ This repo contains a set of Terraform modules for implementing a CI/CD pipeline 
 
 
 
+
+
+
+
+
+
+<!-- markdownlint-disable -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- markdownlint-restore -->
 
 
 
