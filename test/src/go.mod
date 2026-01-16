@@ -1,8 +1,6 @@
 module github.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation
 
-go 1.24
-
-toolchain go1.24.0
+go 1.20
 
 require (
 	github.com/gruntwork-io/terratest v0.41.23

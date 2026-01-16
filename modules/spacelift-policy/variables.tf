@@ -5,13 +5,13 @@ variable "policy_name" {
 
 variable "body" {
   type        = string
-  description = "The body of the policy to create. Mutually exclusive with `var.body_url` and `var.body_file_path`."
+  description = "The body of the policy to create. Mutually exclusive with `var.body_url`."
   default     = null
 }
 
 variable "body_url" {
   type        = string
-  description = "The URL of file containing the body of policy to create. Mutually exclusive with `var.body` and `var.body_file_path`."
+  description = "The URL of file containing the body of policy to create. Mutually exclusive with `var.body`."
   default     = null
 }
 
@@ -19,12 +19,6 @@ variable "body_url_version" {
   type        = string
   description = "The optional policy version injected using a %s in `var.body_url`. This can be pinned to a version tag or a branch."
   default     = "master"
-}
-
-variable "body_file_path" {
-  description = "The local path to the file containing the policy body. Mutually exclusive with `var.body` and `var.body_url`."
-  type        = string
-  default     = null
 }
 
 variable "type" {
