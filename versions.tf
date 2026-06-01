@@ -4,7 +4,7 @@ terraform {
   required_providers {
     spacelift = {
       source  = "spacelift-io/spacelift"
-      version = ">= 0.1.27" # minimum version for spacelift stack dependency resource
+      version = ">= 1.37.0"
     }
   }
 }
