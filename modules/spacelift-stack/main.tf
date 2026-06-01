@@ -5,6 +5,8 @@ locals {
   stack_dependency_enabled = local.enabled && var.spacelift_stack_dependency_enabled
   webhook_enabled          = local.enabled && var.webhook_enabled
 
+  role_attachment_space_id = var.dedicated_space_enabled ? try(spacelift_space.default[0].id, var.space_id) : var.space_id
+
   map_of_labels_array = {
     for label in var.labels : split(":", label)[0] => split(":", label)[1]... if length(split(":", label)) > 1 # the ellipsis creates a group of values
   }
@@ -25,7 +27,6 @@ resource "spacelift_stack" "this" {
 
   name                         = var.stack_name
   description                  = var.description
-  administrative               = var.administrative
   autodeploy                   = var.autodeploy
   autoretry                    = var.autoretry
   repository                   = var.repository
@@ -196,4 +197,16 @@ resource "spacelift_context" "managed_space" {
   labels = [
     "manager_admin_stack_id:${spacelift_stack.this[0].id}"
   ]
+}
+
+data "spacelift_role" "space_admin" {
+  count = local.enabled && var.administrative ? 1 : 0
+  slug  = "space-admin"
+}
+
+resource "spacelift_role_attachment" "admin" {
+  count    = local.enabled && var.administrative ? 1 : 0
+  stack_id = spacelift_stack.this[0].id
+  role_id  = data.spacelift_role.space_admin[0].id
+  space_id = local.role_attachment_space_id
 }
