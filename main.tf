@@ -218,7 +218,7 @@ resource "spacelift_policy_attachment" "trigger_administrative" {
   count = var.external_execution || var.administrative_trigger_policy_enabled == false ? 0 : 1
 
   policy_id = join("", spacelift_policy.trigger_administrative.*.id)
-  stack_id  = data.spacelift_current_stack.administrative[0].id
+  stack_id  = module.spacelift_stacks_from_atmos_config.current_admin_stack_id
 }
 
 # global administrative push policy that updates branch tracking in the admin stack
@@ -237,14 +237,14 @@ resource "spacelift_policy_attachment" "push_administrative" {
   count = var.external_execution || var.administrative_push_policy_enabled == false ? 0 : 1
 
   policy_id = join("", spacelift_policy.push_administrative.*.id)
-  stack_id  = data.spacelift_current_stack.administrative[0].id
+  stack_id  = module.spacelift_stacks_from_atmos_config.current_admin_stack_id
 }
 
 
 resource "spacelift_drift_detection" "drift_detection_administrative" {
   count = var.external_execution || var.administrative_stack_drift_detection_enabled == false ? 0 : 1
 
-  stack_id  = data.spacelift_current_stack.administrative[0].id
+  stack_id  = module.spacelift_stacks_from_atmos_config.current_admin_stack_id
   reconcile = var.administrative_stack_drift_detection_reconcile
   schedule  = var.administrative_stack_drift_detection_schedule
 }
