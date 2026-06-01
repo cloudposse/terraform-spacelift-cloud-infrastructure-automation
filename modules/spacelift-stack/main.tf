@@ -18,7 +18,10 @@ locals {
 resource "spacelift_stack" "this" {
   count = local.enabled ? 1 : 0
 
-  space_id = var.space_id
+  space_id = (
+    alltrue([var.administrative, var.dedicated_space_enabled]) ? "root" :
+    try(spacelift_space.default[0].id, var.space_id)
+  )
 
   name                         = var.stack_name
   description                  = var.description
@@ -171,5 +174,26 @@ resource "spacelift_run" "this" {
     spacelift_environment_variable.stack_name,
     spacelift_environment_variable.component_name,
     spacelift_policy_attachment.this
+  ]
+}
+
+resource "spacelift_space" "default" {
+  count = var.dedicated_space_enabled ? 1 : 0
+
+  name             = coalesce(var.space_name, var.component_name)
+  parent_space_id  = var.parent_space_id
+  inherit_entities = var.inherit_entities
+  description      = var.description
+  labels           = var.labels
+}
+
+resource "spacelift_context" "managed_space" {
+  count = var.dedicated_space_enabled ? 1 : 0
+
+  name        = "${spacelift_space.default[0].name} space's stack manager"
+  description = "This context identifies the admin stack managing this space."
+  space_id    = spacelift_space.default[0].id
+  labels = [
+    "manager_admin_stack_id:${spacelift_stack.this[0].id}"
   ]
 }

@@ -13,6 +13,25 @@ module "spacelift_config" {
 }
 
 locals {
+  # all_spacelift_stacks: context-filtered but NOT tag-filtered.
+  # Used by current_admin_stack logic to identify which stack is the admin for this execution.
+  all_spacelift_stacks = {
+    for k, v in module.spacelift_config.spacelift_stacks :
+    k => v
+    if
+    (length(var.context_filters.namespaces) == 0 || contains(var.context_filters.namespaces, lookup(v.vars, "namespace", ""))) &&
+    (length(var.context_filters.environments) == 0 || contains(var.context_filters.environments, lookup(v.vars, "environment", ""))) &&
+    (length(var.context_filters.tenants) == 0 || contains(var.context_filters.tenants, lookup(v.vars, "tenant", ""))) &&
+    (length(var.context_filters.stages) == 0 || contains(var.context_filters.stages, lookup(v.vars, "stage", "")))
+  }
+
+  spacelift_stacks_extra_args = {
+    for k, v in local.all_spacelift_stacks :
+    k => {
+      stack_name = try(v.settings.spacelift.ui_stack_name, try(v.settings.spacelift.stack_name, k))
+    }
+  }
+
   spacelift_stacks = {
     for k, v in module.spacelift_config.spacelift_stacks :
     k => v

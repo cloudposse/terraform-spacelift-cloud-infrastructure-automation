@@ -9,10 +9,8 @@ resource "spacelift_policy" "default" {
   space_id = var.attachment_space_id
 }
 
-# Convert infrastructure stacks from YAML configs into Spacelift stacks
-module "spacelift_config" {
-  source  = "cloudposse/stack-config/yaml//modules/spacelift"
-  version = "0.22.3"
+module "spacelift_stacks_from_atmos_config" {
+  source = "./modules/spacelift-stacks-from-atmos-config"
 
   stack_config_path_template = var.stack_config_path_template
 
@@ -20,51 +18,19 @@ module "spacelift_config" {
   component_deps_processing_enabled = var.component_deps_processing_enabled
   imports_processing_enabled        = var.imports_processing_enabled
 
+  context_filters          = var.context_filters
+  excluded_context_filters = try(var.excluded_context_filters, {})
+  external_execution       = var.external_execution
+  tag_filters              = var.tag_filters
+
   context = module.this.context
 }
 
 locals {
   stack_context_variables_enabled = length(keys(var.stack_context_variables)) > 0
 
-  # `all_spacelift_stacks` variable contains the `admin`, `first_admin`, `current_admin`, and `non_admin` stacks.
-  # * `admin_stacks` are responsible to create their own non_admin_stacks, other admin's spaces, and policies.
-  #   They don't create their own space or stacks, previous `admin_stacks` or `first_admin_stack` are responsible to do so.
-  # * `first_admin_stack` has the same responsibilities as `admin_stacks` with the only difference being that it creates its own `admin_stack` and space.
-  # * `current_admin_stack` is the stack that is currently executing this TF code, it could be both `first_admin_stack` or `admin_stack`.
-  # * `non_admin_stacks` are just pipelines that execute a predefined command, these pipelines don't execute this TF code.
-  #   They are managed by `admin_stacks` or `first_admin_stack`.
-  all_spacelift_stacks = {
-    for k, v in module.spacelift_config.spacelift_stacks :
-    k => v
-    if
-    # If context_filters are provided, then filter for them, otherwise return the original stacks unfiltered.
-    (lookup(var.context_filters, "namespaces", null) == null || contains(lookup(var.context_filters, "namespaces", [lookup(v.vars, "namespace", "")]), lookup(v.vars, "namespace", ""))) &&
-    (lookup(var.context_filters, "tenants", null) == null || contains(lookup(var.context_filters, "tenants", [lookup(v.vars, "tenant", "")]), lookup(v.vars, "tenant", ""))) &&
-    (lookup(var.context_filters, "environments", null) == null || contains(lookup(var.context_filters, "environments", [lookup(v.vars, "environment", "")]), lookup(v.vars, "environment", ""))) &&
-    (lookup(var.context_filters, "stages", null) == null || contains(lookup(var.context_filters, "stages", [lookup(v.vars, "stage", "")]), lookup(v.vars, "stage", "")))
-  }
-
-  spacelift_stacks_extra_args = {
-    for k, v in local.all_spacelift_stacks :
-    k => {
-      # Defining `stack_name` in a single place so `module.spacelift_stacks` and `module.stacks` get the same value.
-      stack_name = try(v.settings.spacelift.ui_stack_name, try(v.settings.spacelift.stack_name, k))
-    }
-  }
-
-  # The `spacelift_stacks` variable only contains `admin`, `non_admin`, and `first_admin` stacks.
-  # Therefore, the `current_admin_stack` configuration may not always be present in this variable.
-  # This intentional behavior prevents the `current_admin_stack` from recreating its stack and space,
-  # as it would result in duplicate stacks and spaces already created for other `admin_stack` or `first_admin_stack`.
-  # If a recreation occurs, no error message will be thrown, but instead, duplicate spaces and stacks
-  # with the same names and labels will be created.
-  # This duplication could cause issues such as:
-  # * competing CRUD operations on the same TF resources or creating unnecessary duplicates resources if duplicated stacks exist.
-  # * Additionally, non_admin_stacks could end up in the wrong space if duplicated spaces exist.
-  # * Finally, Spacelift policies could end up assigned to the wrong stack or space due to the similarity between them.
-
   spacelift_stacks = {
-    for k, v in local.all_spacelift_stacks :
+    for k, v in module.spacelift_stacks_from_atmos_config.all_spacelift_stacks :
     k => v
     if
     (
@@ -121,30 +87,31 @@ resource "spacelift_policy" "custom" {
 }
 
 module "stacks" {
-  source = "./modules/stack"
+  source = "./modules/spacelift-stack"
 
   for_each = local.spacelift_stacks
 
   space_id = coalesce(
     try(each.value.settings.spacelift.space_id, var.stacks_space_id),
-    local.current_admin_stack.managed_space_id,
+    module.spacelift_stacks_from_atmos_config.current_admin_stack.managed_space_id,
     "legacy",
   )
   parent_space_id = (
     alltrue([
-      each.key == local.current_admin_stack.key,
-      local.current_admin_stack.is_first_admin_stack
+      each.key == module.spacelift_stacks_from_atmos_config.current_admin_stack.key,
+      module.spacelift_stacks_from_atmos_config.current_admin_stack.is_first_admin_stack
     ]) ?
     try(each.value.settings.spacelift.parent_space_id, "root") :
-    try(each.value.settings.spacelift.parent_space_id, local.current_admin_stack.managed_space_id)
+    try(each.value.settings.spacelift.parent_space_id, module.spacelift_stacks_from_atmos_config.current_admin_stack.managed_space_id)
   )
 
   enabled                            = each.value.enabled
   dedicated_space_enabled            = try(each.value.settings.spacelift.dedicated_space_enabled, false)
   space_name                         = try(each.value.settings.spacelift.space_name, null)
   inherit_entities                   = try(each.value.settings.spacelift.inherit_entities, false)
-  stack_name                         = local.spacelift_stacks_extra_args[each.key].stack_name
-  infrastructure_stack_name          = each.value.stack
+  parent_space_id                    = try(each.value.settings.spacelift.parent_space_id, module.spacelift_stacks_from_atmos_config.current_admin_stack.managed_space_id)
+  stack_name                         = module.spacelift_stacks_from_atmos_config.spacelift_stacks_extra_args[each.key].stack_name
+  atmos_stack_name                   = each.value.stack
   component_name                     = each.value.component
   component_vars                     = each.value.vars
   component_env                      = each.value.env

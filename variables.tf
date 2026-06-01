@@ -345,6 +345,18 @@ variable "tag_filters" {
   default     = {}
 }
 
+variable "excluded_context_filters" {
+  type = object({
+    namespaces   = optional(list(string), [])
+    environments = optional(list(string), [])
+    tenants      = optional(list(string), [])
+    stages       = optional(list(string), [])
+    tags         = optional(map(string), {})
+  })
+  description = "Context filters to exclude stacks matching specific criteria."
+  default     = {}
+}
+
 variable "protect_from_deletion" {
   type        = bool
   description = "Flag to enable/disable deletion protection."

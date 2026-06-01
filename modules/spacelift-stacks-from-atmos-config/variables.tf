@@ -35,6 +35,18 @@ variable "context_filters" {
   description = "Context filters to output stacks matching specific criteria."
 }
 
+variable "external_execution" {
+  type        = bool
+  description = "Set to true when calling this module from outside a Spacelift stack (e.g. local runs with explicit provider credentials)"
+  default     = false
+}
+
+variable "tag_filters" {
+  type        = map(string)
+  description = "Tag filters used to identify which atmos stack is the current admin stack"
+  default     = {}
+}
+
 variable "excluded_context_filters" {
   type = object({
     namespaces   = optional(list(string), [])

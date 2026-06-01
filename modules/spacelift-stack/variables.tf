@@ -345,3 +345,33 @@ variable "worker_pool_id" {
   description = "The immutable ID (slug) of the worker pool"
   default     = null
 }
+
+variable "dedicated_space_enabled" {
+  type        = bool
+  description = "Create a dedicated Spacelift space for this stack and attach a context so the admin stack managing it can be identified"
+  default     = false
+}
+
+variable "space_name" {
+  type        = string
+  description = "Name of the dedicated space to create. Defaults to component_name if not set."
+  default     = null
+}
+
+variable "inherit_entities" {
+  type        = bool
+  description = "Whether the dedicated space should inherit entities from its parent space"
+  default     = false
+}
+
+variable "parent_space_id" {
+  type        = string
+  description = "Parent space ID for the dedicated space. Required when dedicated_space_enabled = true."
+  default     = null
+}
+
+variable "infrastructure_stack_name" {
+  type        = string
+  description = "Deprecated: use atmos_stack_name. Atmos stack name set as the ATMOS_STACK environment variable."
+  default     = null
+}
