@@ -1,6 +1,7 @@
 output "stacks" {
   description = "Generated stacks"
   value       = module.stacks
+  sensitive   = true
 }
 
 output "current_admin_stack" {
