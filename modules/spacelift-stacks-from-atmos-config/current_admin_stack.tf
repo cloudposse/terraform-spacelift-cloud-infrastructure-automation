@@ -28,6 +28,8 @@ data "spacelift_current_space" "administrative" {
 }
 
 data "spacelift_contexts" "managed_space" {
+  count = local.current_admin_stack_id != null ? 1 : 0
+
   labels {
     any_of = ["manager_admin_stack_id:${local.current_admin_stack_id}"]
   }
@@ -59,6 +61,6 @@ locals {
       data.spacelift_current_space.administrative[0].id,
       try(data.spacelift_stacks.administrative[0].stacks[0].space_id, null),
     )
-    managed_space_id = try(data.spacelift_contexts.managed_space.contexts[0].space_id, "root")
+    managed_space_id = try(data.spacelift_contexts.managed_space[0].contexts[0].space_id, "root")
   })
 }
