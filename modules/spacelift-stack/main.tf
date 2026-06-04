@@ -22,7 +22,6 @@ resource "spacelift_stack" "this" {
 
   name                         = var.stack_name
   description                  = var.description
-  administrative               = var.administrative
   autodeploy                   = var.autodeploy
   autoretry                    = var.autoretry
   repository                   = var.repository
@@ -119,6 +118,19 @@ resource "spacelift_stack" "this" {
 # resources in the stack being deleted. Instead, this resource is always created, with var.stack_destructor_enabled
 # toggling its 'deactivated' attribute, which allows for the stack destructor functionality to be disabled. See:
 # https://github.com/spacelift-io/terraform-provider-spacelift/blob/master/spacelift/resource_stack_destructor.go
+data "spacelift_role" "admin" {
+  count = local.enabled && var.administrative ? 1 : 0
+  slug  = "space-admin"
+}
+
+resource "spacelift_role_attachment" "admin" {
+  count = local.enabled && var.administrative ? 1 : 0
+
+  stack_id = spacelift_stack.this[0].id
+  role_id  = data.spacelift_role.admin[0].id
+  space_id = var.space_id
+}
+
 resource "spacelift_stack_destructor" "this" {
   count = local.enabled ? 1 : 0
 
