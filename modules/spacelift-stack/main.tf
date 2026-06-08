@@ -28,7 +28,7 @@ resource "spacelift_stack" "this" {
   }
 
   space_id = (
-    alltrue([var.administrative, var.dedicated_space_enabled]) ? "root" :
+    alltrue([var.administrative, var.dedicated_space_enabled, coalesce(var.parent_space_id, "root") == "root"]) ? "root" :
     try(spacelift_space.default[0].id, var.space_id)
   )
 
