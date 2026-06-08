@@ -422,3 +422,33 @@ variable "spacelift_stack_dependency_enabled" {
   description = "If enabled, the `spacelift_stack_dependency` Spacelift resource will be used to create dependencies between stacks instead of using the `depends-on` labels. The `depends-on` labels will be removed from the stacks and the trigger policies for dependencies will be detached"
   default     = false
 }
+
+variable "stacks_dedicated_space_enabled" {
+  type        = bool
+  description = "Create a dedicated Spacelift space for every managed stack. Overridable per-stack via settings.spacelift.dedicated_space_enabled."
+  default     = false
+}
+
+variable "stacks_self_admin_enabled" {
+  type        = bool
+  description = "Attach space-admin role to each managed stack in its own dedicated space, enabling self-management of Spacelift resources. Only meaningful when stacks_dedicated_space_enabled = true. Overridable per-stack via settings.spacelift.administrative."
+  default     = false
+}
+
+variable "stacks_inherit_entities" {
+  type        = bool
+  description = "Whether managed stack dedicated spaces inherit entities (worker pools, contexts) from their parent space. Overridable per-stack via settings.spacelift.inherit_entities."
+  default     = true
+}
+
+variable "write_login_access_github_teams" {
+  type        = list(string)
+  description = "GitHub teams granted write access to managed stack dedicated spaces. Encoded as write_access_github_team:<team> labels on each dedicated space. Overridable per-stack via settings.spacelift.write_login_access_github_teams."
+  default     = []
+}
+
+variable "admin_login_access_github_teams" {
+  type        = list(string)
+  description = "GitHub teams granted admin access to managed stack dedicated spaces. Encoded as admin_access_github_team:<team> labels on each dedicated space. Overridable per-stack via settings.spacelift.admin_login_access_github_teams."
+  default     = []
+}

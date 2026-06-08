@@ -106,9 +106,9 @@ module "stacks" {
   )
 
   enabled                            = each.value.enabled
-  dedicated_space_enabled            = try(each.value.settings.spacelift.dedicated_space_enabled, false)
-  space_name                         = try(each.value.settings.spacelift.space_name, null)
-  inherit_entities                   = try(each.value.settings.spacelift.inherit_entities, false)
+  dedicated_space_enabled            = try(each.value.settings.spacelift.dedicated_space_enabled, var.stacks_dedicated_space_enabled)
+  space_name                         = try(each.value.settings.spacelift.space_name, module.spacelift_stacks_from_atmos_config.spacelift_stacks_extra_args[each.key].stack_name)
+  inherit_entities                   = try(each.value.settings.spacelift.inherit_entities, var.stacks_inherit_entities)
   stack_name                         = module.spacelift_stacks_from_atmos_config.spacelift_stacks_extra_args[each.key].stack_name
   atmos_stack_name                   = each.value.stack
   component_name                     = each.value.component
@@ -139,7 +139,10 @@ module "stacks" {
 
   component_root        = coalesce(try(each.value.settings.spacelift.component_root, null), format("%s/%s", var.components_path, coalesce(each.value.base_component, each.value.component)))
   local_preview_enabled = try(each.value.settings.spacelift.local_preview_enabled, null) != null ? each.value.settings.spacelift.local_preview_enabled : var.local_preview_enabled
-  administrative        = try(each.value.settings.spacelift.administrative, null) != null ? each.value.settings.spacelift.administrative : var.administrative
+  administrative        = try(each.value.settings.spacelift.administrative, var.stacks_self_admin_enabled, var.administrative)
+
+  write_login_access_github_teams = try(each.value.settings.spacelift.write_login_access_github_teams, var.write_login_access_github_teams)
+  admin_login_access_github_teams = try(each.value.settings.spacelift.admin_login_access_github_teams, var.admin_login_access_github_teams)
 
   azure_devops         = try(each.value.settings.spacelift.azure_devops, null)
   bitbucket_cloud      = try(each.value.settings.spacelift.bitbucket_cloud, null)

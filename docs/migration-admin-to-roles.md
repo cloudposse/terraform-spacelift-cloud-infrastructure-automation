@@ -167,6 +167,55 @@ role.id == "space-admin"
 
 ---
 
+## One space per stack (1-space-per-stack refactor)
+
+This module version adds support for creating a dedicated Spacelift space for every managed stack,
+giving each stack independent access control and self-management capability.
+
+### New root variables
+
+| Variable | Type | Default | Description |
+|---|---|---|---|
+| `stacks_dedicated_space_enabled` | `bool` | `false` | Create a dedicated `spacelift_space` for every managed stack. Set to `true` in `catalog/spacelift/defaults.yaml` to enable globally. Overridable per-stack via `settings.spacelift.dedicated_space_enabled`. |
+| `stacks_self_admin_enabled` | `bool` | `false` | Attach `space-admin` role to each managed stack in its own dedicated space. Requires `stacks_dedicated_space_enabled = true`. Overridable per-stack via `settings.spacelift.administrative`. |
+| `stacks_inherit_entities` | `bool` | `true` | Whether managed stack dedicated spaces inherit worker pools and contexts from their parent space. Overridable per-stack via `settings.spacelift.inherit_entities`. |
+| `write_login_access_github_teams` | `list(string)` | `[]` | GitHub teams granted write access to all dedicated spaces (encoded as `write_access_github_team:<team>` labels). Overridable per-stack via `settings.spacelift.write_login_access_github_teams`. |
+| `admin_login_access_github_teams` | `list(string)` | `[]` | GitHub teams granted admin access to all dedicated spaces (encoded as `admin_access_github_team:<team>` labels). Overridable per-stack via `settings.spacelift.admin_login_access_github_teams`. |
+
+### `space_name` default change
+
+`space_name` for dedicated spaces now defaults to the Spacelift **stack name** (e.g. `guests-ue1-prod`) instead of `component_name` (e.g. `spoton-app`). This ensures uniqueness across stacks. Override per-stack via `settings.spacelift.space_name`.
+
+### Enabling globally in `stacks/catalog/spacelift/defaults.yaml`
+
+```yaml
+vars:
+  stacks_dedicated_space_enabled: true
+  stacks_self_admin_enabled: true
+  stacks_inherit_entities: true
+```
+
+The `write_login_access_github_teams` and `admin_login_access_github_teams` values are inherited from the admin stack's existing `_spacelift-space.yaml` vars — no per-stack YAML changes required.
+
+### Login policy update
+
+The `template-rego-policies/login.github.rego` template now includes label-based `space_write` / `space_admin` rules that match `write_access_github_team:<team>` and `admin_access_github_team:<team>` labels on dedicated spaces. The existing single login policy covers all dedicated spaces with no extra policies needed.
+
+### Validation
+
+Setting `stacks_self_admin_enabled = true` without `stacks_dedicated_space_enabled = true` will fail with:
+
+```
+Error: Resource precondition failed
+administrative = true requires dedicated_space_enabled = true to scope the space-admin role to the stack's own dedicated space.
+```
+
+### No state migration required
+
+Managed stacks have no pre-existing dedicated spaces. Terraform creates them fresh. The `space_id` attribute change on existing stacks is an in-place update (no ForceNew) — run history is preserved.
+
+---
+
 ## Rollback procedure
 
 If something goes wrong after applying:

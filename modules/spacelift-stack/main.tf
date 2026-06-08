@@ -20,6 +20,13 @@ locals {
 resource "spacelift_stack" "this" {
   count = local.enabled ? 1 : 0
 
+  lifecycle {
+    precondition {
+      condition     = !var.administrative || var.dedicated_space_enabled
+      error_message = "administrative = true requires dedicated_space_enabled = true to scope the space-admin role to the stack's own dedicated space, not the shared admin space."
+    }
+  }
+
   space_id = (
     alltrue([var.administrative, var.dedicated_space_enabled]) ? "root" :
     try(spacelift_space.default[0].id, var.space_id)
@@ -185,7 +192,11 @@ resource "spacelift_space" "default" {
   parent_space_id  = var.parent_space_id
   inherit_entities = var.inherit_entities
   description      = var.description
-  labels           = var.labels
+  labels = concat(
+    var.labels,
+    [for t in var.write_login_access_github_teams : "write_access_github_team:${t}"],
+    [for t in var.admin_login_access_github_teams : "admin_access_github_team:${t}"],
+  )
 }
 
 resource "spacelift_context" "managed_space" {

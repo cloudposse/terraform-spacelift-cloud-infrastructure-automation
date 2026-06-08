@@ -354,7 +354,7 @@ variable "dedicated_space_enabled" {
 
 variable "space_name" {
   type        = string
-  description = "Name of the dedicated space to create. Defaults to component_name if not set."
+  description = "Name of the dedicated space to create. Defaults to stack_name if not set."
   default     = null
 }
 
@@ -362,6 +362,18 @@ variable "inherit_entities" {
   type        = bool
   description = "Whether the dedicated space should inherit entities from its parent space"
   default     = false
+}
+
+variable "write_login_access_github_teams" {
+  type        = list(string)
+  description = "GitHub teams granted write access to this stack's dedicated space. Encoded as write_access_github_team:<team> labels on the dedicated space."
+  default     = []
+}
+
+variable "admin_login_access_github_teams" {
+  type        = list(string)
+  description = "GitHub teams granted admin access to this stack's dedicated space. Encoded as admin_access_github_team:<team> labels on the dedicated space."
+  default     = []
 }
 
 variable "parent_space_id" {
