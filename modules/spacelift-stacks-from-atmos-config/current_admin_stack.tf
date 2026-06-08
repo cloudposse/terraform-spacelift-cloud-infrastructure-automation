@@ -9,10 +9,6 @@ data "spacelift_stacks" "administrative" {
     any_of = [local.current_admin_stack_config.stack_name]
   }
 
-  administrative {
-    equals = true
-  }
-
   dynamic "labels" {
     for_each = toset(local.current_admin_stack_config.labels)
     iterator = label
