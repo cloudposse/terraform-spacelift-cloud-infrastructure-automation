@@ -1,6 +1,6 @@
 variable "administrative" {
   type        = bool
-  description = "Whether this stack can manage other stacks"
+  description = "The Spacelift API removed the administrative flag on June 1, 2026. This variable is retained for backward compatibility only — when true, a spacelift_role_attachment granting Space Admin on the stack's space is created instead."
   default     = false
 }
 
