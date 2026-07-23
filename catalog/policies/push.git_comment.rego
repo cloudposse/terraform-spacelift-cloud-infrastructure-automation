@@ -21,6 +21,23 @@ propose {
 	contains(input.pull_request.comment, concat(" ", ["/spacelift", input.stack.id, "preview"]))
 }
 
+# Spacelift derives stack IDs by slugifying the stack name (e.g. dots become
+# dashes: name "tenant-ue2-app-1.0" -> id "tenant-ue2-app-1-0"), while the
+# github-action-atmos-affected-trigger-spacelift action posts the Atmos stack
+# name verbatim. For stacks whose name contains slugified characters, the
+# comment never matches input.stack.id and the run is silently never created.
+# Also match on input.stack.name so both forms work; for stacks where
+# name == id these rules are redundant no-ops.
+track {
+	commented
+	contains(input.pull_request.comment, concat(" ", ["/spacelift", input.stack.name, "deploy"]))
+}
+
+propose {
+	commented
+	contains(input.pull_request.comment, concat(" ", ["/spacelift", input.stack.name, "preview"]))
+}
+
 # Ignore if the event is not a comment
 ignore {
 	not commented
