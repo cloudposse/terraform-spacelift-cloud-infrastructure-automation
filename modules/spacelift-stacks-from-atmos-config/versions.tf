@@ -6,7 +6,7 @@ terraform {
     # from CWD to git root, breaking callers that run from a subdirectory.
     utils = {
       source  = "cloudposse/utils"
-      version = ">= 1.7.1, < 1.32.0"
+      version = "< 1.36.0"
     }
   }
 }
